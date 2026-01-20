@@ -16,7 +16,7 @@ namespace DemoApi.Application.Tests.Products
         #endregion
 
         #region Constructors
-
+        
         public ProductTests()
         {
             MapperConfiguration config = new(cfg =>

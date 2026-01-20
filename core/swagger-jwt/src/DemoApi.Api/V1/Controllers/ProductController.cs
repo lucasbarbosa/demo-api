@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using DemoApi.Api.Controllers;
 using DemoApi.Application.Interfaces;
 using DemoApi.Application.Models;

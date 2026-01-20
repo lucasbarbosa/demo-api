@@ -8,7 +8,7 @@ Logger logger = builder.AddNLogConfig();
 
 try
 {
-    builder.Services.AddAutoMapper(typeof(AutomapperConfig));
+    builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AutomapperConfig).Assembly));
 
     builder.Services.AddDependencyInjectionConfig();
 

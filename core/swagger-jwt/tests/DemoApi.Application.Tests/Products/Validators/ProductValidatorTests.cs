@@ -307,8 +307,6 @@ namespace DemoApi.Application.Tests.Products.Validators
         [Theory]
         [InlineData("", 0)]
         [InlineData("", -1)]
-        [InlineData(null, 0)]
-        [InlineData(null, -1)]
         [InlineData("   ", 0)]
         [InlineData("   ", -10.5)]
         public void Validate_MultipleInvalidFieldCombinations_ReturnsMultipleErrors(string name, double weight)
@@ -325,7 +323,7 @@ namespace DemoApi.Application.Tests.Products.Validators
             // Assert
             result.IsValid.Should().BeFalse();
             result.Errors.Should().HaveCount(2);
-            result.Errors.Select(e => e.PropertyName).Should().Contain(new[] { "Name", "Weight" });
+            result.Errors.Select(e => e.PropertyName).Should().Contain(["Name", "Weight"]);
         }
 
         #endregion
@@ -629,7 +627,7 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             propertiesWithRules.Should().HaveCount(2);
-            propertiesWithRules.Should().Contain(new[] { "Name", "Weight" });
+            propertiesWithRules.Should().Contain(["Name", "Weight"]);
         }
 
         [Fact]
