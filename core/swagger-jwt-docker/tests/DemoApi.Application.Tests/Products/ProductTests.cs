@@ -19,7 +19,7 @@ namespace DemoApi.Application.Tests.Products
 
         public ProductTests()
         {
-            MapperConfiguration config = new(cfg =>
+            MapperConfiguration config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new AutomapperConfig());
             });

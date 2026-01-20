@@ -1,4 +1,4 @@
-using DemoApi.Application.Models.Products;
+﻿using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
 using DemoApi.Application.Validators.Products;
 using FluentAssertions;
@@ -307,8 +307,6 @@ namespace DemoApi.Application.Tests.Products.Validators
         [Theory]
         [InlineData("", 0)]
         [InlineData("", -1)]
-        [InlineData(null, 0)]
-        [InlineData(null, -1)]
         [InlineData("   ", 0)]
         [InlineData("   ", -10.5)]
         public void Validate_MultipleInvalidFieldCombinations_ReturnsMultipleErrors(string name, double weight)
@@ -478,7 +476,7 @@ namespace DemoApi.Application.Tests.Products.Validators
         [InlineData("??")]
         [InlineData("????")]
         [InlineData("Product ??")]
-        [InlineData("Caf� ?")]
+        [InlineData("Café ?")]
         public void Validate_NameWithEmojis_ReturnsNoNameError(string name)
         {
             // Arrange

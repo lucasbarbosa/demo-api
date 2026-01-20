@@ -37,12 +37,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApi.Tests.Builders", "t
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FC19F83A-D61C-47D9-8A71-1CDACC316351}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E60A4FF1-9AFB-4734-BD93-4D20B915EB76}"
-	ProjectSection(SolutionItems) = preProject
-		docker\docker-compose.yml = docker\docker-compose.yml
-		docker\Dockerfile = docker\Dockerfile
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
