@@ -145,7 +145,7 @@ namespace DemoApi.Api.Tests.Products
             string url = "/api/v1/products";
             ProductViewModel updatedProduct = ProductViewModelBuilder.New()
                 .WithId(createdProduct!.Id)
-                .WithName(createdProduct.Name)
+                .WithName(createdProduct.Name!)
                 .WithWeight(createdProduct.Weight + 1.0)
                 .Build();
 

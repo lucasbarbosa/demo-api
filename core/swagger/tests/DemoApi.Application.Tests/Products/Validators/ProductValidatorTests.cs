@@ -311,7 +311,7 @@ namespace DemoApi.Application.Tests.Products.Validators
         [InlineData(null, -1)]
         [InlineData("   ", 0)]
         [InlineData("   ", -10.5)]
-        public void Validate_MultipleInvalidFieldCombinations_ReturnsMultipleErrors(string name, double weight)
+        public void Validate_MultipleInvalidFieldCombinations_ReturnsMultipleErrors(string? name, double weight)
         {
             // Arrange
             ProductViewModel model = ProductViewModelBuilder.New()
