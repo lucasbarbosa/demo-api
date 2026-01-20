@@ -1,2 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <TargetFramework>net8.0</TargetFramework>    <ImplicitUsings>enable</ImplicitUsings>    <Nullable>enable</Nullable>  </PropertyGroup>  <ItemGroup>    <PackageReference Include="Bogus" Version="34.0.2" />  </ItemGroup>  <ItemGroup>    <ProjectReference Include="..\..\src\DemoApi.Application\DemoApi.Application.csproj" />    <ProjectReference Include="..\..\src\DemoApi.Domain\DemoApi.Domain.csproj" />  </ItemGroup></Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Bogus" Version="35.6.5" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\DemoApi.Application\DemoApi.Application.csproj" />
+		<ProjectReference Include="..\..\src\DemoApi.Domain\DemoApi.Domain.csproj" />
+	</ItemGroup>
+</Project>

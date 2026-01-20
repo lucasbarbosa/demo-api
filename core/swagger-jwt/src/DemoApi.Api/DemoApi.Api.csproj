@@ -1,2 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">	<PropertyGroup>    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<TargetFramework>net8.0</TargetFramework>		<Nullable>enable</Nullable>		<ImplicitUsings>enable</ImplicitUsings>		<PreserveCompilationContext>true</PreserveCompilationContext>	</PropertyGroup>	<ItemGroup>		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />		<PackageReference Include="NLog.Web.AspNetCore" Version="6.1.0" />	</ItemGroup>	<ItemGroup>		<ProjectReference Include="..\DemoApi.Application\DemoApi.Application.csproj" />		<ProjectReference Include="..\DemoApi.Domain\DemoApi.Domain.csproj" />		<ProjectReference Include="..\DemoApi.Infra.CrossCutting\DemoApi.Infra.CrossCutting.csproj" />		<ProjectReference Include="..\DemoApi.Infra\DemoApi.Infra.Data.csproj" />	</ItemGroup>	<ItemGroup>		<None Update="..\DemoApi.Infra.CrossCutting\nlog.config">			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>		</None>	</ItemGroup></Project>
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
+		<PackageReference Include="Microsoft.OpenApi" Version="3.2.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="6.1.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DemoApi.Application\DemoApi.Application.csproj" />
+		<ProjectReference Include="..\DemoApi.Domain\DemoApi.Domain.csproj" />
+		<ProjectReference Include="..\DemoApi.Infra.CrossCutting\DemoApi.Infra.CrossCutting.csproj" />
+		<ProjectReference Include="..\DemoApi.Infra\DemoApi.Infra.Data.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="..\DemoApi.Infra.CrossCutting\nlog.config">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
