@@ -92,7 +92,7 @@ namespace DemoApi.Application.Tests.Products.Builders
         [InlineData("Product")]
         [InlineData("Very Long Product Name With Many Characters")]
         [InlineData("Product @#$% 123")]
-        [InlineData("Produto ção ãé ñ中文")]
+        [InlineData("Produto ção ãé ñ??")]
         public void Build_ShouldCreateProductWithVariousNames_WhenUsingWithName(string expectedName)
         {
             // Arrange & Act

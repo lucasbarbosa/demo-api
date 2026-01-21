@@ -92,7 +92,7 @@ namespace DemoApi.Tests.Builders.Products
 
         public ProductViewModelBuilder WithUnicodeName()
         {
-            _name = "Product Á„o „È Ò??";
+            _name = "Product √ß√£o √£√© √±??";
             return this;
         }
 

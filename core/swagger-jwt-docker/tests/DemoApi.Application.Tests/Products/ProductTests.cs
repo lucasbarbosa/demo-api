@@ -19,14 +19,14 @@ namespace DemoApi.Application.Tests.Products
 
         public ProductTests()
         {
-            MapperConfiguration config = new MapperConfiguration(cfg =>
+            MapperConfiguration config = new(cfg =>
             {
                 cfg.AddProfile(new AutomapperConfig());
             });
 
             config.AssertConfigurationIsValid();
             _mapper = config.CreateMapper();
-            
+
             Randomizer.Seed = new Random(1234);
         }
 

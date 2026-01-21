@@ -1,6 +1,6 @@
 ﻿using DemoApi.Application.Models.Products;
-using DemoApi.Tests.Builders.Products;
 using DemoApi.Application.Validators.Products;
+using DemoApi.Tests.Builders.Products;
 using FluentAssertions;
 using FluentValidation.Results;
 
@@ -38,8 +38,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -56,8 +56,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -74,8 +74,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -110,8 +110,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -150,8 +150,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Weight" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Weight" &&
                 e.ErrorMessage == "Weight must be greater than 0");
         }
 
@@ -168,8 +168,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Weight" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Weight" &&
                 e.ErrorMessage == "Weight must be greater than 0");
         }
 
@@ -189,8 +189,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Weight" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Weight" &&
                 e.ErrorMessage == "Weight must be greater than 0");
         }
 
@@ -323,7 +323,7 @@ namespace DemoApi.Application.Tests.Products.Validators
             // Assert
             result.IsValid.Should().BeFalse();
             result.Errors.Should().HaveCount(2);
-            result.Errors.Select(e => e.PropertyName).Should().Contain(new[] { "Name", "Weight" });
+            result.Errors.Select(e => e.PropertyName).Should().Contain(["Name", "Weight"]);
         }
 
         #endregion
@@ -627,7 +627,7 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             propertiesWithRules.Should().HaveCount(2);
-            propertiesWithRules.Should().Contain(new[] { "Name", "Weight" });
+            propertiesWithRules.Should().Contain(["Name", "Weight"]);
         }
 
         [Fact]
