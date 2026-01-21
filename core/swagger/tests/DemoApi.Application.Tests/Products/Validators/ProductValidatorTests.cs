@@ -478,7 +478,7 @@ namespace DemoApi.Application.Tests.Products.Validators
         [InlineData("??")]
         [InlineData("????")]
         [InlineData("Product ??")]
-        [InlineData("Café ?")]
+        [InlineData("CafÃ© ?")]
         public void Validate_NameWithEmojis_ReturnsNoNameError(string name)
         {
             // Arrange

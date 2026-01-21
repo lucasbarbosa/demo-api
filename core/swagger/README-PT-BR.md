@@ -5,25 +5,25 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-73%20Passed-success)]()
 
-> **Demonstração enterprise-grade de API RESTful com .NET 8**, apresentando **três versões progressivas** que evoluem de Clean Architecture básica até containerização completa com Docker. Este repositório serve como referência para construção de APIs escaláveis, seguras e prontas para produção.
+> **DemonstraÃ§Ã£o enterprise-grade de API RESTful com .NET 8**, apresentando **trÃªs versÃµes progressivas** que evoluem de Clean Architecture bÃ¡sica atÃ© containerizaÃ§Ã£o completa com Docker. Este repositÃ³rio serve como referÃªncia para construÃ§Ã£o de APIs escalÃ¡veis, seguras e prontas para produÃ§Ã£o.
 
 ---
 
-## ?? Três Versões Progressivas
+## ?? TrÃªs VersÃµes Progressivas
 
-Este repositório contém **três implementações evolutivas** da mesma API RESTful, cada uma construindo sobre a anterior com recursos enterprise adicionais:
+Este repositÃ³rio contÃ©m **trÃªs implementaÃ§Ãµes evolutivas** da mesma API RESTful, cada uma construindo sobre a anterior com recursos enterprise adicionais:
 
 <table>
 <thead>
 <tr>
-<th width="20%">Versão</th>
-<th width="25%">Diretório</th>
+<th width="20%">VersÃ£o</th>
+<th width="25%">DiretÃ³rio</th>
 <th width="55%">Funcionalidades Principais</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>V1: Fundação</strong><br/><sub>Clean Architecture</sub></td>
+<td><strong>V1: FundaÃ§Ã£o</strong><br/><sub>Clean Architecture</sub></td>
 <td><code>net8_0/swagger/</code></td>
 <td>
 ? Clean Architecture (DDD)<br/>
@@ -37,7 +37,7 @@ Este repositório contém **três implementações evolutivas** da mesma API RESTful,
 </td>
 </tr>
 <tr>
-<td><strong>V2: Segurança</strong><br/><sub>JWT + FluentValidation</sub></td>
+<td><strong>V2: SeguranÃ§a</strong><br/><sub>JWT + FluentValidation</sub></td>
 <td><code>net8_0/swagger-jwt/</code></td>
 <td>
 <strong>Todas features V1 +</strong><br/>
@@ -50,7 +50,7 @@ Este repositório contém **três implementações evolutivas** da mesma API RESTful,
 </td>
 </tr>
 <tr>
-<td><strong>V3: Produção</strong><br/><sub>Docker Ready</sub></td>
+<td><strong>V3: ProduÃ§Ã£o</strong><br/><sub>Docker Ready</sub></td>
 <td><code>net8_0/swagger-jwt-docker/</code></td>
 <td>
 <strong>Todas features V2 +</strong><br/>
@@ -69,15 +69,15 @@ Este repositório contém **três implementações evolutivas** da mesma API RESTful,
 
 ## ?? Cobertura de Testes
 
-### Versão 1 (Swagger) - Dados Verificados
+### VersÃ£o 1 (Swagger) - Dados Verificados
 
-| Tipo de Teste | Quantidade | Framework | Padrões Aplicados |
+| Tipo de Teste | Quantidade | Framework | PadrÃµes Aplicados |
 |---------------|:----------:|-----------|-------------------|
-| **Testes Unitários** | 22 | xUnit 2.5.3 | AAA Pattern, Strongly Typed |
-| **Testes de Integração** | 51 | Microsoft.AspNetCore.Mvc.Testing 8.0.22 | AAA Pattern, HttpClientHelper |
+| **Testes UnitÃ¡rios** | 22 | xUnit 2.5.3 | AAA Pattern, Strongly Typed |
+| **Testes de IntegraÃ§Ã£o** | 51 | Microsoft.AspNetCore.Mvc.Testing 8.0.22 | AAA Pattern, HttpClientHelper |
 | **Total** | **73** | - | **100% Passing ?** |
 
-### Estratégia de Testes Implementada
+### EstratÃ©gia de Testes Implementada
 
 ```
         ????????????????????
@@ -91,41 +91,41 @@ Este repositório contém **três implementações evolutivas** da mesma API RESTful,
         ????????????????????  - Moq 4.20.72
 ```
 
-#### Padrões e Boas Práticas de Teste
+#### PadrÃµes e Boas PrÃ¡ticas de Teste
 
-- ? **Padrão AAA** (Arrange-Act-Assert) em 100% dos testes
-- ? **Variáveis Fortemente Tipadas** (C# 12 - sem `var`)
+- ? **PadrÃ£o AAA** (Arrange-Act-Assert) em 100% dos testes
+- ? **VariÃ¡veis Fortemente Tipadas** (C# 12 - sem `var`)
 - ? **HttpClientHelper Modernizado** com tuplas de retorno
-- ? **14 Métodos Helper Reutilizáveis** na classe base `ProductTests`
+- ? **14 MÃ©todos Helper ReutilizÃ¡veis** na classe base `ProductTests`
 - ? **Anti-Paralelismo** (`xunit.runner.json`) para estabilidade
-- ? **Priorização de Execução** (`TestPriorityAttribute`)
+- ? **PriorizaÃ§Ã£o de ExecuÃ§Ã£o** (`TestPriorityAttribute`)
 - ? **Fixtures e Factories** para dados consistentes
 
 #### Tecnologias de Teste
 
-| Biblioteca | Versão | Propósito |
+| Biblioteca | VersÃ£o | PropÃ³sito |
 |------------|--------|-----------|
 | xUnit | 2.5.3 | Framework de testes |
-| FluentAssertions | 8.8.0 | Asserções fluentes e legíveis |
+| FluentAssertions | 8.8.0 | AsserÃ§Ãµes fluentes e legÃ­veis |
 | Moq | 4.20.72 | Mocking framework |
-| Bogus | 34.0.2 | Geração de dados fake |
-| Microsoft.AspNetCore.Mvc.Testing | 8.0.22 | Testes de integração HTTP |
+| Bogus | 34.0.2 | GeraÃ§Ã£o de dados fake |
+| Microsoft.AspNetCore.Mvc.Testing | 8.0.22 | Testes de integraÃ§Ã£o HTTP |
 | coverlet.collector | 6.0.0 | Code coverage |
 
 ---
 
-## ?? Segurança JWT (Versões 2 e 3)
+## ?? SeguranÃ§a JWT (VersÃµes 2 e 3)
 
-### Implementação Técnica
+### ImplementaÃ§Ã£o TÃ©cnica
 
-A autenticação JWT implementada nas versões 2 e 3 segue as melhores práticas de segurança da indústria:
+A autenticaÃ§Ã£o JWT implementada nas versÃµes 2 e 3 segue as melhores prÃ¡ticas de seguranÃ§a da indÃºstria:
 
 ```csharp
-// Configuração JWT (JwtConfig.cs)
+// ConfiguraÃ§Ã£o JWT (JwtConfig.cs)
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.RequireHttpsMetadata = true;  // ? HTTPS obrigatório em produção
+        options.RequireHttpsMetadata = true;  // ? HTTPS obrigatÃ³rio em produÃ§Ã£o
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -133,7 +133,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero,  // ? Sem tolerância para tokens expirados
+            ClockSkew = TimeSpan.Zero,  // ? Sem tolerÃ¢ncia para tokens expirados
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidAudience = authorization.ValidOn,
             ValidIssuer = authorization.Sender
@@ -141,33 +141,33 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 ```
 
-### Especificações de Segurança
+### EspecificaÃ§Ãµes de SeguranÃ§a
 
 | Aspecto | Valor | Justificativa |
 |---------|-------|---------------|
-| **Algoritmo** | HMAC-SHA256 (HS256) | Padrão indústria, resistente a ataques |
-| **Tamanho de Chave** | Mínimo 256-bit (32 chars) | Validado em startup - `InvalidOperationException` se <32 |
-| **Expiração** | 60 minutos (configurável) | Balanceio segurança vs UX |
-| **Clock Skew** | `TimeSpan.Zero` | Expiração estrita, sem margem de tolerância |
+| **Algoritmo** | HMAC-SHA256 (HS256) | PadrÃ£o indÃºstria, resistente a ataques |
+| **Tamanho de Chave** | MÃ­nimo 256-bit (32 chars) | Validado em startup - `InvalidOperationException` se <32 |
+| **ExpiraÃ§Ã£o** | 60 minutos (configurÃ¡vel) | Balanceio seguranÃ§a vs UX |
+| **Clock Skew** | `TimeSpan.Zero` | ExpiraÃ§Ã£o estrita, sem margem de tolerÃ¢ncia |
 | **HTTPS** | `RequireHttpsMetadata = true` | Previne man-in-the-middle attacks |
-| **Validações** | Issuer, Audience, Signature, Lifetime | 4 camadas de validação por request |
+| **ValidaÃ§Ãµes** | Issuer, Audience, Signature, Lifetime | 4 camadas de validaÃ§Ã£o por request |
 
 ### Conformidade OWASP Top 10 (2021)
 
-| Ameaça OWASP | Mitigação Implementada | Status |
+| AmeaÃ§a OWASP | MitigaÃ§Ã£o Implementada | Status |
 |--------------|------------------------|:------:|
-| **A01: Broken Access Control** | `[Authorize]` em todos endpoints + JWT obrigatório | ? |
+| **A01: Broken Access Control** | `[Authorize]` em todos endpoints + JWT obrigatÃ³rio | ? |
 | **A02: Cryptographic Failures** | HS256 + chave ?256-bit + HTTPS enforcement | ? |
 | **A03: Injection** | FluentValidation + EF Core queries parametrizadas | ? |
 | **A04: Insecure Design** | Fail-fast validation, defensive programming | ? |
 | **A05: Security Misconfiguration** | Environment-specific configs, no stack traces | ? |
 | **A07: Authentication Failures** | JWT strict expiration + rate limiting ready | ? |
-| **A08: Data Integrity Failures** | Tokens assinados + validação de signature | ? |
+| **A08: Data Integrity Failures** | Tokens assinados + validaÃ§Ã£o de signature | ? |
 | **A09: Logging Failures** | NLog structured logging, sanitized errors | ? |
 
-### Geração de Token (Endpoint `/api/v1/auth/token`)
+### GeraÃ§Ã£o de Token (Endpoint `/api/v1/auth/token`)
 
-**Requisição**:
+**RequisiÃ§Ã£o**:
 
 ```bash
 curl -X POST http://localhost:5001/api/v1/auth/token \
@@ -189,7 +189,7 @@ curl -X POST http://localhost:5001/api/v1/auth/token \
 }
 ```
 
-**Uso do Token em Requisições**:
+**Uso do Token em RequisiÃ§Ãµes**:
 
 ```bash
 curl http://localhost:5001/api/v1/products \
@@ -214,20 +214,20 @@ Signature (HMAC-SHA256): signature_hash_here
 }
 ```
 
-### Documentação Completa de Segurança
+### DocumentaÃ§Ã£o Completa de SeguranÃ§a
 
-Para detalhes técnicos aprofundados sobre a implementação JWT e práticas de segurança:
+Para detalhes tÃ©cnicos aprofundados sobre a implementaÃ§Ã£o JWT e prÃ¡ticas de seguranÃ§a:
 
 - ?? [**JWT Authentication Strategy**](net8_0/swagger-jwt/docs/JWT_AUTHENTICATION.md) - Token generation, validation, security measures
 - ?? [**Security Best Practices**](net8_0/swagger-jwt/docs/SECURITY_BEST_PRACTICES.md) - OWASP Top 10 mitigations, threat matrix
 
 ---
 
-## ?? Docker & Containerização (Versão 3)
+## ?? Docker & ContainerizaÃ§Ã£o (VersÃ£o 3)
 
 ### Multi-Stage Build Otimizado
 
-A versão 3 implementa um **Dockerfile multi-stage** que reduz drasticamente o tamanho da imagem final:
+A versÃ£o 3 implementa um **Dockerfile multi-stage** que reduz drasticamente o tamanho da imagem final:
 
 ```dockerfile
 # ============================================
@@ -243,10 +243,10 @@ COPY ["src/DemoApi.Domain/DemoApi.Domain.csproj", "src/DemoApi.Domain/"]
 COPY ["src/DemoApi.Infra/DemoApi.Infra.Data.csproj", "src/DemoApi.Infra/"]
 COPY ["src/DemoApi.Infra.CrossCutting/DemoApi.Infra.CrossCutting.csproj", "src/DemoApi.Infra.CrossCutting/"]
 
-# Restore (layer isolada - só rebuilda se .csproj mudar)
+# Restore (layer isolada - sÃ³ rebuilda se .csproj mudar)
 RUN dotnet restore "src/DemoApi.Api/DemoApi.Api.csproj"
 
-# Copiar código-fonte e buildar
+# Copiar cÃ³digo-fonte e buildar
 COPY . .
 WORKDIR "/src/src/DemoApi.Api"
 RUN dotnet build "DemoApi.Api.csproj" -c Release -o /app/build
@@ -259,46 +259,46 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 EXPOSE 8080
 
-# ? Segurança: execução como usuário não-root
+# ? SeguranÃ§a: execuÃ§Ã£o como usuÃ¡rio nÃ£o-root
 USER app
 
-# Copiar apenas binários publicados (sem SDK)
+# Copiar apenas binÃ¡rios publicados (sem SDK)
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "DemoApi.Api.dll"]
 ```
 
-### Benefícios da Arquitetura Multi-Stage
+### BenefÃ­cios da Arquitetura Multi-Stage
 
-| Métrica | Antes (Single-Stage) | Depois (Multi-Stage) | Ganho |
+| MÃ©trica | Antes (Single-Stage) | Depois (Multi-Stage) | Ganho |
 |---------|:--------------------:|:--------------------:|:-----:|
-| **Tamanho da Imagem** | ~1.2GB | ~210MB | **83% redução** |
-| **Ferramentas no Runtime** | SDK completo | Apenas ASP.NET | **? Segurança** |
-| **Build Time** | ~60s | ~45s | **25% mais rápido** |
-| **Layers Otimizadas** | 15 layers | 8 layers | **? Cache eficiência** |
-| **Superfície de Ataque** | Alta (compiladores, debuggers) | Mínima | **? Hardening** |
+| **Tamanho da Imagem** | ~1.2GB | ~210MB | **83% reduÃ§Ã£o** |
+| **Ferramentas no Runtime** | SDK completo | Apenas ASP.NET | **? SeguranÃ§a** |
+| **Build Time** | ~60s | ~45s | **25% mais rÃ¡pido** |
+| **Layers Otimizadas** | 15 layers | 8 layers | **? Cache eficiÃªncia** |
+| **SuperfÃ­cie de Ataque** | Alta (compiladores, debuggers) | MÃ­nima | **? Hardening** |
 
-### Boas Práticas Docker Implementadas
+### Boas PrÃ¡ticas Docker Implementadas
 
-#### ? **Segurança**
+#### ? **SeguranÃ§a**
 
 ```dockerfile
-# 1. Usuário não-root (CIS Benchmark 4.1)
-USER app  # Reduz privilégios, minimiza impacto de exploits
+# 1. UsuÃ¡rio nÃ£o-root (CIS Benchmark 4.1)
+USER app  # Reduz privilÃ©gios, minimiza impacto de exploits
 
 # 2. Base image oficial e versionada
 FROM mcr.microsoft.com/dotnet/aspnet:8.0  # Imagens mantidas pela Microsoft
 
-# 3. Apenas binários necessários
-COPY --from=build /app/publish .  # Sem código-fonte, sem ferramentas de build
+# 3. Apenas binÃ¡rios necessÃ¡rios
+COPY --from=build /app/publish .  # Sem cÃ³digo-fonte, sem ferramentas de build
 ```
 
 #### ? **Performance**
 
 ```dockerfile
 # 1. Layer caching otimizado
-COPY *.csproj .  # Dependências em layer isolada
+COPY *.csproj .  # DependÃªncias em layer isolada
 RUN dotnet restore
-COPY . .  # Código em layer separada
+COPY . .  # CÃ³digo em layer separada
 
 # 2. Minimal runtime
 FROM aspnet:8.0  # 210MB vs 1.2GB do SDK
@@ -318,7 +318,7 @@ FROM aspnet:8.0  # 210MB vs 1.2GB do SDK
 docker-compose*.yml
 ```
 
-### Docker Compose - Orquestração Multi-Container
+### Docker Compose - OrquestraÃ§Ã£o Multi-Container
 
 ```yaml
 # docker/docker-compose.yml
@@ -356,26 +356,26 @@ networks:
 
 #### Features do Docker Compose
 
-- ? **Environment Variables** - Configuração via `.env` ou variáveis de sistema
-- ? **Health Checks** - Monitoramento automático de saúde do container
+- ? **Environment Variables** - ConfiguraÃ§Ã£o via `.env` ou variÃ¡veis de sistema
+- ? **Health Checks** - Monitoramento automÃ¡tico de saÃºde do container
 - ? **Restart Policy** - Auto-restart em caso de falha
-- ? **Network Isolation** - Rede dedicada para comunicação entre serviços
-- ? **Port Mapping** - Exposição controlada de portas
+- ? **Network Isolation** - Rede dedicada para comunicaÃ§Ã£o entre serviÃ§os
+- ? **Port Mapping** - ExposiÃ§Ã£o controlada de portas
 
 ### Comandos Docker Essenciais
 
 ```bash
 # ============================================
-# Build & Execução
+# Build & ExecuÃ§Ã£o
 # ============================================
 
 # Build da imagem
 docker build -f docker/Dockerfile -t demoapi:latest .
 
-# Execução com Docker Compose (recomendado)
+# ExecuÃ§Ã£o com Docker Compose (recomendado)
 cd docker && docker-compose up --build -d
 
-# Execução standalone
+# ExecuÃ§Ã£o standalone
 docker run -d -p 5200:8080 \
   -e Authorization__SecurityKey=your-32-char-key \
   --name demoapi demoapi:latest
@@ -397,19 +397,19 @@ curl http://localhost:5200/health
 docker inspect demoapi
 
 # ============================================
-# Manutenção
+# ManutenÃ§Ã£o
 # ============================================
 
 # Parar containers
 docker-compose down
 
-# Remover volumes órfãos
+# Remover volumes Ã³rfÃ£os
 docker-compose down -v
 
-# Rebuild forçado (sem cache)
+# Rebuild forÃ§ado (sem cache)
 docker-compose build --no-cache
 
-# Limpeza de imagens não utilizadas
+# Limpeza de imagens nÃ£o utilizadas
 docker image prune -a
 ```
 
@@ -443,14 +443,14 @@ az containerapp create \
 #### AWS ECS/Fargate
 
 ```bash
-# Autenticação ECR
+# AutenticaÃ§Ã£o ECR
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.us-east-1.amazonaws.com
 
 # Push da imagem
 docker tag demoapi:latest <account-id>.dkr.ecr.us-east-1.amazonaws.com/demoapi:latest
 docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/demoapi:latest
 
-# Criar serviço ECS
+# Criar serviÃ§o ECS
 aws ecs create-service \
   --cluster demo-cluster \
   --service-name demoapi \
@@ -531,13 +531,13 @@ spec:
 **Deploy no Kubernetes**:
 
 ```bash
-# Aplicar configurações
+# Aplicar configuraÃ§Ãµes
 kubectl apply -f k8s/deployment.yaml
 
 # Verificar pods
 kubectl get pods -l app=demoapi
 
-# Verificar serviço
+# Verificar serviÃ§o
 kubectl get svc demoapi-service
 
 # Logs
@@ -548,9 +548,9 @@ kubectl logs -f deployment/demoapi
 
 ## ??? Arquitetura Clean (Onion Architecture)
 
-Este projeto implementa **Clean Architecture** (também conhecida como Onion Architecture), com rigorosa separação de responsabilidades onde o **Domain** é o núcleo do sistema.
+Este projeto implementa **Clean Architecture** (tambÃ©m conhecida como Onion Architecture), com rigorosa separaÃ§Ã£o de responsabilidades onde o **Domain** Ã© o nÃºcleo do sistema.
 
-### Diagrama de Dependências
+### Diagrama de DependÃªncias
 
 ```mermaid
 graph TD
@@ -584,24 +584,24 @@ graph TD
     style CrossCut fill:#DDA0DD,stroke:#333,stroke-width:2px
 ```
 
-### Princípio da Inversão de Dependências (DIP)
+### PrincÃ­pio da InversÃ£o de DependÃªncias (DIP)
 
-Uma característica fundamental desta arquitetura é a aplicação do **Dependency Inversion Principle**:
+Uma caracterÃ­stica fundamental desta arquitetura Ã© a aplicaÃ§Ã£o do **Dependency Inversion Principle**:
 
-| Camada | Responsabilidade | Dependências | Exemplo |
+| Camada | Responsabilidade | DependÃªncias | Exemplo |
 |--------|------------------|--------------|---------|
-| **Domain** | Define contratos (interfaces) e regras de negócio | **Nenhuma** (núcleo independente) | `IProductRepository`, `INotificatorHandler` |
-| **Infrastructure** | Implementa os contratos definidos pelo Domain | Domain (apenas abstrações) | `ProductRepository : IProductRepository` |
+| **Domain** | Define contratos (interfaces) e regras de negÃ³cio | **Nenhuma** (nÃºcleo independente) | `IProductRepository`, `INotificatorHandler` |
+| **Infrastructure** | Implementa os contratos definidos pelo Domain | Domain (apenas abstraÃ§Ãµes) | `ProductRepository : IProductRepository` |
 | **Application** | Orquestra casos de uso | Domain (apenas interfaces) | `ProductAppService` usa `IProductRepository` |
-| **Presentation** | Expõe APIs e gerencia requisições HTTP | Application + CrossCutting | `ProductController` usa `IProductAppService` |
+| **Presentation** | ExpÃµe APIs e gerencia requisiÃ§Ãµes HTTP | Application + CrossCutting | `ProductController` usa `IProductAppService` |
 
-**Benefícios Arquiteturais**:
-- ? **Testabilidade**: Domain e Application testáveis sem dependências de infraestrutura
-- ? **Flexibilidade**: Trocar banco de dados ou framework sem alterar regras de negócio
-- ? **Baixo Acoplamento**: Cada camada conhece apenas abstrações
-- ? **Alta Coesão**: Responsabilidades bem definidas e isoladas
+**BenefÃ­cios Arquiteturais**:
+- ? **Testabilidade**: Domain e Application testÃ¡veis sem dependÃªncias de infraestrutura
+- ? **Flexibilidade**: Trocar banco de dados ou framework sem alterar regras de negÃ³cio
+- ? **Baixo Acoplamento**: Cada camada conhece apenas abstraÃ§Ãµes
+- ? **Alta CoesÃ£o**: Responsabilidades bem definidas e isoladas
 
-### Fluxo de Requisição HTTP
+### Fluxo de RequisiÃ§Ã£o HTTP
 
 ```
 Cliente HTTP
@@ -619,21 +619,21 @@ Cliente HTTP
 
 ---
 
-## ??? Stack Tecnológica
+## ??? Stack TecnolÃ³gica
 
 ### Framework Base
 
-| Tecnologia | Versão | Propósito | LTS até |
+| Tecnologia | VersÃ£o | PropÃ³sito | LTS atÃ© |
 |------------|--------|-----------|---------|
 | **.NET** | 8.0 | Runtime framework | Nov 2026 |
 | **C#** | 12.0 | Linguagem (Primary Constructors, Collection Expressions) | - |
 | **ASP.NET Core** | 8.0 | Web framework | Nov 2026 |
 
-### Dependências por Versão
+### DependÃªncias por VersÃ£o
 
-#### Versão 1 (Swagger) - Fundação
+#### VersÃ£o 1 (Swagger) - FundaÃ§Ã£o
 
-| Pacote | Versão | Propósito |
+| Pacote | VersÃ£o | PropÃ³sito |
 |--------|--------|-----------|
 | **AutoMapper.Extensions.Microsoft.DependencyInjection** | 12.0.1 | Object-to-object mapping |
 | **Swashbuckle.AspNetCore** | 6.6.2 | Swagger/OpenAPI documentation |
@@ -642,9 +642,9 @@ Cliente HTTP
 | **NLog.Web.AspNetCore** | 6.1.0 | Structured logging |
 | **Newtonsoft.Json** | 13.0.4 | JSON serialization |
 
-#### Testes (Todas Versões)
+#### Testes (Todas VersÃµes)
 
-| Pacote | Versão | Propósito |
+| Pacote | VersÃ£o | PropÃ³sito |
 |--------|--------|-----------|
 | **xUnit** | 2.5.3 | Test framework |
 | **xunit.runner.visualstudio** | 2.5.3 | Visual Studio test runner |
@@ -656,17 +656,17 @@ Cliente HTTP
 | **Microsoft.NET.Test.Sdk** | 17.8.0 | Test SDK |
 | **coverlet.collector** | 6.0.0 | Code coverage collector |
 
-#### Versão 2 (JWT) - Adiciona
+#### VersÃ£o 2 (JWT) - Adiciona
 
-| Pacote | Versão | Propósito |
+| Pacote | VersÃ£o | PropÃ³sito |
 |--------|--------|-----------|
 | **Microsoft.AspNetCore.Authentication.JwtBearer** | 8.0.* | JWT Bearer authentication |
 | **FluentValidation** | 11.3+ | Input validation framework |
 | **FluentValidation.AspNetCore** | 11.3+ | ASP.NET Core integration |
 
-#### Versão 3 (Docker) - Containerização
+#### VersÃ£o 3 (Docker) - ContainerizaÃ§Ã£o
 
-| Tecnologia | Versão Mínima | Propósito |
+| Tecnologia | VersÃ£o MÃ­nima | PropÃ³sito |
 |------------|---------------|-----------|
 | **Docker** | 20.10+ | Container runtime |
 | **Docker Compose** | 2.0+ | Multi-container orchestration |
@@ -675,9 +675,9 @@ Cliente HTTP
 
 ## ?? API Endpoints
 
-### Products CRUD (Todas Versões)
+### Products CRUD (Todas VersÃµes)
 
-| Método | Endpoint | Auth Required | Resposta Sucesso | Request Body |
+| MÃ©todo | Endpoint | Auth Required | Resposta Sucesso | Request Body |
 |--------|----------|:-------------:|------------------|--------------|
 | `GET` | `/api/v1/products` | V2/V3: Bearer | `200 OK` - `ProductListResponse` | - |
 | `GET` | `/api/v1/products/{id}` | V2/V3: Bearer | `200 OK` - `ProductResponse` | - |
@@ -695,13 +695,13 @@ Cliente HTTP
 }
 ```
 
-**Validações**:
-- `Name`: Obrigatório, não pode ser vazio
+**ValidaÃ§Ãµes**:
+- `Name`: ObrigatÃ³rio, nÃ£o pode ser vazio
 - `Weight`: Deve ser maior que 0 (double)
 
 ### Authentication (Apenas V2 e V3)
 
-| Método | Endpoint | Header Obrigatório | Resposta Sucesso |
+| MÃ©todo | Endpoint | Header ObrigatÃ³rio | Resposta Sucesso |
 |--------|----------|-------------------|------------------|
 | `POST` | `/api/v1/auth/token` | `X-Security-Key: {32+ caracteres}` | `200 OK` - `TokenViewModel` |
 
@@ -781,37 +781,37 @@ curl -X DELETE http://localhost:5001/api/v1/products/1 \
 # Resposta: 204 No Content
 ```
 
-### Códigos de Status HTTP
+### CÃ³digos de Status HTTP
 
-| Código | Significado | Quando Ocorre |
+| CÃ³digo | Significado | Quando Ocorre |
 |--------|-------------|---------------|
 | `200 OK` | Sucesso (GET) | Produto(s) encontrado(s) |
 | `201 Created` | Recurso criado | POST bem-sucedido |
 | `204 No Content` | Sucesso sem corpo | PUT/DELETE bem-sucedidos |
-| `400 Bad Request` | Dados inválidos | Erro de validação de modelo |
-| `401 Unauthorized` | Não autenticado | Token ausente/inválido (V2/V3) |
-| `404 Not Found` | Recurso não encontrado | Produto inexistente |
-| `412 Precondition Failed` | Validação falhou | Data Annotations violation |
-| `500 Internal Server Error` | Erro no servidor | Exception não tratada |
+| `400 Bad Request` | Dados invÃ¡lidos | Erro de validaÃ§Ã£o de modelo |
+| `401 Unauthorized` | NÃ£o autenticado | Token ausente/invÃ¡lido (V2/V3) |
+| `404 Not Found` | Recurso nÃ£o encontrado | Produto inexistente |
+| `412 Precondition Failed` | ValidaÃ§Ã£o falhou | Data Annotations violation |
+| `500 Internal Server Error` | Erro no servidor | Exception nÃ£o tratada |
 
 ---
 
 ## ?? Quick Start
 
-### Pré-requisitos
+### PrÃ©-requisitos
 
 - **.NET 8 SDK** ([Download](https://dotnet.microsoft.com/download/dotnet/8.0))
 - **Visual Studio 2022** (opcional) ou **VS Code**
 - **Docker Desktop** (apenas para V3)
 
-### Versão 1: Fundação (Clean Architecture)
+### VersÃ£o 1: FundaÃ§Ã£o (Clean Architecture)
 
 ```bash
-# Clone do repositório
+# Clone do repositÃ³rio
 git clone https://github.com/lucasbarbosa/demo-api.git
 cd demo-api/net8_0/swagger
 
-# Restore de dependências
+# Restore de dependÃªncias
 dotnet restore
 
 # Executar API
@@ -828,12 +828,12 @@ dotnet run --project src/DemoApi.Api
 curl http://localhost:5001/api/v1/products
 ```
 
-### Versão 2: Segurança (JWT + FluentValidation)
+### VersÃ£o 2: SeguranÃ§a (JWT + FluentValidation)
 
 ```bash
 cd demo-api/net8_0/swagger-jwt
 
-# Restore e execução
+# Restore e execuÃ§Ã£o
 dotnet restore
 dotnet run --project src/DemoApi.Api
 
@@ -841,12 +841,12 @@ dotnet run --project src/DemoApi.Api
 curl -X POST http://localhost:5001/api/v1/auth/token \
   -H "X-Security-Key: dev-only-key-minimum-32-characters-xyz123"
 
-# 2. Usar token em requisições (substituir {TOKEN})
+# 2. Usar token em requisiÃ§Ãµes (substituir {TOKEN})
 curl http://localhost:5001/api/v1/products \
   -H "Authorization: Bearer {TOKEN}"
 ```
 
-**Configuração de Security Key** (appsettings.json):
+**ConfiguraÃ§Ã£o de Security Key** (appsettings.json):
 
 ```json
 {
@@ -859,15 +859,15 @@ curl http://localhost:5001/api/v1/products \
 }
 ```
 
-### Versão 3: Docker (Production-Ready)
+### VersÃ£o 3: Docker (Production-Ready)
 
 ```bash
 cd demo-api/net8_0/swagger-jwt-docker/docker
 
-# Opção 1: Docker Compose (Recomendado)
+# OpÃ§Ã£o 1: Docker Compose (Recomendado)
 docker-compose up --build -d
 
-# Opção 2: Docker CLI
+# OpÃ§Ã£o 2: Docker CLI
 docker build -f Dockerfile -t demoapi:latest ..
 docker run -d -p 5200:8080 \
   -e Authorization__SecurityKey=dev-only-key-minimum-32-characters-xyz123 \
@@ -890,10 +890,10 @@ docker-compose down
 # Todos os testes
 dotnet test
 
-# Com relatório detalhado
+# Com relatÃ³rio detalhado
 dotnet test --logger "console;verbosity=detailed"
 
-# Com cobertura de código
+# Com cobertura de cÃ³digo
 dotnet test --collect:"XPlat Code Coverage"
 ```
 
@@ -975,7 +975,7 @@ demo-api/
 
 ### Contagem de Arquivos por Camada (V1)
 
-| Camada | Arquivos | Linhas de Código (aprox.) |
+| Camada | Arquivos | Linhas de CÃ³digo (aprox.) |
 |--------|:--------:|:-------------------------:|
 | **DemoApi.Api** | 15+ | ~800 |
 | **DemoApi.Application** | 10+ | ~400 |
@@ -987,43 +987,43 @@ demo-api/
 
 ---
 
-## ?? Métricas do Projeto
+## ?? MÃ©tricas do Projeto
 
-| Métrica | Valor V1 | Valor V2/V3 | Observação |
+| MÃ©trica | Valor V1 | Valor V2/V3 | ObservaÃ§Ã£o |
 |---------|:--------:|:-----------:|------------|
 | **Total de Testes** | 73 | N/A | 22 Unit + 51 Integration |
 | **Taxa de Sucesso** | 100% | N/A | 73/73 passing ? |
-| **Endpoints REST** | 5 | 6 | +1 endpoint de autenticação (V2/V3) |
-| **Versões Implementadas** | 3 | - | Swagger, JWT, Docker |
-| **Linhas de Código** | ~4,150 | N/A | Aproximado (cloc) |
+| **Endpoints REST** | 5 | 6 | +1 endpoint de autenticaÃ§Ã£o (V2/V3) |
+| **VersÃµes Implementadas** | 3 | - | Swagger, JWT, Docker |
+| **Linhas de CÃ³digo** | ~4,150 | N/A | Aproximado (cloc) |
 | **Build Time** | ~30s | ~45s (Docker) | Native vs containerized |
 | **Imagem Docker** | N/A | ~210MB | Multi-stage optimized (V3) |
 | **Tempo de Testes** | ~1.4s | N/A | 73 testes em paralelo controlado |
 
 ### Indicadores de Qualidade
 
-- ? **100% Build Success Rate** - Zero erros de compilação
+- ? **100% Build Success Rate** - Zero erros de compilaÃ§Ã£o
 - ? **0 Bugs Conhecidos** - Todos os testes passando
 - ? **SOLID Principles** - Aplicados em toda a arquitetura
-- ? **Clean Architecture** - Separação estrita de camadas
-- ? **Comprehensive Docs** - README + docs específicos (V2)
-- ? **Production-Ready** - Docker, JWT, validações (V3)
+- ? **Clean Architecture** - SeparaÃ§Ã£o estrita de camadas
+- ? **Comprehensive Docs** - README + docs especÃ­ficos (V2)
+- ? **Production-Ready** - Docker, JWT, validaÃ§Ãµes (V3)
 - ? **OWASP Compliance** - Top 10 mitigations (V2/V3)
 - ? **Container Security** - Non-root user, minimal image (V3)
 
 ---
 
-## ?? Documentação Adicional
+## ?? DocumentaÃ§Ã£o Adicional
 
-### Documentação Específica por Versão
+### DocumentaÃ§Ã£o EspecÃ­fica por VersÃ£o
 
-| Versão | Documentação Disponível |
+| VersÃ£o | DocumentaÃ§Ã£o DisponÃ­vel |
 |--------|-------------------------|
-| **V1 (Swagger)** | Este README (seções de arquitetura e fundação) |
+| **V1 (Swagger)** | Este README (seÃ§Ãµes de arquitetura e fundaÃ§Ã£o) |
 | **V2 (JWT)** | [`net8_0/swagger-jwt/docs/`](net8_0/swagger-jwt/docs/) |
 | **V3 (Docker)** | [`net8_0/swagger-jwt-docker/README.md`](net8_0/swagger-jwt-docker/README.md) |
 
-### Guias Técnicos Aprofundados (V2+)
+### Guias TÃ©cnicos Aprofundados (V2+)
 
 - ?? [**JWT Authentication Strategy**](net8_0/swagger-jwt/docs/JWT_AUTHENTICATION.md)
   - Token generation flow
@@ -1041,17 +1041,17 @@ demo-api/
 
 ## ?? Objetivos de Aprendizado
 
-Este repositório foi projetado para demonstrar conceitos progressivos de desenvolvimento .NET:
+Este repositÃ³rio foi projetado para demonstrar conceitos progressivos de desenvolvimento .NET:
 
-### Para Desenvolvedores Júnior (V1)
+### Para Desenvolvedores JÃºnior (V1)
 
-- ? **Clean Architecture Fundamentals** - Separação de camadas, DIP
-- ? **Repository Pattern** - Abstração de acesso a dados
-- ? **Dependency Injection** - Injeção de dependências nativa do .NET
+- ? **Clean Architecture Fundamentals** - SeparaÃ§Ã£o de camadas, DIP
+- ? **Repository Pattern** - AbstraÃ§Ã£o de acesso a dados
+- ? **Dependency Injection** - InjeÃ§Ã£o de dependÃªncias nativa do .NET
 - ? **API Design** - RESTful principles, HTTP verbs, status codes
 - ? **Unit & Integration Testing** - xUnit, FluentAssertions, AAA pattern
 - ? **AutoMapper** - Object-to-object mapping
-- ? **Swagger/OpenAPI** - Documentação automática de APIs
+- ? **Swagger/OpenAPI** - DocumentaÃ§Ã£o automÃ¡tica de APIs
 
 ### Para Desenvolvedores Pleno (V2)
 
@@ -1063,7 +1063,7 @@ Este repositório foi projetado para demonstrar conceitos progressivos de desenvo
 - ? **Structured Logging** - NLog configuration
 - ? **API Versioning** - URL-based versioning
 
-### Para Desenvolvedores Sênior (V3)
+### Para Desenvolvedores SÃªnior (V3)
 
 - ? **Docker Containerization** - Multi-stage builds, optimization
 - ? **Docker Compose** - Multi-container orchestration
@@ -1076,40 +1076,40 @@ Este repositório foi projetado para demonstrar conceitos progressivos de desenvo
 
 ## ?? Contribuindo
 
-Este projeto serve como referência de implementação e showcase técnico. Contribuições são bem-vindas:
+Este projeto serve como referÃªncia de implementaÃ§Ã£o e showcase tÃ©cnico. ContribuiÃ§Ãµes sÃ£o bem-vindas:
 
-- ?? **Star** este repositório se achou útil
-- ?? **Fork** para seus próprios projetos
+- ?? **Star** este repositÃ³rio se achou Ãºtil
+- ?? **Fork** para seus prÃ³prios projetos
 - ?? **Use** como recurso de aprendizado
-- ?? **Abra Issues** para perguntas ou sugestões
+- ?? **Abra Issues** para perguntas ou sugestÃµes
 
-### Próximas Evoluções Planejadas
+### PrÃ³ximas EvoluÃ§Ãµes Planejadas
 
 - [ ] **Rate Limiting** (.NET 8 native `AddRateLimiter`)
 - [ ] **Health Checks** com endpoint `/health`
-- [ ] **Paginação** em `GetAll` (evitar carregamento total)
-- [ ] **CQRS Pattern** (separação Commands/Queries)
-- [ ] **Event Sourcing** (rastreamento de mudanças)
-- [ ] **Redis Cache** (cache distribuído)
-- [ ] **Serilog** (logging estruturado avançado)
-- [ ] **OpenTelemetry** (observabilidade distribuída)
+- [ ] **PaginaÃ§Ã£o** em `GetAll` (evitar carregamento total)
+- [ ] **CQRS Pattern** (separaÃ§Ã£o Commands/Queries)
+- [ ] **Event Sourcing** (rastreamento de mudanÃ§as)
+- [ ] **Redis Cache** (cache distribuÃ­do)
+- [ ] **Serilog** (logging estruturado avanÃ§ado)
+- [ ] **OpenTelemetry** (observabilidade distribuÃ­da)
 
 ---
 
-## ?? Licença
+## ?? LicenÃ§a
 
-Este projeto está licenciado sob a **MIT License** - veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto estÃ¡ licenciado sob a **MIT License** - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-### Permissões
+### PermissÃµes
 
 ? Uso comercial  
-? Modificação  
-? Distribuição  
+? ModificaÃ§Ã£o  
+? DistribuiÃ§Ã£o  
 ? Uso privado  
 
-### Condições
+### CondiÃ§Ãµes
 
-?? Incluir cópia da licença e copyright notice
+?? Incluir cÃ³pia da licenÃ§a e copyright notice
 
 ---
 
@@ -1118,39 +1118,39 @@ Este projeto está licenciado sob a **MIT License** - veja o arquivo [LICENSE](LI
 **Lucas Barbosa**
 
 - GitHub: [@lucasbarbosa](https://github.com/lucasbarbosa)
-- Repositório: [demo-api](https://github.com/lucasbarbosa/demo-api)
+- RepositÃ³rio: [demo-api](https://github.com/lucasbarbosa/demo-api)
 
 ---
 
 ## ?? Casos de Uso
 
-### Para Entrevistas Técnicas
+### Para Entrevistas TÃ©cnicas
 
-- ? Demonstra domínio de **Clean Architecture**
+- ? Demonstra domÃ­nio de **Clean Architecture**
 - ? Comprova **mindset security-first** (JWT, OWASP)
-- ? Evidencia **habilidades DevOps** (Docker, containerização)
-- ? Mostra **expertise em testes** (73 testes, padrões AAA)
-- ? Apresenta **evolução técnica** (3 versões progressivas)
+- ? Evidencia **habilidades DevOps** (Docker, containerizaÃ§Ã£o)
+- ? Mostra **expertise em testes** (73 testes, padrÃµes AAA)
+- ? Apresenta **evoluÃ§Ã£o tÃ©cnica** (3 versÃµes progressivas)
 
 ### Para Aprendizado
 
 - ? **Complexidade Progressiva** - V1 ? V2 ? V3
-- ? **Documentação Abrangente** - README + guias específicos
-- ? **Padrões Reais** - Práticas enterprise aplicadas
-- ? **Código Production-Ready** - Qualidade profissional
+- ? **DocumentaÃ§Ã£o Abrangente** - README + guias especÃ­ficos
+- ? **PadrÃµes Reais** - PrÃ¡ticas enterprise aplicadas
+- ? **CÃ³digo Production-Ready** - Qualidade profissional
 
 ### Para Portfolio
 
 - ? **Arquitetura Enterprise** - Clean Architecture implementada
-- ? **Múltiplas Tecnologias** - .NET 8, JWT, Docker, xUnit
-- ? **Documentação Profissional** - README técnico detalhado
-- ? **Deployment-Ready** - Soluções prontas para Azure/AWS/K8s
+- ? **MÃºltiplas Tecnologias** - .NET 8, JWT, Docker, xUnit
+- ? **DocumentaÃ§Ã£o Profissional** - README tÃ©cnico detalhado
+- ? **Deployment-Ready** - SoluÃ§Ãµes prontas para Azure/AWS/K8s
 
 ---
 
-## ?? Links Úteis
+## ?? Links Ãšteis
 
-### Documentação Oficial
+### DocumentaÃ§Ã£o Oficial
 
 - [.NET 8 Documentation](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8)
 - [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
@@ -1158,7 +1158,7 @@ Este projeto está licenciado sob a **MIT License** - veja o arquivo [LICENSE](LI
 - [JWT.io - Token Debugger](https://jwt.io/)
 - [Docker Documentation](https://docs.docker.com/)
 
-### Recursos de Segurança
+### Recursos de SeguranÃ§a
 
 - [OWASP Top 10 (2021)](https://owasp.org/Top10/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
@@ -1174,14 +1174,14 @@ Este projeto está licenciado sob a **MIT License** - veja o arquivo [LICENSE](LI
 
 <div align="center">
 
-**? Se este projeto foi útil, considere dar uma estrela! ?**
+**? Se este projeto foi Ãºtil, considere dar uma estrela! ?**
 
-*Documentação técnica enterprise-grade para showcase em entrevistas, portfolio profissional e referência educacional em desenvolvimento .NET 8.*
+*DocumentaÃ§Ã£o tÃ©cnica enterprise-grade para showcase em entrevistas, portfolio profissional e referÃªncia educacional em desenvolvimento .NET 8.*
 
 </div>
 
 ---
 
-**Última Atualização**: 2024-01-15  
-**Versão do Documento**: 2.0  
+**Ãšltima AtualizaÃ§Ã£o**: 2024-01-15  
+**VersÃ£o do Documento**: 2.0  
 **Status do Projeto**: ? Ativo e Mantido
