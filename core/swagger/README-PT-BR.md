@@ -1,4 +1,4 @@
-# Demo API - .NET 8 Clean Architecture Showcase
+﻿# Demo API - .NET 8 Clean Architecture Showcase
 
 [![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![C#](https://img.shields.io/badge/C%23-12.0-239120?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)

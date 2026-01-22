@@ -1,4 +1,4 @@
-using DemoApi.Api.Configuration;
+﻿using DemoApi.Api.Configuration;
 using DemoApi.Application.Automapper;
 using NLog;
 
@@ -8,7 +8,7 @@ Logger logger = builder.AddNLogConfig();
 
 try
 {
-    builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AutomapperConfig).Assembly));
+    builder.Services.AddAutoMapper(typeof(AutomapperConfig));
 
     builder.Services.AddDependencyInjectionConfig();
 

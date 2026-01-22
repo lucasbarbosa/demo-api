@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Bogus;
 using DemoApi.Application.Automapper;
 using DemoApi.Application.Services;
@@ -16,7 +16,7 @@ namespace DemoApi.Application.Tests.Products
         #endregion
 
         #region Constructors
-
+        
         public ProductTests()
         {
             MapperConfiguration config = new(cfg =>
@@ -26,7 +26,7 @@ namespace DemoApi.Application.Tests.Products
 
             config.AssertConfigurationIsValid();
             _mapper = config.CreateMapper();
-
+			
             Randomizer.Seed = new Random(1234);
         }
 

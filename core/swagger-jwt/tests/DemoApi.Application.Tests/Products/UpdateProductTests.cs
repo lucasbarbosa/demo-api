@@ -1,4 +1,4 @@
-using DemoApi.Application.Models.Products;
+﻿using DemoApi.Application.Models.Products;
 using DemoApi.Application.Services;
 using DemoApi.Domain.Entities;
 using DemoApi.Domain.Interfaces;
@@ -57,7 +57,7 @@ namespace DemoApi.Application.Tests.Products
             // Arrange
             (Mock<INotificatorHandler> notificator, Mock<IProductRepository> productRepository, ProductAppService productApplication) = SetProductAppService();
 
-            ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(ProductBuilder.New().Build());
+            ProductViewModel productViewModel = ProductViewModelBuilder.New().Build();
 
             productRepository
                 .Setup(x => x.GetById(productViewModel.Id))

@@ -1,4 +1,4 @@
-using DemoApi.Api.Tests.Common.Configuration;
+﻿using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
 using DemoApi.Api.Tests.Common.Helpers;
 using DemoApi.Application.Models;

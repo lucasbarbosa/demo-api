@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -8,6 +7,7 @@
 		<IsTestProject>true</IsTestProject>
 		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<DisableAppDomain>true</DisableAppDomain>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="TestResults\**" />
@@ -36,7 +36,7 @@
 		<ProjectReference Include="..\DemoApi.Tests.Builders\DemoApi.Tests.Builders.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="..\DemoApi.Api\bin\$(Configuration)\net8.0\DemoApi.Api.deps.json" Link="DemoApi.Api.deps.json" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\DemoApi.Api\bin\$(Configuration)\net8.0\DemoApi.Api.deps.json')" />
+		<None Include="..\DemoApi.Api\bin\$(Configuration)\net10.0\DemoApi.Api.deps.json" Link="DemoApi.Api.deps.json" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\DemoApi.Api\bin\$(Configuration)\net10.0\DemoApi.Api.deps.json')" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="xunit.runner.json">

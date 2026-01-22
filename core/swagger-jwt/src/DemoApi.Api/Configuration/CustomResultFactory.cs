@@ -1,4 +1,4 @@
-using DemoApi.Application.Models;
+﻿using DemoApi.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Results;

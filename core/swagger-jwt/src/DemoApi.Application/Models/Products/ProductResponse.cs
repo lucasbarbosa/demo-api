@@ -1,4 +1,4 @@
-namespace DemoApi.Application.Models.Products
+﻿namespace DemoApi.Application.Models.Products
 {
     public class ProductResponse : ResponseViewModel
     {

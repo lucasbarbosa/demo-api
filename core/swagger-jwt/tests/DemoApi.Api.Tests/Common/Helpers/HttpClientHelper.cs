@@ -1,4 +1,4 @@
-using DemoApi.Application.Models;
+﻿using DemoApi.Application.Models;
 using System.Net.Http.Json;
 
 namespace DemoApi.Api.Tests.Common.Helpers

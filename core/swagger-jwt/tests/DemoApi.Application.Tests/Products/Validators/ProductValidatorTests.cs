@@ -1,8 +1,8 @@
-using DemoApi.Application.Models.Products;
+﻿using DemoApi.Application.Models.Products;
 using DemoApi.Application.Validators.Products;
+using DemoApi.Tests.Builders.Products;
 using FluentAssertions;
 using FluentValidation.Results;
-using DemoApi.Tests.Builders.Products;
 
 namespace DemoApi.Application.Tests.Products.Validators
 {
@@ -38,8 +38,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -56,8 +56,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -74,8 +74,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -110,8 +110,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Name" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Name" &&
                 e.ErrorMessage == "Name is required");
         }
 
@@ -150,8 +150,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Weight" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Weight" &&
                 e.ErrorMessage == "Weight must be greater than 0");
         }
 
@@ -168,8 +168,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Weight" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Weight" &&
                 e.ErrorMessage == "Weight must be greater than 0");
         }
 
@@ -189,8 +189,8 @@ namespace DemoApi.Application.Tests.Products.Validators
 
             // Assert
             result.IsValid.Should().BeFalse();
-            result.Errors.Should().Contain(e => 
-                e.PropertyName == "Weight" && 
+            result.Errors.Should().Contain(e =>
+                e.PropertyName == "Weight" &&
                 e.ErrorMessage == "Weight must be greater than 0");
         }
 
@@ -476,7 +476,7 @@ namespace DemoApi.Application.Tests.Products.Validators
         [InlineData("??")]
         [InlineData("????")]
         [InlineData("Product ??")]
-        [InlineData("Caf� ?")]
+        [InlineData("Café ?")]
         public void Validate_NameWithEmojis_ReturnsNoNameError(string name)
         {
             // Arrange

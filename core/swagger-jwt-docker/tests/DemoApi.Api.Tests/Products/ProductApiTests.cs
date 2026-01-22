@@ -1,4 +1,4 @@
-using DemoApi.Application.Models;
+﻿using DemoApi.Application.Models;
 using DemoApi.Application.Models.Products;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

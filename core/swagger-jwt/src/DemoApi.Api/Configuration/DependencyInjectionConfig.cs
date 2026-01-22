@@ -6,7 +6,7 @@ using DemoApi.Domain.Interfaces;
 using DemoApi.Infra.CrossCutting.Logging;
 using DemoApi.Infra.Data.Repositories;
 using FluentValidation;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using FluentValidation.AspNetCore;
 using ILogger = DemoApi.Infra.CrossCutting.Interfaces.ILogger;
 
 namespace DemoApi.Api.Configuration
@@ -31,7 +31,8 @@ namespace DemoApi.Api.Configuration
 
             #region FluentValidation
 
-            services.AddFluentValidationAutoValidation(cfg => cfg.OverrideDefaultResultFactoryWith<CustomResultFactory>());
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
             services.AddValidatorsFromAssemblyContaining<ProductValidator>();
 
             #endregion

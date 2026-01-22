@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Bogus;
 using DemoApi.Application.Automapper;
 using DemoApi.Application.Services;

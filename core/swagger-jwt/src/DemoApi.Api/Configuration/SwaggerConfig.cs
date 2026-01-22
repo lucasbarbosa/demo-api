@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi;
+﻿using Microsoft.OpenApi.Models;
 
 namespace DemoApi.Api.Configuration
 {
@@ -37,11 +37,18 @@ namespace DemoApi.Api.Configuration
                     BearerFormat = "JWT"
                 });
 
-                c.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
-                        new OpenApiSecuritySchemeReference("Bearer", document),
-                        new List<string>()
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
                     }
                 });
             });

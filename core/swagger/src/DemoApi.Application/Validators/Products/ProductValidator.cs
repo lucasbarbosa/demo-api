@@ -1,4 +1,4 @@
-using DemoApi.Application.Models.Products;
+﻿using DemoApi.Application.Models.Products;
 using FluentValidation;
 
 namespace DemoApi.Application.Validators.Products

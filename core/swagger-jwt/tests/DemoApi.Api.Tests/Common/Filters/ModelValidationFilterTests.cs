@@ -1,4 +1,4 @@
-using DemoApi.Api.Extensions;
+﻿using DemoApi.Api.Extensions;
 using DemoApi.Application.Models;
 using DemoApi.Domain.Handlers;
 using DemoApi.Domain.Interfaces;

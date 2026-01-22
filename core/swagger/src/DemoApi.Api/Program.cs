@@ -1,4 +1,4 @@
-using DemoApi.Api.Configuration;
+﻿using DemoApi.Api.Configuration;
 using DemoApi.Application.Automapper;
 using NLog;
 

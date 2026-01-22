@@ -1,4 +1,4 @@
-using DemoApi.Domain.Entities;
+Ôªøusing DemoApi.Domain.Entities;
 using DemoApi.Tests.Builders.Products;
 using FluentAssertions;
 
@@ -92,7 +92,7 @@ namespace DemoApi.Application.Tests.Products.Builders
         [InlineData("Product")]
         [InlineData("Very Long Product Name With Many Characters")]
         [InlineData("Product @#$% 123")]
-        [InlineData("Produto Á„o „È Ò??")]
+        [InlineData("Produto √ß√£o √£√© √±‰∏≠Êñá")]
         public void Build_ShouldCreateProductWithVariousNames_WhenUsingWithName(string expectedName)
         {
             // Arrange & Act

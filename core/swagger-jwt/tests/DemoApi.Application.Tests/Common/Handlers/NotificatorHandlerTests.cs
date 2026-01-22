@@ -1,4 +1,4 @@
-using DemoApi.Domain.Handlers;
+﻿using DemoApi.Domain.Handlers;
 using FluentAssertions;
 
 namespace DemoApi.Application.Tests.Common.Handlers

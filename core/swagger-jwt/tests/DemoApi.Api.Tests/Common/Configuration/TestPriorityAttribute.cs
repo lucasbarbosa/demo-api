@@ -1,4 +1,4 @@
-using Xunit.Abstractions;
+﻿using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace DemoApi.Api.Tests.Common.Configuration
