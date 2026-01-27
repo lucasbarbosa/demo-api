@@ -24,6 +24,11 @@ namespace DemoApi.Api.Tests.Products
             ProductViewModel newProduct = ProductViewModelBuilder.New().Build();
             (HttpResponseMessage _, ResponseViewModel? createResponse) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, newProduct);
 
+            if (!createResponse!.Success)
+            {
+                throw new Exception($"Failed to create product: {string.Join(", ", createResponse.Errors)}");
+            }
+
             ProductViewModel? createdProduct = JsonSerializer.Deserialize<ProductViewModel>(
                 createResponse!.Data!.ToString()!,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });

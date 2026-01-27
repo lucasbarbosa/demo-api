@@ -1,8 +1,8 @@
 ﻿using DemoApi.Application.Models.Products;
 using DemoApi.Application.Validators.Products;
+using DemoApi.Tests.Builders.Products;
 using FluentAssertions;
 using FluentValidation.Results;
-using DemoApi.Tests.Builders.Products;
 
 namespace DemoApi.Application.Tests.Products.Validators
 {
@@ -307,8 +307,6 @@ namespace DemoApi.Application.Tests.Products.Validators
         [Theory]
         [InlineData("", 0)]
         [InlineData("", -1)]
-
-
         [InlineData("   ", 0)]
         [InlineData("   ", -10.5)]
         public void Validate_MultipleInvalidFieldCombinations_ReturnsMultipleErrors(string name, double weight)

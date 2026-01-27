@@ -1,36 +1,29 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DemoApi.Api.Extensions
 {
-    public class FluentValidationFilter : IAsyncActionFilter
+    public class FluentValidationFilter(IServiceProvider serviceProvider) : IAsyncActionFilter
     {
-        private readonly IServiceProvider _serviceProvider;
-
-        public FluentValidationFilter(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            foreach (var argument in context.ActionArguments.Values)
+            foreach (object? argument in context.ActionArguments.Values)
             {
                 if (argument == null) continue;
 
-                var argumentType = argument.GetType();
-                var validatorType = typeof(IValidator<>).MakeGenericType(argumentType);
-                var validator = _serviceProvider.GetService(validatorType) as IValidator;
+                Type argumentType = argument!.GetType();
+                Type validatorType = typeof(IValidator<>).MakeGenericType(argumentType);
 
-                if (validator != null)
+                if (_serviceProvider.GetService(validatorType) is IValidator validator)
                 {
-                    var validationContext = new ValidationContext<object>(argument);
-                    var validationResult = await validator.ValidateAsync(validationContext);
+                    ValidationContext<object> validationContext = new(argument!);
+                    FluentValidation.Results.ValidationResult validationResult = await validator.ValidateAsync(validationContext);
 
                     if (!validationResult.IsValid)
                     {
-                        foreach (var error in validationResult.Errors)
+                        foreach (FluentValidation.Results.ValidationFailure error in validationResult.Errors)
                         {
                             context.ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                         }

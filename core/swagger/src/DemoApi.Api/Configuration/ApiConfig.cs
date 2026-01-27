@@ -28,7 +28,6 @@ namespace DemoApi.Api.Configuration
                     new QueryStringApiVersionReader("api-version")
                 );
             })
-            .AddMvc()
             .AddApiExplorer(options =>
             {
                 options.GroupNameFormat = "'v'V";

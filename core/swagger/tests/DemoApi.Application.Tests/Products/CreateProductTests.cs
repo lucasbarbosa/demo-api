@@ -20,7 +20,7 @@ namespace DemoApi.Application.Tests.Products
             ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(productFake);
 
             productRepository
-                .Setup(x => x.GetByName(productViewModel.Name))
+                .Setup(x => x.GetByName(productViewModel.Name!))
                 .ReturnsAsync((Product?)null);
 
             productRepository
@@ -38,7 +38,7 @@ namespace DemoApi.Application.Tests.Products
             result.Weight.Should().Be(productFake.Weight);
 
             productRepository.Verify(
-                x => x.GetByName(productViewModel.Name),
+                x => x.GetByName(productViewModel.Name!),
                 Times.Once
             );
 
@@ -63,7 +63,7 @@ namespace DemoApi.Application.Tests.Products
             ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(productFake);
 
             productRepository
-                .Setup(x => x.GetByName(productViewModel.Name))
+                .Setup(x => x.GetByName(productViewModel.Name!))
                 .ReturnsAsync(productFake);
 
 
@@ -75,7 +75,7 @@ namespace DemoApi.Application.Tests.Products
             result.Should().BeNull();
 
             productRepository.Verify(
-                x => x.GetByName(productViewModel.Name),
+                x => x.GetByName(productViewModel.Name!),
                 Times.Once
             );
 
@@ -100,7 +100,7 @@ namespace DemoApi.Application.Tests.Products
             ProductViewModel productViewModel = _mapper.Map<ProductViewModel>(productFake);
 
             productRepository
-                .Setup(x => x.GetByName(productViewModel.Name))
+                .Setup(x => x.GetByName(productViewModel.Name!))
                 .ReturnsAsync((Product?)null);
 
             productRepository.Setup(x => x.Create(It.IsAny<Product>())).ReturnsAsync(default(Product)!);
@@ -114,7 +114,7 @@ namespace DemoApi.Application.Tests.Products
             result.Should().BeNull();
 
             productRepository.Verify(
-                x => x.GetByName(productViewModel.Name),
+                x => x.GetByName(productViewModel.Name!),
                 Times.Once
             );
 
