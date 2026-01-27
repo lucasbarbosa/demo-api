@@ -1,7 +1,6 @@
 ﻿using DemoApi.Application.Models;
 using DemoApi.Application.Models.Products;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using DemoApi.Api.Tests.Common.Factories;
@@ -32,9 +31,11 @@ namespace DemoApi.Api.Tests.Products
             string token = string.Empty;
             if (response?.Data != null)
             {
-                JObject tokenJson = JObject.Parse(response.Data.ToString()!);
-                JToken? accessToken = tokenJson["accessToken"];
-                token = accessToken?.ToString() ?? string.Empty;
+                using JsonDocument doc = JsonDocument.Parse(response.Data.ToString()!);
+                if (doc.RootElement.TryGetProperty("accessToken", out JsonElement accessToken))
+                {
+                    token = accessToken.ToString();
+                }
             }
 
             HttpClient client = _factory.CreateClient();
@@ -49,10 +50,22 @@ namespace DemoApi.Api.Tests.Products
             ProductViewModel newProduct = ProductViewModelBuilder.New().Build();
             (HttpResponseMessage _, ResponseViewModel? createResponse) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, newProduct);
 
-            ProductViewModel? createdProduct = JsonConvert.DeserializeObject<ProductViewModel>(
-                createResponse!.Data!.ToString()!);
+            if (!createResponse!.Success)
+            {
+                throw new Exception($"Failed to create product: {string.Join(", ", createResponse.Errors)}");
+            }
 
-            return createdProduct!;
+            try
+            {
+                ProductViewModel? createdProduct = JsonSerializer.Deserialize<ProductViewModel>(
+                    createResponse.Data!.ToString()!,
+                    new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                return createdProduct!;
+            }
+            catch (JsonException ex)
+            {
+                throw new Exception($"Failed to deserialize product. JSON: {createResponse.Data}", ex);
+            }
         }
 
         #endregion

@@ -16,17 +16,17 @@ namespace DemoApi.Application.Tests.Products
         #endregion
 
         #region Constructors
-        
+
         public ProductTests()
         {
-            MapperConfiguration config = new(cfg =>
-            {
-                cfg.AddProfile(new AutomapperConfig());
-            });
+            MapperConfigurationExpression configExpression = new MapperConfigurationExpression();
+            configExpression.AddMaps(typeof(AutomapperConfig).Assembly);
+
+            MapperConfiguration config = new MapperConfiguration(configExpression, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
 
             config.AssertConfigurationIsValid();
             _mapper = config.CreateMapper();
-			
+
             Randomizer.Seed = new Random(1234);
         }
 

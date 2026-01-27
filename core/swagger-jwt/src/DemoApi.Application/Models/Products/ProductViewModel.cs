@@ -6,7 +6,7 @@
 
         public uint Id { get; set; }
 
-        public required string Name { get; set; }
+        public string? Name { get; set; }
 
         public double Weight { get; set; }
 

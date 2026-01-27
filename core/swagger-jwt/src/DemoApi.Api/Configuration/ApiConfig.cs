@@ -13,6 +13,7 @@ namespace DemoApi.Api.Configuration
             services.AddControllers(options =>
             {
                 options.Filters.Add<ModelValidationFilter>();
+                options.Filters.Add<FluentValidationFilter>();
             });
 
             services.AddApiVersioning(options =>

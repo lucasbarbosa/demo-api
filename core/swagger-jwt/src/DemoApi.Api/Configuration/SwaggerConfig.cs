@@ -14,7 +14,7 @@ namespace DemoApi.Api.Configuration
                 {
                     Title = "Demo API",
                     Version = "v1",
-                    Description = "RESTful API built with .NET 8 demonstrating Clean Architecture, SOLID principles, and enterprise-grade design patterns. Features comprehensive testing, type-safe responses, JWT authentication, and production-ready error handling.",
+                    Description = "RESTful API built with .NET 10 demonstrating Clean Architecture, SOLID principles, and enterprise-grade design patterns. Features comprehensive testing, type-safe responses, JWT authentication, and production-ready error handling.",
                     Contact = new OpenApiContact
                     {
                         Name = "Lucas Barbosa",
