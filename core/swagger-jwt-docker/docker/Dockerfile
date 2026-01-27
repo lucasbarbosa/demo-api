@@ -26,7 +26,7 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# Configure non-root user for security (default in .NET 8)
+# Configure non-root user for security (default in .NET 10)
 USER app
 
 COPY --from=publish /app/publish .

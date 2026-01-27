@@ -32,7 +32,7 @@ namespace DemoApi.Api.V1.Controllers
         [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status412PreconditionFailed)]
         public async Task<IActionResult> GetById(uint id)
         {
-            var product = await _productApplication.GetById(id);
+            ProductViewModel? product = await _productApplication.GetById(id);
 
             return CustomResponse(product);
         }
@@ -42,7 +42,7 @@ namespace DemoApi.Api.V1.Controllers
         [ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _productApplication.GetAll();
+            IList<ProductViewModel> products = await _productApplication.GetAll();
 
             return CustomResponse(products);
         }
@@ -55,7 +55,7 @@ namespace DemoApi.Api.V1.Controllers
         {
             if (ModelState.IsValid is false) return CustomResponse(ModelState);
 
-            var response = await _productApplication.Create(product);
+            ProductViewModel? response = await _productApplication.Create(product);
 
             return CustomResponseCreate(response);
         }

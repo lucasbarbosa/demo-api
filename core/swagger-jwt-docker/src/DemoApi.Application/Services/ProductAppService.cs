@@ -49,9 +49,9 @@ namespace DemoApi.Application.Services
                 return response;
             }
 
-            if (await _productRepository.GetByName(product.Name) is not null)
+            if (await _productRepository.GetByName(product.Name!) is not null)
             {
-                _notificator.AddError($"Product ({product.Name}) is already registered");
+                _notificator.AddError($"Product ({product.Name!}) is already registered");
                 return response;
             }
 
