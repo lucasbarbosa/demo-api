@@ -1,4 +1,5 @@
 ﻿using DemoApi.Api.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -58,6 +59,13 @@ namespace DemoApi.Api.Configuration
                     ValidAudience = authorization.ValidOn,
                     ValidIssuer = authorization.Sender
                 };
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
             });
 
             return services;
