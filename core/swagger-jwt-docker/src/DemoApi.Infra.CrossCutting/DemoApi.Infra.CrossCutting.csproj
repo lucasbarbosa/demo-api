@@ -6,7 +6,7 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="NLog.Web.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="NLog.Web.AspNetCore" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="nlog.config">
