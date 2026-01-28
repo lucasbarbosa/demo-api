@@ -4,6 +4,8 @@ using NLog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+
 Logger logger = builder.AddNLogConfig();
 
 try
@@ -15,8 +17,7 @@ try
     builder.Services.AddJwtConfig(builder.Configuration);
 
     builder.Services.AddApiConfig();
-
-
+    
     WebApplication app = builder.Build();
 
     app.UseApiConfig(app.Environment);

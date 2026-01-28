@@ -4,18 +4,19 @@ using NLog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+
 Logger logger = builder.AddNLogConfig();
 
 try
 {
     builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AutomapperConfig).Assembly));
-
+    
     builder.Services.AddDependencyInjectionConfig();
 
     builder.Services.AddJwtConfig(builder.Configuration);
 
     builder.Services.AddApiConfig();
-
 
     WebApplication app = builder.Build();
 
