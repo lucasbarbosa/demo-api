@@ -58,9 +58,9 @@ namespace DemoApi.Api.Configuration
 
             app.UseHttpsRedirection();
 
-            app.UseJwtConfig();
-
             app.UseSwaggerConfig();
+
+            app.UseJwtConfig();
 
             return app;
         }
