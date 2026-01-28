@@ -4,7 +4,7 @@ using NLog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+builder.AddHostConfig();
 
 Logger logger = builder.AddNLogConfig();
 
