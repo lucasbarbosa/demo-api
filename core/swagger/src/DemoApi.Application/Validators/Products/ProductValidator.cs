@@ -1,19 +1,17 @@
-﻿using DemoApi.Application.Models.Products;
+﻿namespace DemoApi.Application.Validators.Products;
+
 using FluentValidation;
-
-namespace DemoApi.Application.Validators.Products
+using DemoApi.Application.Models.Products;
+public class ProductValidator : AbstractValidator<ProductViewModel>
 {
-    public class ProductValidator : AbstractValidator<ProductViewModel>
+    public ProductValidator()
     {
-        public ProductValidator()
-        {
-            RuleFor(p => p.Name)
-                .NotEmpty()
-                .WithMessage("Name is required");
+        RuleFor(p => p.Name)
+            .NotEmpty()
+            .WithMessage("Name is required");
 
-            RuleFor(p => p.Weight)
-                .GreaterThan(0)
-                .WithMessage("Weight must be greater than 0");
-        }
+        RuleFor(p => p.Weight)
+            .GreaterThan(0)
+            .WithMessage("Weight must be greater than 0");
     }
 }

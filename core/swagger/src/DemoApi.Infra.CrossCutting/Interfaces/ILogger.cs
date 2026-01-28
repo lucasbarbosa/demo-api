@@ -1,9 +1,8 @@
-﻿namespace DemoApi.Infra.CrossCutting.Interfaces
-{
-    public interface ILogger
-    {
-        void LogException(Exception ex);
+﻿namespace DemoApi.Infra.CrossCutting.Interfaces;
 
-        void LogException(Exception ex, string message);
-    }
+public interface ILogger
+{
+    void LogException(Exception ex);
+
+    void LogException(Exception ex, string message);
 }

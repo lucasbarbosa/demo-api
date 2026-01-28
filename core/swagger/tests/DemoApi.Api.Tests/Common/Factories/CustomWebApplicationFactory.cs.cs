@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿namespace DemoApi.Api.Tests.Common.Factories;
 
-namespace DemoApi.Api.Tests.Common.Factories
+using Microsoft.AspNetCore.Mvc.Testing;
+public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
-    public class CustomWebApplicationFactory : WebApplicationFactory<Program>
-    {
-    }
 }

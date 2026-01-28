@@ -1,19 +1,18 @@
-﻿using DemoApi.Domain.Entities;
+﻿namespace DemoApi.Domain.Interfaces;
 
-namespace DemoApi.Domain.Interfaces
+using DemoApi.Domain.Entities;
+
+public interface IProductRepository
 {
-    public interface IProductRepository
-    {
-        Task<IList<Product>> GetAll();
+    Task<IList<Product>> GetAll();
 
-        Task<Product?> GetById(uint id);
+    Task<Product?> GetById(uint id);
 
-        Task<Product?> GetByName(string name);
+    Task<Product?> GetByName(string name);
 
-        Task<Product> Create(Product product);
+    Task<Product> Create(Product product);
 
-        Task<bool> Update(Product product);
+    Task<bool> Update(Product product);
 
-        Task<bool> DeleteById(uint id);
-    }
+    Task<bool> DeleteById(uint id);
 }

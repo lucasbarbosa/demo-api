@@ -1,6 +1,6 @@
-﻿namespace DemoApi.Application.Services
+﻿namespace DemoApi.Application.Services;
+
+using DemoApi.Domain.Interfaces;
+public abstract class BaseServices
 {
-    public abstract class BaseServices
-    {
-    }
 }

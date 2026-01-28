@@ -1,7 +1,6 @@
-﻿namespace DemoApi.Application.Models.Products
+﻿namespace DemoApi.Application.Models.Products;
+
+public class ProductResponse : ResponseViewModel
 {
-    public class ProductResponse : ResponseViewModel
-    {
-        public new ProductViewModel? Data { get; set; }
-    }
+    public new ProductViewModel? Data { get; set; }
 }

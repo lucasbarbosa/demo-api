@@ -1,47 +1,46 @@
-﻿using NLog;
+﻿namespace DemoApi.Api.Configuration;
+
+using NLog;
 using NLog.Config;
 using NLog.Web;
 
-namespace DemoApi.Api.Configuration
+public static class NLogConfig
 {
-    public static class NLogConfig
+    #region Public Methods
+
+    public static Logger AddNLogConfig(this WebApplicationBuilder builder)
     {
-        #region Public Methods
+        string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
 
-        public static Logger AddNLogConfig(this WebApplicationBuilder builder)
+        try
         {
-            string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
-
-            try
+            if (File.Exists(nlogConfigPath))
             {
-                if (File.Exists(nlogConfigPath))
-                {
-                    LogManager.Configuration = new XmlLoggingConfiguration(nlogConfigPath);
-                }
-                else
-                {
-                    throw new FileNotFoundException($"nlog.config was not found at: {nlogConfigPath}");
-                }
+                LogManager.Configuration = new XmlLoggingConfiguration(nlogConfigPath);
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error while loading nlog.config: {ex.Message}");
-                throw;
+                throw new FileNotFoundException($"nlog.config was not found at: {nlogConfigPath}");
             }
-
-            Logger logger = LogManager.GetCurrentClassLogger();
-
-            builder.Logging.ClearProviders();
-            builder.Host.UseNLog();
-
-            return logger;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error while loading nlog.config: {ex.Message}");
+            throw;
         }
 
-        public static void Shutdown()
-        {
-            LogManager.Shutdown();
-        }
+        Logger logger = LogManager.GetCurrentClassLogger();
 
-        #endregion
+        builder.Logging.ClearProviders();
+        builder.Host.UseNLog();
+
+        return logger;
     }
+
+    public static void Shutdown()
+    {
+        LogManager.Shutdown();
+    }
+
+    #endregion
 }
