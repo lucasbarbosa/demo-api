@@ -1,6 +1,6 @@
-﻿namespace DemoApi.Domain.Interfaces;
-
 using DemoApi.Domain.Entities;
+
+namespace DemoApi.Domain.Interfaces;
 
 public interface IProductRepository
 {

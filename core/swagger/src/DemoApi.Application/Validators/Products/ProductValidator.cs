@@ -1,7 +1,9 @@
-﻿namespace DemoApi.Application.Validators.Products;
-
 using DemoApi.Application.Models.Products;
+
 using FluentValidation;
+
+namespace DemoApi.Application.Validators.Products;
+
 public class ProductValidator : AbstractValidator<ProductViewModel>
 {
     public ProductValidator()

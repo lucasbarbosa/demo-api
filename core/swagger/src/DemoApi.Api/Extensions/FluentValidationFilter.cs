@@ -1,7 +1,9 @@
-﻿namespace DemoApi.Api.Extensions;
-
 using FluentValidation;
+
 using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace DemoApi.Api.Extensions;
+
 public class FluentValidationFilter(IServiceProvider serviceProvider) : IAsyncActionFilter
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;

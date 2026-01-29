@@ -1,14 +1,14 @@
-﻿namespace DemoApi.Api.Configuration;
-
-using DemoApi.Application.Interfaces;
-using DemoApi.Application.Services;
+﻿using DemoApi.Application.Services;
 using DemoApi.Application.Validators.Products;
 using DemoApi.Domain.Handlers;
-using DemoApi.Domain.Interfaces;
-using DemoApi.Infra.CrossCutting.Interfaces;
+using ILogger = DemoApi.Infra.CrossCutting.Interfaces.ILogger;
 using DemoApi.Infra.CrossCutting.Logging;
 using DemoApi.Infra.Data.Repositories;
+
 using FluentValidation;
+
+namespace DemoApi.Api.Configuration;
+
 public static class DependencyInjectionConfig
 {
     #region Public Methods

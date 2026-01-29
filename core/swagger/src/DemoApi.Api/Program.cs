@@ -1,5 +1,6 @@
 ﻿using DemoApi.Api.Configuration;
 using DemoApi.Application.Automapper;
+
 using NLog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

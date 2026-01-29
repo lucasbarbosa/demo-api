@@ -1,12 +1,17 @@
-﻿namespace DemoApi.Application.Tests.Products;
-
 using AutoMapper;
+
 using Bogus;
+
 using DemoApi.Application.Automapper;
 using DemoApi.Application.Services;
 using DemoApi.Domain.Interfaces;
+
 using Microsoft.Extensions.Logging.Abstractions;
+
 using Moq;
+
+namespace DemoApi.Application.Tests.Products;
+
 public class ProductTests
 {
     #region Properties

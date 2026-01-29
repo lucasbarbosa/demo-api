@@ -1,10 +1,12 @@
-﻿namespace DemoApi.Application.Services;
-
 using AutoMapper;
+
 using DemoApi.Application.Interfaces;
 using DemoApi.Application.Models.Products;
 using DemoApi.Domain.Entities;
 using DemoApi.Domain.Interfaces;
+
+namespace DemoApi.Application.Services;
+
 public class ProductAppService(
     IMapper mapper, INotificatorHandler notificator, IProductRepository productRepository) : BaseServices, IProductAppService
 {

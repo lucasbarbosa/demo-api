@@ -1,6 +1,6 @@
-﻿namespace DemoApi.Domain.Interfaces;
-
 using DemoApi.Domain.Handlers;
+
+namespace DemoApi.Domain.Interfaces;
 
 public interface INotificatorHandler
 {

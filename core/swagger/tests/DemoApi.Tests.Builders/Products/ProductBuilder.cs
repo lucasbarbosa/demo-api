@@ -1,7 +1,8 @@
-﻿namespace DemoApi.Tests.Builders.Products;
-
 using Bogus;
+
 using DemoApi.Domain.Entities;
+
+namespace DemoApi.Tests.Builders.Products;
 
 public class ProductBuilder
 {

@@ -1,18 +1,20 @@
-﻿namespace DemoApi.Api.Tests.Common.Filters;
-
 using DemoApi.Api.Extensions;
 using DemoApi.Application.Models;
 using DemoApi.Domain.Handlers;
 using DemoApi.Domain.Interfaces;
+
 using FluentAssertions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
+
 using Moq;
-using Xunit;
+
+namespace DemoApi.Api.Tests.Common.Filters;
 
 public class ModelValidationFilterTests
 {

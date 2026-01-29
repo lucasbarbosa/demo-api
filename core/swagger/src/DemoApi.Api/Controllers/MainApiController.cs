@@ -1,10 +1,8 @@
-﻿namespace DemoApi.Api.Controllers;
-
-using DemoApi.Application.Models;
-using DemoApi.Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Net;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace DemoApi.Api.Controllers;
 
 [ApiController]
 public class MainApiController : Controller

@@ -1,6 +1,6 @@
-﻿namespace DemoApi.Domain.Handlers;
-
 using DemoApi.Domain.Interfaces;
+
+namespace DemoApi.Domain.Handlers;
 
 public class NotificatorHandler : INotificatorHandler
 {

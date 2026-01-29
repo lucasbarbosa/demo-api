@@ -1,15 +1,18 @@
-﻿namespace DemoApi.Api.Tests.Common.Middleware;
-
 using DemoApi.Api.Extensions;
 using DemoApi.Application.Models;
 using DemoApi.Domain.Handlers;
 using DemoApi.Domain.Interfaces;
 using DemoApi.Infra.CrossCutting.Interfaces;
+
 using FluentAssertions;
+
 using Microsoft.AspNetCore.Http;
+
 using Moq;
+
 using Newtonsoft.Json;
-using Xunit;
+
+namespace DemoApi.Api.Tests.Common.Middleware;
 
 public class ExceptionMiddlewareTests
 {

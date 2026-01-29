@@ -1,6 +1,7 @@
-﻿namespace DemoApi.Application.Interfaces;
-
 using DemoApi.Application.Models.Products;
+
+namespace DemoApi.Application.Interfaces;
+
 public interface IProductAppService
 {
     Task<IList<ProductViewModel>> GetAll();

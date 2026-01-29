@@ -1,13 +1,10 @@
-﻿namespace DemoApi.Api.V1.Controllers;
-
-using Asp.Versioning;
-using DemoApi.Api.Controllers;
-using DemoApi.Application.Interfaces;
-using DemoApi.Application.Models;
-using DemoApi.Application.Models.Products;
-using DemoApi.Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
+
+using DemoApi.Api.Controllers;
+using DemoApi.Application.Models.Products;
+
+namespace DemoApi.Api.V1.Controllers;
+
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/products")]
 [Produces("application/json")]

@@ -1,7 +1,9 @@
-﻿namespace DemoApi.Tests.Builders.Products;
-
 using Bogus;
+
 using DemoApi.Application.Models.Products;
+
+namespace DemoApi.Tests.Builders.Products;
+
 public class ProductViewModelBuilder
 {
     #region Properties

@@ -1,12 +1,12 @@
-﻿namespace DemoApi.Api.Tests.Products;
+using System.Text.Json;
 
 using DemoApi.Api.Tests.Common.Factories;
 using DemoApi.Api.Tests.Common.Helpers;
 using DemoApi.Application.Models;
 using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
-using Xunit;
-using System.Text.Json;
+
+namespace DemoApi.Api.Tests.Products;
 
 public class ProductApiTests(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
 {

@@ -1,4 +1,4 @@
-﻿namespace DemoApi.Api.Tests.Products;
+using System.Net;
 
 using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
@@ -6,9 +6,10 @@ using DemoApi.Api.Tests.Common.Helpers;
 using DemoApi.Application.Models;
 using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
+
 using FluentAssertions;
-using System.Net;
-using Xunit;
+
+namespace DemoApi.Api.Tests.Products;
 
 [TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class ProductValidationTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)

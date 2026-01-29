@@ -1,8 +1,7 @@
-﻿namespace DemoApi.Api.Configuration;
+﻿using DemoApi.Api.Extensions;
 
-using Asp.Versioning;
-using DemoApi.Api.Extensions;
-using Microsoft.AspNetCore.Mvc;
+namespace DemoApi.Api.Configuration;
+
 public static class ApiConfig
 {
     #region Public Methods

@@ -1,7 +1,9 @@
-﻿namespace DemoApi.Application.Tests.Common.Handlers;
-
 using DemoApi.Domain.Handlers;
+
 using FluentAssertions;
+
+namespace DemoApi.Application.Tests.Common.Handlers;
+
 public class NotificatorHandlerTests
 {
     [Fact]

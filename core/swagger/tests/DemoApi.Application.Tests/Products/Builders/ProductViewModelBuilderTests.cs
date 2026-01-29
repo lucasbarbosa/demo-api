@@ -1,8 +1,10 @@
-﻿namespace DemoApi.Application.Tests.Products.Builders;
-
 using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
+
 using FluentAssertions;
+
+namespace DemoApi.Application.Tests.Products.Builders;
+
 public class ProductViewModelBuilderTests
 {
     #region Default Values Tests

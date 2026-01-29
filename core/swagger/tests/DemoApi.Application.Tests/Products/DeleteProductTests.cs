@@ -1,11 +1,14 @@
-﻿namespace DemoApi.Application.Tests.Products;
-
 using DemoApi.Application.Services;
 using DemoApi.Domain.Entities;
 using DemoApi.Domain.Interfaces;
 using DemoApi.Tests.Builders.Products;
+
 using FluentAssertions;
+
 using Moq;
+
+namespace DemoApi.Application.Tests.Products;
+
 public class DeleteProductTests : ProductTests
 {
     [Fact]

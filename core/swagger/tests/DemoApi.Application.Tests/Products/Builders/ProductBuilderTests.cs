@@ -1,8 +1,9 @@
-﻿namespace DemoApi.Application.Tests.Products.Builders;
-
 using DemoApi.Domain.Entities;
 using DemoApi.Tests.Builders.Products;
+
 using FluentAssertions;
+
+namespace DemoApi.Application.Tests.Products.Builders;
 
 public class ProductBuilderTests
 {

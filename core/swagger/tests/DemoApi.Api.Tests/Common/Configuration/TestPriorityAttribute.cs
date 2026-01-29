@@ -1,7 +1,7 @@
-﻿namespace DemoApi.Api.Tests.Common.Configuration;
-
 using Xunit.Abstractions;
 using Xunit.Sdk;
+
+namespace DemoApi.Api.Tests.Common.Configuration;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class TestPriorityAttribute(int priority) : Attribute

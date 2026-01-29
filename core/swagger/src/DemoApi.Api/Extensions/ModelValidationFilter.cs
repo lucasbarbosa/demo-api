@@ -1,10 +1,9 @@
-﻿namespace DemoApi.Api.Extensions;
-
-using DemoApi.Application.Models;
-using DemoApi.Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
+
+using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace DemoApi.Api.Extensions;
+
 public class ModelValidationFilter(INotificatorHandler notificator) : IActionFilter
 {
     private readonly INotificatorHandler _notificator = notificator;

@@ -1,8 +1,8 @@
-﻿namespace DemoApi.Api.Configuration;
-
 using NLog;
 using NLog.Config;
 using NLog.Web;
+
+namespace DemoApi.Api.Configuration;
 
 public static class NLogConfig
 {

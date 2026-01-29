@@ -1,7 +1,8 @@
-﻿namespace DemoApi.Api.Tests.Common.Helpers;
+using System.Net.Http.Json;
 
 using DemoApi.Application.Models;
-using System.Net.Http.Json;
+
+namespace DemoApi.Api.Tests.Common.Helpers;
 
 public static class HttpClientHelper
 {

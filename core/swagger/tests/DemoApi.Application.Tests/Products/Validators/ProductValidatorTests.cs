@@ -1,10 +1,13 @@
-﻿namespace DemoApi.Application.Tests.Products.Validators;
-
 using DemoApi.Application.Models.Products;
 using DemoApi.Application.Validators.Products;
 using DemoApi.Tests.Builders.Products;
+
 using FluentAssertions;
+
 using FluentValidation.Results;
+
+namespace DemoApi.Application.Tests.Products.Validators;
+
 public class ProductValidatorTests
 {
     #region Properties

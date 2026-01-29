@@ -1,6 +1,6 @@
-﻿namespace DemoApi.Infra.CrossCutting.Logging;
-
 using DemoApi.Infra.CrossCutting.Interfaces;
+
+namespace DemoApi.Infra.CrossCutting.Logging;
 
 public class NLogLogger : ILogger
 {

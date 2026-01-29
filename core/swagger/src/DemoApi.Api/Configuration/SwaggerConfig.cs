@@ -1,6 +1,7 @@
-﻿namespace DemoApi.Api.Configuration;
-
 using Microsoft.OpenApi.Models;
+
+namespace DemoApi.Api.Configuration;
+
 public static class SwaggerConfig
 {
     #region Public Methods
