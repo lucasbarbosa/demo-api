@@ -11,7 +11,7 @@ This version demonstrates:
 - ✅ SOLID principles and design patterns (Repository, Notification, Builder)
 - ✅ Comprehensive validation strategy (FluentValidation + custom filters)
 - ✅ API versioning and OpenAPI documentation
-- ✅ Structured logging with NLog
+- ✅ Structured logging with Serilog
 - ✅ Complete testing suite (unit + integration tests)
 - ✅ Test data builders with Bogus library
 - ✅ Central package management
@@ -33,7 +33,7 @@ This version demonstrates:
 - FluentValidation integration
 - Notification pattern for business errors
 - Server header removal for security
-- NLog structured logging
+- Serilog structured logging
 - Unit tests with Moq and FluentAssertions
 - Integration tests with WebApplicationFactory
 - Test builders using Bogus
@@ -212,14 +212,14 @@ dotnet test --collect:"XPlat Code Coverage"
 }
 ```
 
-### NLog Configuration
+### Serilog Configuration
 
-Logging is configured in `src/DemoApi.Infra.CrossCutting/nlog.config`:
+Logging is configured in `src/DemoApi.Api/appsettings.json`:
 
-- **Console Target**: Colored output for development
-- **File Target**: `logs/demo-api-{date}.log`
+- **Console Sink**: Colored output for development
+- **File Sink**: `logs/log-{date}.txt`
 - **Log Levels**: Info, Warning, Error
-- **Exception Details**: Full stack traces
+- **Enrichers**: LogContext, MachineName, ThreadId
 
 ### Kestrel Configuration
 
@@ -298,7 +298,7 @@ This version uses the following key packages (managed in `Directory.Packages.pro
 - `Swashbuckle.AspNetCore` (6.6.2) - OpenAPI/Swagger
 - `FluentValidation` (12.1.1) - Input validation
 - `AutoMapper` (16.0.0) - Object mapping
-- `NLog.Web.AspNetCore` (6.1.0) - Structured logging
+- `Serilog.AspNetCore` (10.0.0) - Structured logging
 
 **Testing:**
 - `xUnit` (2.9.3) - Test framework

@@ -1,20 +1,21 @@
-using DemoApi.Infra.CrossCutting.Interfaces;
+﻿using DemoApi.Infra.CrossCutting.Interfaces;
+using Serilog;
 
 namespace DemoApi.Infra.CrossCutting.Logging;
 
-public class NLogLogger : ILogger
+public class SerilogLogger : DemoApi.Infra.CrossCutting.Interfaces.ILogger
 {
     #region Properties
 
-    private readonly NLog.Logger _appExLogger;
+    private readonly Serilog.ILogger _appExLogger;
 
     #endregion
 
     #region Constructors
 
-    public NLogLogger()
+    public SerilogLogger()
     {
-        _appExLogger = NLog.LogManager.GetLogger("AppExceptionLog");
+        _appExLogger = Log.ForContext("SourceContext", "AppExceptionLog");
     }
 
     #endregion
@@ -23,7 +24,7 @@ public class NLogLogger : ILogger
 
     public void LogException(Exception ex)
     {
-        _appExLogger.Error(ex);
+        _appExLogger.Error(ex, ex.Message);
     }
 
     public void LogException(Exception ex, string message)

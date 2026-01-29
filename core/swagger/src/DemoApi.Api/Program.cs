@@ -1,13 +1,13 @@
 ﻿using DemoApi.Api.Configuration;
 using DemoApi.Application.Automapper;
 
-using NLog;
+using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddHostConfig();
 
-Logger logger = builder.AddNLogConfig();
+builder.AddSerilogConfiguration();
 
 try
 {
@@ -27,12 +27,12 @@ try
 }
 catch (Exception ex)
 {
-    logger.Error(ex, "Stopped program because of exception");
+    Log.Fatal(ex, "Stopped program because of exception");
     throw;
 }
 finally
 {
-    NLogConfig.Shutdown();
+    Log.CloseAndFlush();
 }
 
 public partial class Program { }

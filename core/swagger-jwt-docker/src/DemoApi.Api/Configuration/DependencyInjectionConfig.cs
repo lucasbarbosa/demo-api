@@ -35,7 +35,7 @@ public static class DependencyInjectionConfig
 
         #region Others
 
-        services.AddScoped<ILogger, NLogLogger>();
+        services.AddScoped<DemoApi.Infra.CrossCutting.Interfaces.ILogger, SerilogLogger>();
         services.AddScoped<INotificatorHandler, NotificatorHandler>();
 
         #endregion

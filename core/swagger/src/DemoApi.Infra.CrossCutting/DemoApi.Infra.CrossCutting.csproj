@@ -6,11 +6,6 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="NLog.Web.AspNetCore" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="nlog.config">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
+		<PackageReference Include="Serilog" />
 	</ItemGroup>
 </Project>

@@ -59,6 +59,21 @@ Before running, configure JWT settings in `src/DemoApi.Api/appsettings.json`:
 
 ```json
 {
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning",
+        "System": "Warning"
+      }
+    },
+    "WriteTo": [
+      { "Name": "Console" },
+      { "Name": "File", "Args": { "path": "logs/log-.txt", "rollingInterval": "Day" } }
+    ],
+    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ]
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",

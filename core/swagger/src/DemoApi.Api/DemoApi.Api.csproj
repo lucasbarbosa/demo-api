@@ -15,7 +15,10 @@
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 		<PackageReference Include="Newtonsoft.Json" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
-		<PackageReference Include="NLog.Web.AspNetCore" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Settings.Configuration" />
+		<PackageReference Include="Serilog.Sinks.Console" />
+		<PackageReference Include="Serilog.Sinks.File" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,10 +28,5 @@
 		<ProjectReference Include="..\DemoApi.Infra\DemoApi.Infra.Data.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<None Update="..\DemoApi.Infra.CrossCutting\nlog.config">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
 
 </Project>
