@@ -2,6 +2,7 @@
 
 using DemoApi.Application.Models;
 using System.Net.Http.Json;
+
 public static class HttpClientHelper
 {
     #region Public Methods

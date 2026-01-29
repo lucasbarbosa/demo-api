@@ -10,6 +10,7 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
 using Xunit;
+
 [TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class UpdateProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {

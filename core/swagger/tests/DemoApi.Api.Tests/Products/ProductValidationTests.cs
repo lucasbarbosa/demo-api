@@ -9,6 +9,7 @@ using DemoApi.Tests.Builders.Products;
 using FluentAssertions;
 using System.Net;
 using Xunit;
+
 [TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class ProductValidationTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {

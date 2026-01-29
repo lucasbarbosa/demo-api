@@ -8,6 +8,7 @@ using DemoApi.Application.Models.Products;
 using FluentAssertions;
 using System.Net;
 using Xunit;
+
 [TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class DeleteProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
@@ -82,7 +83,7 @@ public class DeleteProductTests(CustomWebApplicationFactory factory) : ProductAp
 
         // Act
         (HttpResponseMessage firstResponse, _) = await HttpClientHelper.DeleteAndReturnResponseAsync(_client, url);
-        
+
         // Assert
         firstResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
@@ -124,7 +125,7 @@ public class DeleteProductTests(CustomWebApplicationFactory factory) : ProductAp
 
         // Act
         (HttpResponseMessage deleteResponse, ResponseViewModel? _) = await HttpClientHelper.DeleteAndReturnResponseAsync(_client, deleteUrl);
-        
+
         product.Name = "Trying to update deleted product";
         (HttpResponseMessage updateResponse, ResponseViewModel? updateViewModel) = await HttpClientHelper.PutAndReturnResponseAsync(_client, updateUrl, product);
 

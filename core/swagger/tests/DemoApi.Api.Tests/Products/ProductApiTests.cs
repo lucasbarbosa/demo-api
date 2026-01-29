@@ -7,6 +7,7 @@ using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
 using Xunit;
 using System.Text.Json;
+
 public class ProductApiTests(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
 {
     #region Properties
@@ -14,7 +15,7 @@ public class ProductApiTests(CustomWebApplicationFactory factory) : IClassFixtur
     protected readonly HttpClient _client = factory.CreateClient();
 
     #endregion
-    
+
     #region Protected Methods
 
 

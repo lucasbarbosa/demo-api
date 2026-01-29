@@ -10,6 +10,7 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
 using Xunit;
+
 [TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
@@ -163,7 +164,7 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     {
         // Arrange
         string url = "/api/v1/products";
-        
+
         await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
         await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
         await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());

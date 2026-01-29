@@ -78,7 +78,7 @@ public class ModelValidationFilterTests
         context.Result.Should().BeOfType<ObjectResult>();
         ObjectResult? objectResult = context.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(412);
-        
+
         ResponseViewModel? response = objectResult.Value as ResponseViewModel;
         response.Should().NotBeNull();
         response!.Success.Should().BeFalse();
@@ -116,7 +116,7 @@ public class ModelValidationFilterTests
         context.Result.Should().BeOfType<ObjectResult>();
         ObjectResult? objectResult = context.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(400);
-        
+
         ResponseViewModel? response = objectResult.Value as ResponseViewModel;
         response.Should().NotBeNull();
         response!.Success.Should().BeFalse();
@@ -154,9 +154,9 @@ public class ModelValidationFilterTests
         // Assert
         notificator.GetErrors().Should().HaveCount(2);
         notificator.GetErrors().Select(static e => e.Message).Should().Contain(
-        [ 
-            "Name is required", 
-            "Weight must be greater than 0" 
+        [
+            "Name is required",
+            "Weight must be greater than 0"
         ]);
     }
 

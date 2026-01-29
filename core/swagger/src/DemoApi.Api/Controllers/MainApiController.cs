@@ -10,10 +10,10 @@ using System.Net;
 public class MainApiController : Controller
 {
     #region Properties
-    
+
     private readonly INotificatorHandler _notificator;
     private readonly IConfiguration? _configuration;
-    
+
     #endregion
 
     #region Constructors

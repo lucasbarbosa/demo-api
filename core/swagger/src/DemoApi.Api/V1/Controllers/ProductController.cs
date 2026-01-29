@@ -18,7 +18,7 @@ public class ProductController(INotificatorHandler notificator, IProductAppServi
     private readonly IProductAppService _productApplication = productApplication;
 
     #endregion
-    
+
     #region Public Methods
 
     [HttpGet("{id}")]

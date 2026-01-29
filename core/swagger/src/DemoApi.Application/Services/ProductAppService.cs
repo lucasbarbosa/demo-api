@@ -15,7 +15,7 @@ public class ProductAppService(
     private readonly IProductRepository _productRepository = productRepository;
 
     #endregion
-    
+
     #region Public Methods
 
     public async Task<IList<ProductViewModel>> GetAll()
@@ -58,7 +58,7 @@ public class ProductAppService(
 
         if (response is null)
             _notificator.AddError("Product could not be created");
-        
+
         return response;
     }
 

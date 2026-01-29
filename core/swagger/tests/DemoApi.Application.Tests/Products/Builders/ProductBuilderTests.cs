@@ -3,6 +3,7 @@
 using DemoApi.Domain.Entities;
 using DemoApi.Tests.Builders.Products;
 using FluentAssertions;
+
 public class ProductBuilderTests
 {
     #region Default Values Tests
@@ -413,4 +414,4 @@ public class ProductBuilderTests
     }
 
     #endregion
-}
+}

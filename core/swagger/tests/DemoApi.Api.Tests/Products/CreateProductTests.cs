@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using Xunit;
+
 [TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class CreateProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {

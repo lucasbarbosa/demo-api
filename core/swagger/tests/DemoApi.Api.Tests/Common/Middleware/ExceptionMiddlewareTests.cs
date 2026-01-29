@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
+
 public class ExceptionMiddlewareTests
 {
     #region Public Methods
@@ -19,7 +20,7 @@ public class ExceptionMiddlewareTests
     {
         // Arrange
         bool nextDelegateCalled = false;
-        
+
         Task NextDelegate(HttpContext hc)
         {
             nextDelegateCalled = true;
@@ -44,7 +45,7 @@ public class ExceptionMiddlewareTests
     {
         // Arrange
         InvalidOperationException expectedException = new("Test exception");
-        
+
         Task NextDelegate(HttpContext hc) => throw expectedException;
 
         ExceptionMiddleware middleware = new(NextDelegate);
@@ -68,7 +69,7 @@ public class ExceptionMiddlewareTests
     {
         // Arrange
         InvalidOperationException expectedException = new("Test exception");
-        
+
         Task NextDelegate(HttpContext hc) => throw expectedException;
 
         ExceptionMiddleware middleware = new(NextDelegate);
@@ -91,7 +92,7 @@ public class ExceptionMiddlewareTests
     {
         // Arrange
         InvalidOperationException expectedException = new("Test exception message");
-        
+
         Task NextDelegate(HttpContext hc) => throw expectedException;
 
         ExceptionMiddleware middleware = new(NextDelegate);
@@ -124,7 +125,7 @@ public class ExceptionMiddlewareTests
     {
         // Arrange
         Exception expectedException = new("Exception message");
-        
+
         Task NextDelegate(HttpContext hc) => throw expectedException;
 
         ExceptionMiddleware middleware = new(NextDelegate);
