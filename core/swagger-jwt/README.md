@@ -1,91 +1,73 @@
-﻿# DemoApi - JWT Authentication & FluentValidation
+﻿# Demo API - JWT Authentication Version
 
-> **Enterprise-grade .NET 8 RESTful API** with JWT authentication, FluentValidation, and comprehensive test coverage.
+**Secure REST API with JWT Bearer authentication and authorization policies**
 
----
+## 📋 Quick Overview
 
-## 🎯 Quick Overview
+This version enhances the base Swagger implementation with **enterprise-grade security** through JWT (JSON Web Token) authentication and authorization. It demonstrates production-ready authentication patterns including token validation, secure configuration management, and authorization fallback policies.
 
-This project demonstrates **advanced .NET architecture patterns** with:
-- ✅ **JWT Bearer Authentication** (RFC 7519)
-- ✅ **FluentValidation** (clean separation of concerns)
-- ✅ **Clean Architecture** (DDD principles)
-- ✅ **115+ Unit & Integration Tests** (85% coverage)
-- ✅ **OWASP Top 10 Security** (production-ready)
+This version demonstrates all features from the Swagger version, plus:
+- ✅ **JWT Bearer Authentication** - Stateless token-based authentication
+- ✅ **Authorization Fallback Policy** - Secure by default (requires authentication)
+- ✅ **Token Validation** - Issuer, audience, lifetime, and signature validation
+- ✅ **Security Hardening** - Enhanced configuration validation
+- ✅ **Swagger JWT Integration** - Interactive authentication in API explorer
 
----
+## 🎯 Key Differences from Other Versions
 
-## 🚀 Key Features
+### What This Version Adds (vs Swagger)
 
-### 1. JWT Authentication
-- **Stateless tokens** for horizontal scaling
-- **HS256 signing** with secure key management
-- **60-minute expiration** (configurable)
-- **Automatic validation** via ASP.NET Core middleware
+**New Configuration** (`Configuration/JwtConfig.cs`)
+- JWT Bearer authentication setup
+- Token validation parameters
+- Authorization fallback policy
 
-### 2. FluentValidation
-- **28 validator unit tests** (100% coverage)
-- **Async validation** support (database lookups)
-- **Testable validators** (isolated from models)
-- **Complex rules** (conditional, cross-property)
+**Enhanced Security:**
+- All endpoints require authentication by default
+- Configurable token expiration
+- Issuer and audience validation
+- Minimum SecurityKey length enforcement (32 characters)
+- Clock skew set to zero for strict expiration
+- HTTPS metadata requirement
 
-### 3. Security Best Practices
-- ✅ HTTPS enforcement
-- ✅ Secure exception handling (no stack trace leaks)
-- ✅ Defensive configuration validation
-- ✅ Azure Key Vault integration ready
+**Swagger Enhancements:**
+- JWT security scheme in OpenAPI spec
+- "Authorize" button in Swagger UI
+- Bearer token input field
+- Automatic token inclusion in requests
 
----
+### Version Comparison
 
-## 📊 Architecture Highlights
+| Feature | Swagger | **This Version (JWT)** | Docker |
+|---------|---------|------------------------|--------|
+| Authentication | ❌ | ✅ JWT Bearer | ✅ JWT Bearer |
+| Authorization Policy | ❌ | ✅ Fallback Policy | ✅ Fallback Policy |
+| Token Validation | ❌ | ✅ Full validation | ✅ Full validation |
+| Swagger Auth UI | ❌ | ✅ Interactive | ✅ Interactive |
+| Containerization | ❌ | ❌ | ✅ Docker |
 
-### Clean Architecture Layers
-
-```
-┌─────────────────────────────────────┐
-│   DemoApi.Api (Presentation)        │  ← Controllers, Middleware
-├─────────────────────────────────────┤
-│   DemoApi.Application (Use Cases)   │  ← Services, Validators
-├─────────────────────────────────────┤
-│   DemoApi.Domain (Business Logic)   │  ← Entities, Interfaces
-├─────────────────────────────────────┤
-│   DemoApi.Infra (Infrastructure)    │  ← Repositories, Data Access
-└─────────────────────────────────────┘
-```
-
-### Request Pipeline
-
-```
-HTTP Request
-    ↓
-ExceptionMiddleware (global error handling)
-    ↓
-Authentication (JWT validation)
-    ↓
-Authorization (claims verification)
-    ↓
-FluentValidation (input validation)
-    ↓
-Controller → Service → Repository
-    ↓
-HTTP Response
-```
-
----
-
-## 🔐 Getting Started
+## 🚀 Running This Version
 
 ### Prerequisites
-- .NET 8 SDK
-- Visual Studio 2022 / VS Code / Rider
+- .NET 10.0 SDK or later
+- Visual Studio 2026 (v19.0+) or VS Code with C# extension
+- A JWT secret key (32+ characters)
 
-### Configuration
+### Configuration Setup
 
-**appsettings.json**:
+Before running, configure JWT settings in `src/DemoApi.Api/appsettings.json`:
+
 ```json
 {
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
   "Authorization": {
-    "SecurityKey": "your-32-character-minimum-secret-key-here",
+    "SecurityKey": "your-super-secret-key-min-32-characters-long",
     "Sender": "DemoApi",
     "ValidOn": "https://localhost:5001",
     "ExpirationMinutes": 60
@@ -93,283 +75,341 @@ HTTP Response
 }
 ```
 
-⚠️ **Tip to Production**: Store `SecurityKey` in **Azure Key Vault** or **AWS Secrets Manager**
+**Configuration Parameters:**
 
-### Run the API
+| Parameter | Description | Example | Required |
+|-----------|-------------|---------|----------|
+| `SecurityKey` | JWT signing key (min 32 chars) | `"my-secret-key-..."` | ✅ Yes |
+| `Sender` | Token issuer (iss claim) | `"DemoApi"` | ✅ Yes |
+| `ValidOn` | Token audience (aud claim) | `"https://localhost:5001"` | ✅ Yes |
+| `ExpirationMinutes` | Token lifetime | `60` | ✅ Yes |
 
-```bash
+**Security Validations:**
+- ✅ Configuration section must exist
+- ✅ SecurityKey cannot be null or empty
+- ✅ SecurityKey minimum length: 32 characters
+- ✅ All required fields validated at startup
+
+### Quick Start
+
+```powershell
+# Navigate to this version's directory
+cd d:\Projects\Git\lucasbarbosa\demo-api\core\swagger-jwt
+
 # Restore dependencies
 dotnet restore
 
-# Build solution
+# Build the solution
 dotnet build
 
-# Run API (default: https://localhost:5001)
-dotnet run --project src/DemoApi.Api
-
 # Run tests
+dotnet test --no-build
+
+# Run the API
+cd src\DemoApi.Api
+dotnet run
+```
+
+### Access the API
+
+- **HTTPS**: `https://localhost:5001`
+- **HTTP**: `http://localhost:5000`
+- **Swagger UI**: `https://localhost:5001/swagger`
+
+## 🔐 Authentication Flow
+
+### 1. Generate JWT Token
+
+**Note**: This demo does not include a `/auth/login` endpoint. In production, you would:
+1. Implement authentication endpoint
+2. Validate user credentials
+3. Generate token with claims
+4. Return token to client
+
+**Sample Token Generation (for testing):**
+
+You can use online JWT tools like [jwt.io](https://jwt.io/) or create a token programmatically:
+
+```csharp
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+
+var securityKey = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes("your-super-secret-key-min-32-characters-long"));
+
+var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+var token = new JwtSecurityToken(
+    issuer: "DemoApi",
+    audience: "https://localhost:5001",
+    claims: new[]
+    {
+        new Claim(ClaimTypes.Name, "TestUser"),
+        new Claim(ClaimTypes.Role, "Admin")
+    },
+    expires: DateTime.UtcNow.AddMinutes(60),
+    signingCredentials: credentials
+);
+
+string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+Console.WriteLine(tokenString);
+```
+
+### 2. Using the Token with Swagger UI
+
+1. Navigate to `https://localhost:5001/swagger`
+2. Click the **"Authorize"** button (top right)
+3. Enter: `Bearer {your-token-here}` (including the word "Bearer")
+4. Click **"Authorize"**
+5. All subsequent requests will include the token
+
+### 3. Using the Token with cURL
+
+```powershell
+# Get all products (with authentication)
+curl -H "Authorization: Bearer {your-token}" https://localhost:5001/api/v1/products
+
+# Create a product (with authentication)
+curl -X POST https://localhost:5001/api/v1/products `
+  -H "Content-Type: application/json" `
+  -H "Authorization: Bearer {your-token}" `
+  -d '{"name": "Authenticated Product", "weight": 5.5}'
+```
+
+### 4. Response Without Token
+
+If you attempt to access an endpoint without a token:
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7235#section-3.1",
+  "title": "Unauthorized",
+  "status": 401,
+  "traceId": "00-..."
+}
+```
+
+### 5. Response With Invalid Token
+
+If the token is expired, malformed, or has invalid signature:
+
+```json
+{
+  "type": "https://tools.ietf.org/html/rfc7235#section-3.1",
+  "title": "Unauthorized",
+  "status": 401,
+  "traceId": "00-..."
+}
+```
+
+## 🛡️ Security Features
+
+### JWT Configuration (`JwtConfig.cs`)
+
+**Authentication Setup:**
+```csharp
+services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;  // Enforce HTTPS in production
+    options.SaveToken = true;             // Save token in AuthenticationProperties
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,           // Validate 'iss' claim
+        ValidateAudience = true,         // Validate 'aud' claim
+        ValidateIssuerSigningKey = true, // Validate signature
+        ValidateLifetime = true,         // Validate expiration
+        ClockSkew = TimeSpan.Zero,       // No grace period for expiration
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidAudience = authorization.ValidOn,
+        ValidIssuer = authorization.Sender
+    };
+});
+```
+
+### Authorization Fallback Policy
+
+**Secure by Default:**
+```csharp
+services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+```
+
+This ensures:
+- ✅ All endpoints require authentication unless explicitly marked `[AllowAnonymous]`
+- ✅ Prevents accidental exposure of sensitive endpoints
+- ✅ Follows principle of "secure by default"
+
+### Configuration Validation
+
+`JwtConfig.cs` validates configuration at startup:
+
+```csharp
+// 1. Configuration section exists
+if (authorization is null)
+    throw new InvalidOperationException("JWT Authorization settings are missing...");
+
+// 2. SecurityKey is not empty
+if (string.IsNullOrWhiteSpace(authorization.SecurityKey))
+    throw new InvalidOperationException("JWT SecurityKey is required...");
+
+// 3. SecurityKey minimum length
+if (authorization.SecurityKey.Length < 32)
+    throw new InvalidOperationException("JWT SecurityKey must be at least 32 characters...");
+```
+
+**Benefits:**
+- Fails fast at startup (not at runtime)
+- Clear error messages for missing configuration
+- Enforces security best practices
+
+## 🧪 Testing
+
+### Run All Tests
+```powershell
 dotnet test
 ```
 
----
+**Note**: The test suite uses `WebApplicationFactory` which may require modifications for JWT testing. Consider:
+- Adding a test authentication handler
+- Generating test tokens in integration tests
+- Mocking JWT validation for unit tests
 
-## 🔑 Authentication Flow
+### Testing with Authentication
 
-### 1. Get JWT Token
+**Integration Test Example:**
+```csharp
+// Generate test token
+var testToken = GenerateTestToken();
 
-**Request**:
-```http
-POST /api/v1/auth/token
-X-Security-Key: your-32-character-minimum-secret-key-here
+// Add to HTTP client
+_client.DefaultRequestHeaders.Authorization = 
+    new AuthenticationHeaderValue("Bearer", testToken);
+
+// Make authenticated request
+var response = await _client.GetAsync("/api/v1/products");
 ```
 
-**Response** (200 OK):
+## 📚 API Endpoints
+
+All endpoints from the [Swagger version](../swagger/README.md#api-endpoints) remain the same, but now **require authentication**.
+
+### Authorization Headers
+
+Every request must include:
+```
+Authorization: Bearer {jwt-token}
+```
+
+### Swagger UI Integration
+
+The Swagger documentation now includes:
+- 🔒 Padlock icon on secured endpoints (all endpoints)
+- 🔑 "Authorize" button for token input
+- Automatic authorization header injection
+- Security scheme definition in OpenAPI spec
+
+## ⚙️ Configuration Files
+
+### appsettings.json (with JWT)
+
 ```json
 {
-  "success": true,
-  "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "tokenType": "Bearer",
-    "expiresIn": 3600,
-    "created": "2024-01-15T10:30:00Z",
-    "expires": "2024-01-15T11:30:00Z"
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Authorization": {
+    "SecurityKey": "production-key-should-be-from-env-variables",
+    "Sender": "DemoApi",
+    "ValidOn": "https://yourdomain.com",
+    "ExpirationMinutes": 60
   }
 }
 ```
 
-### 2. Use Token in Requests
+### Environment Variables (Production)
 
-**Request**:
-```http
-GET /api/v1/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+**Never commit secrets to source control!** Use environment variables:
+
+```powershell
+$env:Authorization__SecurityKey = "your-production-secret-key"
+$env:Authorization__Sender = "ProductionApi"
+$env:Authorization__ValidOn = "https://api.production.com"
 ```
 
----
-
-## 📝 API Endpoints
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| **POST** | `/api/v1/auth/token` | ❌ | Generate JWT token |
-| **GET** | `/api/v1/products` | ✅ | List all products |
-| **GET** | `/api/v1/products/{id}` | ✅ | Get product by ID |
-| **POST** | `/api/v1/products` | ✅ | Create new product |
-| **PUT** | `/api/v1/products` | ✅ | Update product |
-| **DELETE** | `/api/v1/products/{id}` | ✅ | Delete product |
-
----
-
-## ✅ Validation Example
-
-### Request (Invalid Product)
-
-```http
-POST /api/v1/products
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "name": "",
-  "weight": -5
-}
-```
-
-### Response (412 Precondition Failed)
-
-```json
-{
-  "success": false,
-  "data": null,
-  "errors": [
-    "Name is required",
-    "Weight must be greater than 0"
-  ]
-}
-```
-
-### Validator Implementation
+### Program.cs Changes
 
 ```csharp
-public class ProductValidator : AbstractValidator<ProductViewModel>
-{
-    public ProductValidator()
-    {
-        RuleFor(p => p.Name)
-            .NotEmpty()
-            .WithMessage("Name is required");
+builder.Services.AddJwtConfig(builder.Configuration);  // NEW
 
-        RuleFor(p => p.Weight)
-            .GreaterThan(0)
-            .WithMessage("Weight must be greater than 0");
-    }
-}
+builder.Services.AddDependencyInjectionConfig();
+builder.Services.AddApiConfig();
+
+WebApplication app = builder.Build();
+
+app.UseApiConfig(app.Environment);
+app.UseJwtConfig();  // NEW - Adds UseAuthentication() + UseAuthorization()
+app.MapControllers();
 ```
 
----
+## 🏗️ Architecture Changes
 
-## 🧪 Testing
-
-### Test Coverage
-
-| Layer | Tests | Coverage |
-|-------|-------|----------|
-| **Validators** | 28 | 100% |
-| **Unit (Application)** | 48 | ~85% |
-| **Integration (API)** | 67 | ~80% |
-| **Total** | **115** | **~85%** |
-
-### Run Tests
-
-```bash
-# All tests
-dotnet test
-
-# With coverage
-dotnet test --collect:"XPlat Code Coverage"
-
-# Specific test project
-dotnet test tests/DemoApi.Application.Test
-dotnet test tests/DemoApi.Api.Test
-```
-
-### Example Test
-
-```csharp
-[Fact]
-public async Task Create_ShouldReturnCreated_WhenProductIsValid()
-{
-    // Arrange
-    HttpClient client = await GetAuthenticatedClient();
-    ProductViewModel product = new() { Name = "Test Product", Weight = 10.5 };
-
-    // Act
-    var response = await client.PostAsJsonAsync("/api/v1/products", product);
-
-    // Assert
-    response.StatusCode.Should().Be(HttpStatusCode.Created);
-}
-```
-
----
-
-## 🔒 Security Features
-
-### OWASP Top 10 Coverage
-
-| Risk | Mitigation |
-|------|------------|
-| **A01 - Broken Access Control** | JWT authentication on all endpoints (except `/auth/token`) |
-| **A02 - Cryptographic Failures** | ≥32 character keys, HS256 algorithm |
-| **A03 - Injection** | FluentValidation sanitizes all inputs |
-| **A04 - Insecure Design** | Fail-fast validation, defensive programming |
-| **A05 - Security Misconfiguration** | `RequireHttpsMetadata=true`, `ClockSkew=0` |
-| **A07 - Authentication Failures** | Short token expiration (60 min) |
-| **A08 - Data Integrity** | Signed JWTs (HS256), tampering detection |
-| **A09 - Logging Failures** | NLog structured logging (sanitized) |
-
-### Security Checklist
-
-**Pre-Production**:
-- [ ] Rotate default `SecurityKey`
-- [ ] Enable HTTPS redirect
-- [ ] Configure CORS policies
-- [ ] Enable rate limiting
-- [ ] Store secrets in Key Vault
-- [ ] Test with OWASP ZAP
-
----
-
-## 📦 Technology Stack
-
-| Component | Version | Purpose |
-|-----------|---------|---------|
-| **.NET** | 8.0 | Framework (LTS) |
-| **C#** | 12.0 | Language |
-| **FluentValidation** | 12.1.1 | Input validation |
-| **JWT Bearer** | Built-in | Authentication |
-| **xUnit** | 2.5.3 | Testing framework |
-| **FluentAssertions** | 8.8.0 | Test assertions |
-| **NLog** | 5.x | Logging |
-| **Swagger/OpenAPI** | 3.0 | API documentation |
-
----
-
-## 🏗️ Project Structure
+### New Files
 
 ```
-swagger-jwt/
-├── src/
-│   ├── DemoApi.Api/              # Presentation layer
-│   │   ├── Controllers/          # API endpoints
-│   │   ├── Configuration/        # JWT, DI, Swagger
-│   │   └── Extensions/           # Middleware
-│   ├── DemoApi.Application/      # Business logic
-│   │   ├── Services/             # Use cases
-│   │   └── Validators/           # FluentValidation rules
-│   ├── DemoApi.Domain/           # Domain entities
-│   └── DemoApi.Infra.Data/       # Data access
-│
-├── tests/
-│   ├── DemoApi.Api.Test/         # Integration tests (67)
-│   └── DemoApi.Application.Test/ # Unit tests (48)
-│
-└── docs/
-    ├── README.md                 # Full documentation
-    └── QUICK_START.md            # This file
+src/DemoApi.Api/
+├── Configuration/
+│   └── JwtConfig.cs          # NEW: JWT authentication configuration
+└── Extensions/
+    └── AuthorizationSettings.cs  # NEW: Configuration model (if separate)
 ```
 
----
+### Modified Files
 
-## 🎯 Key Architectural Decisions
+- `Program.cs` - Added JWT configuration
+- `SwaggerConfig.cs` - Added JWT security definition (if modified)
 
-### Why JWT over Sessions?
-- ✅ **Stateless** (no server-side storage)
-- ✅ **Scalable** (no session affinity)
-- ✅ **Mobile-friendly** (native token support)
-- ✅ **Cloud-native** (horizontal scaling)
+### Middleware Pipeline Order
 
-### Why FluentValidation over Data Annotations?
-- ✅ **Separation of concerns** (clean models)
-- ✅ **Testable** (isolated validator tests)
-- ✅ **Complex rules** (async, conditional, cross-property)
-- ✅ **Reusable** (inheritance, composition)
+Critical: Authentication must come **before** authorization:
 
----
+1. Exception Middleware
+2. HTTPS Redirection
+3. **Authentication** (`app.UseAuthentication()`)  ⬅️ NEW
+4. **Authorization** (`app.UseAuthorization()`)    ⬅️ Changed order
+5. Controllers
+6. Swagger UI
 
-## 📈 Performance
+## 📈 What's Next?
 
-| Operation | Latency | Notes |
-|-----------|---------|-------|
-| Token Generation | ~2-5ms | One-time per session |
-| Token Validation | ~0.5-1ms | Cached, per request |
-| FluentValidation | ~0.1-0.5ms | Per request |
-| Total Overhead | **+1-2ms** | Acceptable for security |
+To see this implementation containerized for production deployment:
 
-**Scalability**: Supports horizontal scaling (stateless tokens)
+👉 **[Swagger + JWT + Docker Version](../swagger-jwt-docker/README.md)**
 
----
-
-## 📚 Documentation
-
-- **Full Architecture Guide**: [README.md](../../README.md)
-- **JWT Authentication Strategy**: [docs/JWT_AUTHENTICATION.md](./docs/JWT_AUTHENTICATION.md)
-- **FluentValidation Guide**: [docs/FLUENTVALIDATION_GUIDE.md](./docs/FLUENTVALIDATION_GUIDE.md)
-- **Security Best Practices**: [docs/SECURITY_BEST_PRACTICES.md](./docs/SECURITY_BEST_PRACTICES.md)
+This adds:
+- Multi-stage Docker builds
+- Docker Compose orchestration
+- Production container optimization
+- Security hardening (non-root user)
 
 ---
 
-## 📄 License
+**For comprehensive architectural documentation, see:**  
+📘 [Root README](../../README.md)
 
-MIT License - See [LICENSE](../LICENSE) for details
-
----
-
-## 📧 Contact
-
-- **Author**: Lucas Barbosa
-- **Repository**: [github.com/lucasbarbosa/demo-api](https://github.com/lucasbarbosa/demo-api)
-
----
-
-**Built with .NET 8 | C# 12 | Clean Architecture | JWT | FluentValidation**
+**For the base implementation without authentication:**  
+📘 [Swagger Version README](../swagger/README.md)

@@ -1,316 +1,539 @@
-﻿# Demo API - Architecture Documentation
+﻿# 🚀 Demo API - Enterprise .NET Architecture Portfolio
 
-[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
-[![C#](https://img.shields.io/badge/C%23-12.0-239120?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)]()
-[![Test Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen)]()
-[![Tests](https://img.shields.io/badge/Tests-53%20Passed-success)]()
+> **A progressive demonstration of Clean Architecture, SOLID principles, and modern .NET best practices through three incrementally enhanced REST API implementations.**
 
-A demonstration RESTful API built with **.NET 8** showcasing enterprise-grade software architecture patterns, clean code principles, and industry best practices. This project serves as a reference implementation for building scalable, maintainable, and testable Web APIs.
+[![.NET Version](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![C# Version](https://img.shields.io/badge/C%23-14.0-239120?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-blue)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 
----
+## 📋 Overview
 
-## 📋 Table of Contents
+This repository showcases **enterprise-grade .NET development** through three progressively enhanced versions of the same REST API. Each version builds upon the previous one, demonstrating different aspects of production-ready application development:
 
-- [Architecture Overview](#architecture-overview)
-- [Project Structure](#project-structure)
-- [Design Patterns & Principles](#design-patterns--principles)
-- [Layer Responsibilities](#layer-responsibilities)
-- [API Design](#api-design)
-- [Testing Strategy](#testing-strategy)
-- [Technologies & Libraries](#technologies--libraries)
-- [Getting Started](#getting-started)
-- [API Endpoints](#api-endpoints)
+1. **Core API with Swagger** - Foundation implementation featuring Clean Architecture, comprehensive validation, and API documentation
+2. **JWT Authentication** - Adds enterprise security with JWT Bearer tokens and authorization policies
+3. **Docker Deployment** - Production-ready containerization with multi-stage builds and security hardening
 
----
+The project implements a simple Product Management API with full CRUD operations, serving as a vehicle to demonstrate advanced architectural patterns, testing strategies, and DevOps practices. Every architectural decision is intentional, verifiable in the codebase, and represents industry best practices suitable for large-scale enterprise applications.
 
-## 🏗️ Architecture Overview
+## 🏗️ Architecture
 
-This project implements a **Clean Architecture** (also known as Onion Architecture), enforcing a strict separation of concerns where the **Domain** is the heart of the software.
+### Clean Architecture Implementation
 
-### Dependency Inversion Principle (DIP)
-
-A key characteristic of this architecture is the application of the **Dependency Inversion Principle**. 
-- The **Domain Layer** defines the contracts (Interfaces) for data persistence and other external services.
-- The **Infrastructure Layer** depends on the Domain and implements these interfaces.
-- The **Application Layer** depends only on the Domain and abstractions, never on concrete infrastructure details.
-
-This ensures that the core business logic remains agnostic to external technologies (like databases or APIs), making the system highly testable and adaptable.
-
-### Architectural Diagram
+This project implements **Clean Architecture** (Onion Architecture) with strict separation of concerns and dependency inversion. The architecture enforces that dependencies flow inward toward the Domain layer, never outward.
 
 ```mermaid
 graph TD
-    subgraph Presentation [Presentation Layer]
-        API[DemoApi.Api]
-    end
-
-    subgraph Application [Application Layer]
-        App[DemoApi.Application]
-    end
-
-    subgraph Domain [Domain Layer]
-        Dom[DemoApi.Domain]
-    end
-
-    subgraph Infrastructure [Infrastructure Layer]
-        Data[DemoApi.Infra.Data]
-        Cross[DemoApi.Infra.CrossCutting]
-    end
-
-    API --> App
-    API --> Cross
-    API --> Data
-    App --> Dom
-    Data --> Dom
-    Cross --> Dom
+    A[API Layer\n DemoApi.Api] -->|depends on| B[Application Layer\n DemoApi.Application]
+    A -->|depends on| C[Domain Layer\n DemoApi.Domain]
+    A -->|depends on| D[Infrastructure\n DemoApi.Infra.*]
+    B -->|depends on| C
+    D -->|depends on| C
+    B -.->|interfaces| C
+    D -.->|implements| C
+    
+    style C fill:#4CAF50,stroke:#2E7D32,color:#fff
+    style B fill:#2196F3,stroke:#1565C0,color:#fff
+    style A fill:#FF9800,stroke:#E65100,color:#fff
+    style D fill:#9C27B0,stroke:#6A1B9A,color:#fff
 ```
 
-*Note: The API references Infrastructure only for Dependency Injection (Composition Root).*
+### Layer Responsibilities
 
----
+#### **1. Domain Layer** (`DemoApi.Domain`)
+- **Purpose**: Core business logic and enterprise rules
+- **Dependencies**: None (pure .NET)
+- **Contains**:
+  - `Entities/` - Business entities (`Product`)
+  - `Interfaces/` - Core abstractions (`IProductRepository`, `INotificatorHandler`)
+  - `Handlers/` - Domain handlers (`NotificatorHandler` - Notification pattern implementation)
 
-## 📁 Project Structure
+**Key Implementation**: `INotificatorHandler` defines the contract for collecting business validation errors without throwing exceptions, enabling graceful error aggregation.
 
-```text
-src/
-├── DemoApi.Api/                    # Presentation Layer (Web API)
-│   ├── Configuration/              # DI, Swagger, AutoMapper setup
-│   ├── Controllers/                # API Endpoints
-│   └── Program.cs                  # Composition Root
+#### **2. Application Layer** (`DemoApi.Application`)
+- **Purpose**: Application business rules and use cases
+- **Dependencies**: Domain layer only
+- **Contains**:
+  - `Services/` - Application services (`ProductAppService`)
+  - `Interfaces/` - Service contracts (`IProductAppService`)
+  - `Models/` - DTOs and ViewModels (`ProductViewModel`, `ResponseViewModel`)
+  - `Validators/` - FluentValidation validators (`ProductValidator`)
+  - `Automapper/` - Object mapping configuration (`AutomapperConfig`)
+
+**Key Implementation**: `ProductAppService` orchestrates business workflows, leveraging `INotificatorHandler` for validation error collection and `IProductRepository` for data access through abstractions.
+
+#### **3. Infrastructure Layer** (`DemoApi.Infra.*`)
+- **Purpose**: External concerns and framework integrations
+- **Dependencies**: Domain layer (through interfaces)
+- **Sub-projects**:
+  - `DemoApi.Infra.Data` - Repository implementations (`ProductRepository`)
+  - `DemoApi.Infra.CrossCutting` - Cross-cutting concerns (logging with NLog)
+
+**Key Implementation**: `ProductRepository` implements `IProductRepository` from Domain, currently using in-memory storage (easily swappable for EF Core, Dapper, etc.).
+
+#### **4. API Layer** (`DemoApi.Api`)
+- **Purpose**: HTTP endpoints, middleware, and framework configuration
+- **Dependencies**: All layers (composition root)
+- **Contains**:
+  - `V1/Controllers/` - Versioned API controllers (`ProductController`)
+  - `Configuration/` - Startup configurations (`ApiConfig`, `SwaggerConfig`, `JwtConfig`, etc.)
+  - `Extensions/` - Custom middleware (`ExceptionMiddleware`, `FluentValidationFilter`, `ModelValidationFilter`)
+
+**Key Implementation**: `Program.cs` serves as the composition root, wiring up all dependencies using extension methods for clean, modular configuration.
+
+## ✨ Key Features
+
+### 🎯 Design Patterns Implemented
+
+- **Repository Pattern** - `IProductRepository` / `ProductRepository` for data access abstraction
+- **Notification Pattern** - `INotificatorHandler` / `NotificatorHandler` for error aggregation without exceptions
+- **Dependency Injection** - Native .NET DI container, configured in `DependencyInjectionConfig`
+- **Builder Pattern** - Test data builders (`ProductBuilder`, `ProductViewModelBuilder`) using Bogus library
+- **Middleware Pipeline** - Custom middleware for exception handling (`ExceptionMiddleware`)
+- **Action Filters** - Validation filters (`FluentValidationFilter`, `ModelValidationFilter`)
+
+### 📐 SOLID Principles Evidence
+
+**Single Responsibility Principle (SRP)**
+- Each configuration class handles one concern (`ApiConfig`, `SwaggerConfig`, `JwtConfig`, `NLogConfig`, `HostConfig`)
+- Validators are isolated per entity (`ProductValidator`)
+- Services have focused responsibilities (`ProductAppService`)
+
+**Open/Closed Principle (OCP)**
+- Repository pattern allows swapping data sources without modifying business logic
+- Middleware pipeline is extensible through configuration
+
+**Liskov Substitution Principle (LSP)**
+- Controllers inherit from `MainApiController` maintaining contract consistency
+- Repository implementations are fully substitutable
+
+**Interface Segregation Principle (ISP)**
+- Focused interfaces: `IProductRepository`, `IProductAppService`, `INotificatorHandler`
+- No fat interfaces forcing unnecessary implementations
+
+**Dependency Inversion Principle (DIP)**
+- High-level modules (Application, API) depend on abstractions (Domain interfaces)
+- `Program.cs` demonstrates DIP: API depends on `IProductRepository` abstraction, not concrete `ProductRepository`
+
+### 🛡️ Security Features
+
+**Server Hardening** (`HostConfig.cs`)
+```csharp
+builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+```
+- Removes `Server` header to prevent information disclosure
+
+**JWT Authentication** (swagger-jwt and swagger-jwt-docker versions)
+- Bearer token authentication with symmetric key signing
+- Configurable issuer, audience, and expiration
+- **Fallback Policy** - Requires authentication by default for all endpoints
+```csharp
+services.AddAuthorization(options => {
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+});
+```
+
+**Scope Validation** (`DependencyInjectionConfig`)
+- `ValidateScopes` and `ValidateOnBuild` enabled for dependency injection
+
+### ✅ Validation Strategy
+
+**Multi-Layer Validation Approach**
+
+1. **FluentValidation** (Preferred) - `ProductValidator`
+   - Declarative validation rules
+   - Testable and reusable
+   - Registered via `FluentValidationFilter`
+
+2. **ModelState Validation** - `ModelValidationFilter`
+   - Framework-level validation fallback
+   - Suppressed default behavior for custom error responses
+
+3. **Business Validation** - `INotificatorHandler`
+   - Domain-specific rules in `ProductAppService`
+   - Non-exception-based error collection
+
+### 🧪 Testing Strategy
+
+**Three-Tier Testing Approach**
+
+#### **Unit Tests** (`DemoApi.Application.Tests`)
+- **Framework**: xUnit, Moq, FluentAssertions
+- **Pattern**: Arrange-Act-Assert
+- **Coverage**: Application services with mocked dependencies
+- **Test Data**: Builder pattern with Bogus library
+- **Examples**: `CreateProductTests`, `UpdateProductTests`, `DeleteProductTests`, `GetProductTests`
+
+**Sample Test Structure:**
+```csharp
+[Fact]
+public async Task Create_ShouldReturnProduct_WhenRepositoryCreatesSuccessfully()
+{
+    // Arrange - Setup mocks and test data using ProductBuilder
+    // Act - Execute the service method
+    // Assert - Verify results with FluentAssertions and Moq.Verify
+}
+```
+
+#### **API Tests** (`DemoApi.Api.Tests`)
+- **Framework**: xUnit, WebApplicationFactory, FluentAssertions
+- **Pattern**: Integration testing with in-memory server
+- **Coverage**: End-to-end API flows
+- **Examples**: `ProductApiTests`, `ProductValidationTests`
+
+**Key Component**: `CustomWebApplicationFactory` - Configures test server with real middleware pipeline
+
+#### **Test Builders** (`DemoApi.Tests.Builders`)
+- **Purpose**: Fluent test data generation
+- **Library**: Bogus (realistic fake data)
+- **Builders**: `ProductBuilder`, `ProductViewModelBuilder`
+- **Pattern**: Fluent interface for flexible test setup
+
+**Example:**
+```csharp
+Product product = ProductBuilder.New()
+    .WithName("Custom Product")
+    .WithWeight(5.5)
+    .Build();
+```
+
+### 📚 API Documentation
+
+**OpenAPI/Swagger Implementation**
+
+- **Package**: Swashbuckle.AspNetCore (v6.6.2)
+- **Configuration**: `SwaggerConfig` with API versioning support
+- **Features**:
+  - Interactive API explorer at `/swagger`
+  - JWT authentication scheme (in jwt versions)
+  - XML comments support (if enabled)
+  - Versioned endpoints documentation
+
+### 🔄 API Versioning
+
+**Asp.Versioning.Mvc** (v8.1.1)
+
+- **URL Segment**: `/api/v{version}/products`
+- **Header**: `X-Api-Version: 1.0`
+- **Query String**: `?api-version=1.0`
+- **Default Version**: v1.0
+- **Configuration**: `ApiConfig.AddApiConfig()`
+
+### 📦 Package Management
+
+**Central Package Management** (`Directory.Packages.props`)
+
+All three versions share consistent package versions:
+- **AutoMapper**: 16.0.0
+- **FluentValidation**: 12.1.1
+- **Asp.Versioning.Mvc**: 8.1.1
+- **Swashbuckle.AspNetCore**: 6.6.2
+- **NLog.Web.AspNetCore**: 6.1.0
+- **Moq**: 4.20.72
+- **FluentAssertions**: 8.8.0
+- **Bogus**: 35.6.5
+- **xUnit**: 2.9.3
+- **Microsoft.NET.Test.Sdk**: 18.0.1
+
+### 📝 Structured Logging
+
+**NLog Integration** (`NLogConfig`, `nlog.config`)
+
+- Structured logging to file and console
+- Request/response logging
+- Exception logging with stack traces
+- Configurable log levels per environment
+
+## 🏛️ Project Versions Comparison
+
+| Feature | Swagger | Swagger + JWT | Swagger + JWT + Docker |
+|---------|---------|---------------|------------------------|
+| **Clean Architecture** | ✅ | ✅ | ✅ |
+| **SOLID Principles** | ✅ | ✅ | ✅ |
+| **Repository Pattern** | ✅ | ✅ | ✅ |
+| **Notification Pattern** | ✅ | ✅ | ✅ |
+| **FluentValidation** | ✅ | ✅ | ✅ |
+| **AutoMapper** | ✅ | ✅ | ✅ |
+| **API Versioning** | ✅ | ✅ | ✅ |
+| **Swagger/OpenAPI** | ✅ | ✅ | ✅ |
+| **NLog Logging** | ✅ | ✅ | ✅ |
+| **Unit Tests** | ✅ | ✅ | ✅ |
+| **Integration Tests** | ✅ | ✅ | ✅ |
+| **Test Builders (Bogus)** | ✅ | ✅ | ✅ |
+| **JWT Authentication** | ❌ | ✅ | ✅ |
+| **Authorization Fallback Policy** | ❌ | ✅ | ✅ |
+| **Docker Support** | ❌ | ❌ | ✅ |
+| **Multi-stage Build** | ❌ | ❌ | ✅ |
+| **Docker Compose** | ❌ | ❌ | ✅ |
+| **Non-root User** | ❌ | ❌ | ✅ |
+
+## 🧱 Project Structure
+
+```
+demo-api/
+├── core/
+│   ├── swagger/                          # Version 1: Base Implementation
+│   │   ├── src/
+│   │   │   ├── DemoApi.Api/              # 🌐 API Layer (.NET 10.0)
+│   │   │   │   ├── Configuration/        # Startup configs (5 files)
+│   │   │   │   │   ├── ApiConfig.cs      # API setup, versioning, filters
+│   │   │   │   │   ├── SwaggerConfig.cs  # OpenAPI documentation
+│   │   │   │   │   ├── HostConfig.cs     # Kestrel hardening
+│   │   │   │   │   ├── NLogConfig.cs     # Logging configuration
+│   │   │   │   │   └── DependencyInjectionConfig.cs
+│   │   │   │   ├── Controllers/          # Base controller
+│   │   │   │   │   └── MainApiController.cs
+│   │   │   │   ├── V1/Controllers/       # Versioned endpoints
+│   │   │   │   │   └── ProductController.cs
+│   │   │   │   ├── Extensions/           # Middleware & Filters
+│   │   │   │   │   ├── ExceptionMiddleware.cs
+│   │   │   │   │   ├── FluentValidationFilter.cs
+│   │   │   │   │   └── ModelValidationFilter.cs
+│   │   │   │   ├── Program.cs            # Composition root
+│   │   │   │   └── appsettings.json
+│   │   │   ├── DemoApi.Application/      # 📋 Application Layer
+│   │   │   │   ├── Services/
+│   │   │   │   │   ├── ProductAppService.cs
+│   │   │   │   │   └── BaseServices.cs
+│   │   │   │   ├── Interfaces/
+│   │   │   │   │   └── IProductAppService.cs
+│   │   │   │   ├── Models/
+│   │   │   │   │   ├── Products/
+│   │   │   │   │   │   ├── ProductViewModel.cs
+│   │   │   │   │   │   ├── ProductResponse.cs
+│   │   │   │   │   │   └── ProductListResponse.cs
+│   │   │   │   │   └── ResponseViewModel.cs
+│   │   │   │   ├── Validators/
+│   │   │   │   │   └── Products/
+│   │   │   │   │       └── ProductValidator.cs
+│   │   │   │   └── Automapper/
+│   │   │   │       └── AutomapperConfig.cs
+│   │   │   ├── DemoApi.Domain/           # 🧠 Domain Layer
+│   │   │   │   ├── Entities/
+│   │   │   │   │   ├── Product.cs
+│   │   │   │   │   └── Notification.cs
+│   │   │   │   ├── Interfaces/
+│   │   │   │   │   ├── IProductRepository.cs
+│   │   │   │   │   ├── INotificatorHandler.cs
+│   │   │   │   │   └── IRepository.cs
+│   │   │   │   └── Handlers/
+│   │   │   │       └── NotificatorHandler.cs
+│   │   │   ├── DemoApi.Infra/            # 🗄️ Data Infrastructure
+│   │   │   │   └── Repositories/
+│   │   │   │       └── ProductRepository.cs
+│   │   │   └── DemoApi.Infra.CrossCutting/ # 🔧 Cross-cutting
+│   │   │       ├── Logging/
+│   │   │       │   └── LoggingService.cs
+│   │   │       ├── Interfaces/
+│   │   │       │   └── INotificator.cs
+│   │   │       └── nlog.config
+│   │   ├── tests/
+│   │   │   ├── DemoApi.Application.Tests/  # Unit Tests
+│   │   │   │   └── Products/
+│   │   │   │       ├── CreateProductTests.cs
+│   │   │   │       ├── UpdateProductTests.cs
+│   │   │   │       ├── DeleteProductTests.cs
+│   │   │   │       ├── GetProductTests.cs
+│   │   │   │       └── ProductTests.cs (base class)
+│   │   │   ├── DemoApi.Api.Tests/          # Integration Tests
+│   │   │   │   ├── Products/
+│   │   │   │   │   ├── ProductApiTests.cs
+│   │   │   │   │   ├── CreateProductTests.cs
+│   │   │   │   │   ├── UpdateProductTests.cs
+│   │   │   │   │   ├── DeleteProductTests.cs
+│   │   │   │   │   ├── GetProductTests.cs
+│   │   │   │   │   └── ProductValidationTests.cs
+│   │   │   │   └── Common/
+│   │   │   │       ├── Factories/
+│   │   │   │       │   └── CustomWebApplicationFactory.cs
+│   │   │   │       └── Configuration/
+│   │   │   └── DemoApi.Tests.Builders/     # Test Data Builders
+│   │   │       └── Products/
+│   │   │           ├── ProductBuilder.cs
+│   │   │           └── ProductViewModelBuilder.cs
+│   │   ├── Directory.Packages.props        # Central package versions
+│   │   └── DemoApi.sln
+│   │
+│   ├── swagger-jwt/                       # Version 2: + JWT Auth
+│   │   ├── src/DemoApi.Api/Configuration/
+│   │   │   └── JwtConfig.cs               # ⚡ NEW: JWT authentication
+│   │   └── (same structure as swagger)
+│   │
+│   └── swagger-jwt-docker/                # Version 3: + Containerization
+│       ├── docker/
+│       │   ├── Dockerfile                 # ⚡ NEW: Multi-stage build
+│       │   └── docker-compose.yml         # ⚡ NEW: Orchestration
+│       ├── .dockerignore
+│       └── (same structure as swagger-jwt)
 │
-├── DemoApi.Application/            # Application Layer
-│   ├── Services/                   # Business orchestration
-│   ├── Models/                     # ViewModels/DTOs
-│   └── Automapper/                 # Mapping profiles
-│
-├── DemoApi.Domain/                 # Domain Layer (Core)
-│   ├── Entities/                   # Business Objects
-│   ├── Interfaces/                 # Repository & Service Contracts
-│   └── Handlers/                   # Notification Handler
-│
-├── DemoApi.Infra.Data/             # Infrastructure Layer
-│   └── Repositories/               # Data access implementation
-│
-└── DemoApi.Infra.CrossCutting/     # Cross-Cutting Concerns
-    └── Logging/                    # Logger implementation
-
-tests/
-├── DemoApi.Api.Test/               # Integration Tests
-│   └── Factories/                  # WebApplicationFactory setup
-│
-└── DemoApi.Application.Test/       # Unit Tests
-    └── Products/                   # Service logic tests
+└── README.md                              # This file
 ```
 
----
+## 🚀 Getting Started
 
-## 🎨 Design Patterns & Principles
+### Prerequisites
 
-### SOLID Principles
+- **.NET 10.0 SDK** or later
+- **Visual Studio 2026** (v19.0+) or **Visual Studio Code** with C# extension
+- **Docker Desktop** (for swagger-jwt-docker version only)
+- **Git** for cloning the repository
 
-| Principle | Implementation |
-|-----------|----------------|
-| **Single Responsibility (SRP)** | Each class has one reason to change. Controllers handle HTTP, Services handle business logic, Repositories handle data access. |
-| **Open/Closed (OCP)** | Classes are open for extension but closed for modification through abstractions and interfaces. |
-| **Liskov Substitution (LSP)** | Derived classes can substitute base classes. `ProductRepository` implements `IProductRepository`. |
-| **Interface Segregation (ISP)** | Clients depend only on interfaces they use. `IProductRepository` is specific to Product operations. |
-| **Dependency Inversion (DIP)** | High-level modules depend on abstractions. Controllers depend on `IProductAppService`, not concrete implementations. |
+### Quick Start - Swagger Version
 
-### Key Patterns Implemented
+```powershell
+# Clone the repository
+git clone https://github.com/lucasbarbosa/demo-api.git
+cd demo-api/core/swagger
 
-#### 1. **Repository Pattern**
-Abstracts the data access logic. The domain defines `IProductRepository`, and the infrastructure implements it.
-*Current implementation uses an In-Memory storage for demonstration purposes, but can be easily swapped for Entity Framework Core or Dapper without changing a single line of business logic.*
+# Restore dependencies (uses Central Package Management)
+dotnet restore
 
-```csharp
-public interface IProductRepository
-{
-    Task<IList<Product>> GetAll();
-    Task<Product?> GetById(uint id);
-    Task<Product> Create(Product product);
-    // ...
-}
+# Build the solution
+dotnet build
+
+# Run tests
+dotnet test --no-build
+
+# Run the API
+cd src/DemoApi.Api
+dotnet run
+
+# Access Swagger UI
+# Navigate to: https://localhost:5001/swagger
 ```
 
-#### 2. **Notification Pattern (Domain Notifications)**
-Instead of throwing exceptions for business validation errors (which is costly and breaks control flow), the project uses a `NotificatorHandler`.
-- Errors are accumulated during the request.
-- The controller checks for notifications before returning a response.
-- Result: Consistent HTTP 400/422 responses with a standard error format.
+### Quick Start - JWT Version
 
-```csharp
-public class NotificatorHandler : INotificatorHandler
-{
-    private readonly List<Notification> _errors;
-    // ...
-    public void AddError(string error)
-    {
-        _errors.Add(new Notification(error));
-    }
-}
+```powershell
+cd demo-api/core/swagger-jwt
+
+# Configure JWT settings (appsettings.json)
+# Add Authorization section with SecurityKey, Sender, ValidOn, ExpirationMinutes
+
+dotnet restore
+dotnet build
+dotnet test
+cd src/DemoApi.Api
+dotnet run
+
+# Access Swagger UI with JWT support
+# Navigate to: https://localhost:5001/swagger
+# Click "Authorize" and enter: Bearer {your-jwt-token}
 ```
 
-#### 3. **Service Layer**
-The `ProductAppService` acts as a facade for the domain. It orchestrates the flow:
-1. Receives DTOs.
-2. Maps to Domain Entities.
-3. Validates business rules.
-4. Calls Repositories.
-5. Returns DTOs.
+### Quick Start - Docker Version
 
-```csharp
-public class ProductAppService : BaseServices, IProductAppService
-{
-    // ...
-    public async Task<ProductViewModel?> Create(ProductViewModel product)
-    {
-        // Validation and Orchestration Logic
-    }
-}
+```powershell
+cd demo-api/core/swagger-jwt-docker
+
+# Build and run with Docker Compose
+docker-compose -f docker/docker-compose.yml up --build
+
+# API will be available at:
+# http://localhost:8080
+# https://localhost:8081
+
+# Access Swagger UI
+# Navigate to: http://localhost:8080/swagger
 ```
 
-#### 4. **DTOs (Data Transfer Objects)**
-`ProductViewModel` is used to decouple the internal Domain Entities from the external API contract. This allows the domain model to evolve independently of the API.
+## 🧪 Running Tests
 
-```csharp
-public class ProductViewModel : BaseViewModel
-{
-    [Required(ErrorMessage = "Name is required")]
-    public required string Name { get; set; }
-    // ...
-}
+### All Tests
+```powershell
+dotnet test
 ```
 
-#### 5. **Dependency Injection**
-All dependencies are registered in the IoC container and injected via constructors.
-
-```csharp
-public static IServiceCollection AddDependencyInjectionConfig(this IServiceCollection services)
-{
-    services.AddScoped<IProductAppService, ProductAppService>();
-    services.AddScoped<IProductRepository, ProductRepository>();
-    // ...
-}
+### Unit Tests Only
+```powershell
+dotnet test --filter FullyQualifiedName~DemoApi.Application.Tests
 ```
 
-#### 6. **Factory Pattern (Testing)**
-`CustomWebApplicationFactory` creates test server instances for integration testing.
-
-```csharp
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
-{
-}
+### Integration Tests Only
+```powershell
+dotnet test --filter FullyQualifiedName~DemoApi.Api.Tests
 ```
 
----
+### With Coverage
+```powershell
+dotnet test --collect:"XPlat Code Coverage"
+```
 
-## 📚 Layer Responsibilities
+## 🔒 Security Implementation Details
 
-### Presentation Layer (`DemoApi.Api`)
+### JWT Configuration (swagger-jwt versions)
 
-**Responsibility:** Handle HTTP requests/responses and delegate to application services.
-
-| Component | Purpose |
-|-----------|---------|
-| `MainApiController` | Base controller with standardized response handling |
-| `ProductController` | RESTful endpoints for Product operations |
-| `ExceptionMiddleware` | Global exception handling and logging |
-| `ApiConfig` | API versioning and behavior configuration |
-| `SwaggerConfig` | OpenAPI documentation setup |
-| `DependencyInjectionConfig` | IoC container registration |
-
-**Key Features:**
-- **Global Exception Handling**: The `ExceptionMiddleware` intercepts unhandled exceptions, logs them using `NLog`, and returns a standardized `500 Internal Server Error` response in JSON format. This prevents sensitive stack traces from leaking to the client.
-- **Configuration Extension Methods**: `Program.cs` is kept clean and readable by moving configuration logic into extension methods (e.g., `AddApiConfig`, `AddDependencyInjectionConfig`). This follows the "Convention over Configuration" approach and separates startup concerns.
-
-### Application Layer (`DemoApi.Application`)
-
-**Responsibility:** Orchestrate use cases, map between domain and presentation models.
-
-| Component | Purpose |
-|-----------|---------|
-| `ProductAppService` | Product CRUD operations orchestration |
-| `ProductViewModel` | API contract for Product data |
-| `ResponseViewModel` | Standardized API response wrapper |
-| `AutomapperConfig` | Entity-ViewModel mappings |
-
-### Domain Layer (`DemoApi.Domain`)
-
-**Responsibility:** Define core business entities, rules, and contracts.
-
-| Component | Purpose |
-|-----------|---------|
-| `Entity` | Base class for domain entities |
-| `Product` | Product aggregate root |
-| `Notification` | Domain notification model |
-| `NotificatorHandler` | Notification accumulator |
-| `INotificatorHandler` | Notification contract |
-
-### Infrastructure Layer (`DemoApi.Infra.*`)
-
-**Responsibility:** Implement technical capabilities (data access, logging, external services).
-
-| Component | Purpose |
-|-----------|---------|
-| `IProductRepository` | Product-specific repository contract (Implementation) |
-| `ProductRepository` | In-memory product storage implementation |
-| `NLogLogger` | NLog implementation |
-
----
-
-## 🌐 API Design
-
-### Response Envelope Pattern
-
-All API responses follow a consistent structure (Envelope Pattern), making it easier for clients to handle success and error states uniformly.
-
+**appsettings.json structure:**
 ```json
 {
-    "success": true,
-    "data": { ... },
-    "errors": []
+  "Authorization": {
+    "SecurityKey": "your-secret-key-min-32-chars",
+    "Sender": "DemoApi",
+    "ValidOn": "https://localhost:5001",
+    "ExpirationMinutes": 60
+  }
 }
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `success` | `boolean` | Indicates if the operation was successful. |
-| `data` | `object` | The payload of the response (null if error). |
-| `errors` | `string[]` | List of error messages (business validations or exceptions). |
+**Security validations in `JwtConfig.cs`:**
+- ✅ Configuration presence validation
+- ✅ SecurityKey minimum length (32 characters)
+- ✅ Issuer and audience validation
+- ✅ Token lifetime validation
+- ✅ Clock skew set to zero (strict expiration)
+- ✅ HTTPS metadata requirement
 
-### Strongly-Typed Response Models
+### Docker Security (swagger-jwt-docker)
 
-To improve API documentation and type safety, the project uses strongly-typed response models that extend `ResponseViewModel`:
+**Multi-stage build** reduces attack surface:
+1. **Build stage** - Uses SDK image (larger)
+2. **Publish stage** - Optimizes output
+3. **Final stage** - Uses minimal ASP.NET runtime image
 
-| Response Model | Usage | Data Type |
-|----------------|-------|-----------|
-| `ProductResponse` | Single product operations (GetById, Create) | `ProductViewModel` |
-| `ProductListResponse` | List operations (GetAll) | `IList<ProductViewModel>` |
-| `ResponseViewModel` | Error responses | Generic error messages |
+**Security hardening:**
+- Non-root user (`USER app` - default in .NET 10)
+- Minimal base image (aspnet runtime only)
+- No unnecessary tools in production image
+- Explicit port exposure (8080, 8081)
 
-**Example - ProductResponse:**
-```csharp
-public class ProductResponse : ResponseViewModel
+## 📖 API Documentation
+
+### Swagger Endpoints
+
+Each version exposes Swagger UI at:
+- **Swagger Version**: `https://localhost:5001/swagger`
+- **JWT Version**: `https://localhost:5001/swagger` (with authentication UI)
+- **Docker Version**: `http://localhost:8080/swagger`
+
+### Product API Endpoints
+
+| Method | Endpoint | Description | Request Body | Response |
+|--------|----------|-------------|--------------|----------|
+| GET | `/api/v1/products` | Get all products | - | `ProductListResponse` |
+| GET | `/api/v1/products/{id}` | Get product by ID | - | `ProductResponse` |
+| POST | `/api/v1/products` | Create new product | `ProductViewModel` | `ProductResponse` (201) |
+| PUT | `/api/v1/products` | Update existing product | `ProductViewModel` | 204 No Content |
+| DELETE | `/api/v1/products/{id}` | Delete product | - | 204 No Content |
+
+### Response Structure
+
+**Success (200/201):**
+```json
 {
-    public new ProductViewModel? Data { get; set; }
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "Product Name",
+    "weight": 5.5
+  },
+  "errors": []
 }
 ```
 
-This approach provides:
-- **Better Swagger documentation**: Each endpoint shows the exact return type
-- **Type safety**: Clients can deserialize directly to the correct type
-- **IntelliSense support**: IDEs provide accurate auto-completion
-
-### Model Validation
-
-The API implements a custom `ModelValidationFilter` that handles validation errors consistently:
-
-- **Model Binding Errors** (e.g., invalid types like `"ABC"` for `uint`): Returns `400 Bad Request`
-- **Data Annotation Errors** (e.g., required fields, range validation): Returns `412 Precondition Failed`
-
-**Example validation error response:**
+**Validation Error (400):**
 ```json
 {
   "success": false,
@@ -322,299 +545,58 @@ The API implements a custom `ModelValidationFilter` that handles validation erro
 }
 ```
 
-### HTTP Status Codes
-
-| Status Code | Usage |
-|-------------|-------|
-| `200 OK` | Successful GET requests. |
-| `201 Created` | Successful POST (create) requests. |
-| `204 No Content` | Successful PUT/DELETE requests. |
-| `400 Bad Request` | Business rule violations or invalid syntax. |
-| `404 Not Found` | Resource not found. |
-| `412 Precondition Failed` | Model validation errors (e.g., missing required fields). |
-| `500 Internal Server Error` | Unexpected server errors. |
-
-### API Versioning Strategy
-
-The API implements **URL Path Versioning** to ensure backward compatibility and smooth evolution of endpoints.
-
-- **Format**: `/api/v{version}/{resource}`
-- **Current Version**: `v1`
-- **Default Behavior**: If no version is specified, the API assumes the default version (v1).
-
----
-
-## 🧪 Testing Strategy
-
-The project employs a comprehensive testing strategy ensuring reliability at all levels with **~85% code coverage**.
-
-### Test Coverage Summary
-
-| Component | Coverage | Test Count | Type |
-|-----------|----------|------------|------|
-| **ProductAppService** | ~95% | 15 tests | Unit |
-| **ProductController (API)** | ~90% | 21 tests | Integration |
-| **NotificatorHandler** | ~100% | 7 tests | Unit |
-| **ExceptionMiddleware** | ~95% | 5 tests | Integration |
-| **ModelValidationFilter** | ~90% | 5 tests | Integration |
-| **Total** | **~85%** | **53 tests** | Mixed |
-
-**Test Execution:**
-```bash
-Passed!  - Failed:     0, Passed:    22, Skipped:     0 - DemoApi.Application.Test
-Passed!  - Failed:     0, Passed:    31, Skipped:     0 - DemoApi.Api.Test
-Total: 53 tests passed ✅
-```
-
-### Test Pyramid
-
-```mermaid
-graph TD
-    subgraph Pyramid
-        E2E[E2E Tests - Future]
-        Integration[Integration Tests - DemoApi.Api.Test]
-        Unit[Unit Tests - DemoApi.Application.Test]
-    end
-    E2E --> Integration
-    Integration --> Unit
-```
-
-### 1. Unit Tests (`DemoApi.Application.Test`)
-Focus on the **Application Layer** and **Business Rules**.
-- **Tools**: xUnit, Moq, FluentAssertions, Bogus.
-- **Strategy**: All external dependencies (Repositories, Notificator) are mocked. We test the logic in isolation.
-- **Coverage**: 22 tests covering ProductAppService and NotificatorHandler
-
-**Test Classes:**
-- `ProductTests` (15 tests): CRUD operations for products
-  - Create (4 tests): Valid product, null product, duplicate name, repository failure
-  - GetAll (2 tests: Empty list, products exist
-  - GetById (2 tests): Product exists, product not found
-  - Update (4 tests): Valid update, null product, not found, repository failure
-  - DeleteById (3 tests): Valid delete, not found, repository failure
-- `NotificatorHandlerTests` (7 tests): Notification management
-  - Add errors, check if has errors, get all errors
-
-**Example (AAA Pattern):**
-```csharp
-[Fact]
-public async Task Create_ShouldReturnProduct_WhenRepositoryCreatesSuccessfully()
-{
-    // Arrange
-    var (notificator, productRepository, productApplication) = SetProductAppService();
-    var productFake = NewProduct();
-    // ... Setup Mocks ...
-
-    // Act
-    var result = await productApplication.Create(productViewModel);
-
-    // Assert
-    result.Should().NotBeNull();
-    result.Name.Should().Be(productFake.Name);
-}
-```
-
-### 2. Integration Tests (`DemoApi.Api.Test`)
-Focus on the **API Endpoints** and the full request lifecycle.
-- **Tools**: Microsoft.AspNetCore.Mvc.Testing (`WebApplicationFactory`), Moq, FluentAssertions.
-- **Strategy**: Spins up an in-memory test server. Real HTTP requests are sent to the API to verify status codes, response bodies, and correct wiring of the dependency injection container.
-- **Coverage**: 31 tests covering API endpoints, middleware, and filters
-
-**Test Classes:**
-- `CreateProductTests` (5 tests): Product creation scenarios
-- `GetProductTests` (7 tests): Product retrieval and validation
-- `UpdateProductTests` (6 tests): Product update operations
-- `DeleteProductTests` (3 tests): Product deletion
-- `ExceptionMiddlewareTests` (5 tests): Global exception handling
-- `ModelValidationFilterTests` (5 tests): Model validation and error handling
-
-**Example:**
-```csharp
-[Fact]
-public async Task Create_ShouldReturnCreated_WhenProductIsValid()
-{
-    // Arrange
-    var url = "/api/v1/products";
-    var productFake = NewProduct();
-
-    // Act
-    var result = await HttpClientHelper.PostAndEnsureSuccessAsync(_client, url, productFake);
-
-    // Assert
-    result.StatusCode.Should().Be(HttpStatusCode.Created);
-}
-```
-
-### Test Organization
-
-Tests are organized following the same structure as the main project:
-- **By Layer**: Separate test projects for Application and API layers
-- **By Feature**: Tests grouped by domain entity (Products)
-- **By Action**: Integration tests separated by HTTP verb (Create, Get, Update, Delete)
-- **Priority Ordering**: Integration tests use `TestPriority` attributes (100-499 range) to ensure proper execution order
-
-**Running Tests:**
-```bash
-# Run all tests
-dotnet test
-
-# Run with coverage
-dotnet test --collect:"XPlat Code Coverage"
-
-# Run specific test project
-dotnet test tests/DemoApi.Application.Test
-dotnet test tests/DemoApi.Api.Test
-```
-
----
-
-## 🛠️ Technologies & Libraries
-
-### Core Framework
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| .NET | 8.0 | Runtime and SDK |
-| C# | 12.0 | Programming language |
-| ASP.NET Core | 8.0 | Web framework |
-
-### API & Documentation
-| Library | Version | Purpose |
-|---------|---------|---------|
-| Swashbuckle.AspNetCore | 6.6.2 | Swagger/OpenAPI generation |
-| Microsoft.AspNetCore.Mvc.Versioning | 5.0.0 | API versioning |
-
-### Data & Mapping
-| Library | Version | Purpose |
-|---------|---------|---------|
-| AutoMapper | 12.0.1 | Object-to-object mapping |
-| Newtonsoft.Json | 13.0.4 | JSON serialization |
-
-### Logging
-| Library | Version | Purpose |
-|---------|---------|---------|
-| NLog.Web.AspNetCore | 6.1.0 | Structured logging |
-
-### Testing
-| Library | Version | Purpose |
-|---------|---------|---------|
-| xUnit | 2.5.3 | Test framework |
-| Moq | (Latest) | Mocking framework |
-| FluentAssertions | 8.8.0 | Assertion library |
-| Bogus | 34.0.2 | Fake data generation |
-| Microsoft.AspNetCore.Mvc.Testing | 8.0.22 | Integration test host |
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/lucasbarbosa/Demo-Api.git
-   cd Demo-Api
-   ```
-
-2. **Restore dependencies**
-   ```bash
-   dotnet restore
-   ```
-
-3. **Run the Application**
-   ```bash
-   dotnet run --project src/DemoApi.Api
-   ```
-   The API will start at `https://localhost:5001` (or similar, check console output).
-
-4. **Run Tests**
-   ```bash
-   dotnet test
-   ```
-
----
-
-## 📡 API Endpoints
-
-### Products API (`/api/v1/products`)
-
-| Method | Endpoint | Description | Success Response | Error Responses |
-|--------|----------|-------------|------------------|-----------------|
-| `GET` | `/api/v1/products` | Get all products | `200 OK` - `ProductListResponse` | `400 Bad Request` |
-| `GET` | `/api/v1/products/{id}` | Get product by ID | `200 OK` - `ProductResponse` | `400 Bad Request`, `404 Not Found` |
-| `POST` | `/api/v1/products` | Create new product | `201 Created` - `ProductResponse` | `400 Bad Request`, `412 Precondition Failed` |
-| `PUT` | `/api/v1/products` | Update product | `204 No Content` | `400 Bad Request`, `404 Not Found`, `412 Precondition Failed` |
-| `DELETE` | `/api/v1/products/{id}` | Delete product | `204 No Content` | `400 Bad Request`, `404 Not Found` |
-
-### Response Type Documentation
-
-All endpoints are fully documented with `ProducesResponseType` attributes, ensuring accurate Swagger/OpenAPI documentation:
-
-```csharp
-[HttpGet("{id}")]
-[ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
-[ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status400BadRequest)]
-[ProducesResponseType(typeof(ResponseViewModel), StatusCodes.Status404NotFound)]
-public async Task<IActionResult> GetById(uint id)
-```
-
-### Example Request (Create Product)
-
-**POST** `/api/v1/products`
-
+**Business Error (412 Precondition Failed):**
 ```json
 {
-  "name": "Premium Widget",
-  "weight": 1.5
+  "success": false,
+  "data": null,
+  "errors": [
+    "Product (Product Name) is already registered"
+  ]
 }
 ```
 
-**Response (201 Created)**
+## 🛠️ Configuration
 
-```json
-{
-  "success": true,
-  "data": {
-    "id": 1,
-    "name": "Premium Widget",
-    "weight": 1.5
-  },
-  "errors": []
-}
-```
+### Environment Variables
 
----
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| `ASPNETCORE_ENVIRONMENT` | Environment name | `Production` | No |
+| `ASPNETCORE_URLS` | Listening URLs | `http://+:8080;https://+:8081` | No |
+| `Authorization__SecurityKey` | JWT secret key | - | Yes (JWT versions) |
+| `Authorization__Sender` | JWT issuer | - | Yes (JWT versions) |
+| `Authorization__ValidOn` | JWT audience | - | Yes (JWT versions) |
+| `Authorization__ExpirationMinutes` | Token lifetime | `60` | No |
 
-## 📊 Project Metrics
+### Logging Configuration
 
-| Metric | Value |
-|--------|-------|
-| **Test Coverage** | ~85% |
-| **Total Tests** | 53 (All Passing ✅) |
-| **Unit Tests** | 22 tests |
-| **Integration Tests** | 31 tests |
-| **Lines of Code** | ~2,500 |
-| **Components Tested** | 5 major components |
-| **API Endpoints** | 5 (CRUD operations) |
-
-### Quality Indicators
-
-- ✅ **100% Build Success Rate**
-- ✅ **0 Known Bugs**
-- ✅ **SOLID Principles Applied**
-- ✅ **Clean Architecture Implementation**
-- ✅ **Comprehensive Documentation**
-- ✅ **Production-Ready Code Quality**
-
----
+**NLog targets** (configured in `nlog.config`):
+- Console output with colored levels
+- File output: `logs/demo-api-{date}.log`
+- Request/response logging
+- Exception details with stack traces
 
 ## 🤝 Contributing
 
-This project is a demonstration of best practices and serves as a reference implementation. Feel free to use it as a starting point for your own projects or as a learning resource.
+### Code Standards
 
----
+- **C# Conventions**: Follow Microsoft C# coding conventions
+- **Architecture**: Maintain Clean Architecture boundaries
+- **SOLID**: Ensure new code adheres to SOLID principles
+- **Testing**: Minimum 80% code coverage for new features
+- **Validation**: Use FluentValidation for input validation
+- **Error Handling**: Use Notification pattern for business errors
+- **Logging**: Structured logging with NLog
+
+### Pull Request Process
+
+1. Create feature branch from `main`
+2. Implement changes following code standards
+3. Add/update unit and integration tests
+4. Ensure all tests pass (`dotnet test`)
+5. Update relevant documentation
+6. Submit PR with detailed description
 
 ## 📄 License
 
@@ -622,13 +604,47 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-## 👨‍💻 Author
+## 🎯 Interview Talking Points
 
-**Lucas Barbosa**
+This repository demonstrates:
 
-- GitHub: [@lucasbarbosa](https://github.com/lucasbarbosa)
-- Repository: [Demo-Api](https://github.com/lucasbarbosa/Demo-Api)
+✅ **Architectural Mastery**
+- Clean Architecture with verifiable dependency rules
+- Four-layer separation (API, Application, Domain, Infrastructure)
+- Composition root pattern in `Program.cs`
+
+✅ **Design Pattern Expertise**
+- Repository, Notification, Builder, Middleware, Filter patterns
+- All patterns implemented and testable
+
+✅ **SOLID Principles**
+- Each principle demonstrated with concrete examples
+- Dependency Inversion through interfaces
+- Single Responsibility in configuration classes
+
+✅ **Production-Ready Practices**
+- Comprehensive testing (unit + integration)
+- Security hardening (server header removal, JWT, Docker non-root user)
+- Structured logging
+- Central package management
+- API versioning
+- Docker containerization
+
+✅ **Modern .NET Proficiency**
+- .NET 10 with latest C# features
+- Minimal APIs patterns (top-level statements)
+- Native DI container
+- Latest package versions
+
+✅ **Testing Excellence**
+- Builder pattern for test data
+- WebApplicationFactory for integration tests
+- Moq + FluentAssertions for expressive tests
+- Bogus for realistic fake data
 
 ---
 
-*This README demonstrates technical documentation best practices for enterprise-grade .NET applications.*
+**For version-specific documentation, see:**
+- [Swagger Version README](core/swagger/README.md)
+- [JWT Version README](core/swagger-jwt/README.md)
+- [Docker Version README](core/swagger-jwt-docker/README.md)
