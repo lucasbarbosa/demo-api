@@ -1,24 +1,14 @@
-﻿namespace DemoApi.Application.Models
+﻿namespace DemoApi.Application.Models;
+
+public class ResponseViewModel : BaseViewModel
 {
-    public class ResponseViewModel : BaseViewModel
-    {
-        #region Constructors
+    #region Properties
 
-        public ResponseViewModel()
-        {
-            Errors = new List<string>();
-        }
+    public bool Success { get; set; }
 
-        #endregion
+    public object? Data { get; set; }
 
-        #region Properties
+    public IList<string> Errors { get; set; } = [];
 
-        public bool Success { get; set; }
-
-        public object? Data { get; set; }
-
-        public IList<string> Errors { get; set; }
-
-        #endregion
-    }
+    #endregion
 }

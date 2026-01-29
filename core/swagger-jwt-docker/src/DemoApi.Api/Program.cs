@@ -1,5 +1,6 @@
 ﻿using DemoApi.Api.Configuration;
 using DemoApi.Application.Automapper;
+
 using NLog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -17,7 +18,7 @@ try
     builder.Services.AddJwtConfig(builder.Configuration);
 
     builder.Services.AddApiConfig();
-    
+
     WebApplication app = builder.Build();
 
     app.UseApiConfig(app.Environment);

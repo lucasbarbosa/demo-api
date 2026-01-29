@@ -1,7 +1,6 @@
-﻿namespace DemoApi.Application.Models.Products
+﻿namespace DemoApi.Application.Models.Products;
+
+public class ProductListResponse : ResponseViewModel
 {
-    public class ProductListResponse : ResponseViewModel
-    {
-        public new IList<ProductViewModel>? Data { get; set; }
-    }
+    public new IList<ProductViewModel>? Data { get; set; }
 }

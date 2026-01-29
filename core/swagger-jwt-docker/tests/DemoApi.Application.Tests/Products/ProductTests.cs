@@ -1,52 +1,54 @@
-﻿using AutoMapper;
+using AutoMapper;
+
 using Bogus;
+
 using DemoApi.Application.Automapper;
 using DemoApi.Application.Services;
 using DemoApi.Domain.Interfaces;
+
 using Moq;
 
-namespace DemoApi.Application.Tests.Products
+namespace DemoApi.Application.Tests.Products;
+
+public class ProductTests
 {
-    public class ProductTests
+    #region Properties
+
+    protected readonly IMapper _mapper;
+
+    #endregion
+
+    #region Constructors
+
+    public ProductTests()
     {
-        #region Properties
+        MapperConfigurationExpression configExpression = new MapperConfigurationExpression();
+        configExpression.AddMaps(typeof(AutomapperConfig).Assembly);
 
-        protected readonly IMapper _mapper;
+        MapperConfiguration config = new MapperConfiguration(configExpression, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
 
-        #endregion
+        config.AssertConfigurationIsValid();
+        _mapper = config.CreateMapper();
 
-        #region Constructors
-
-        public ProductTests()
-        {
-            MapperConfigurationExpression configExpression = new MapperConfigurationExpression();
-            configExpression.AddMaps(typeof(AutomapperConfig).Assembly);
-
-            MapperConfiguration config = new MapperConfiguration(configExpression, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-
-            config.AssertConfigurationIsValid();
-            _mapper = config.CreateMapper();
-
-            Randomizer.Seed = new Random(1234);
-        }
-
-        #endregion
-
-        #region Protected Methods
-
-        protected (Mock<INotificatorHandler>, Mock<IProductRepository>, ProductAppService) SetProductAppService()
-        {
-            Mock<INotificatorHandler> notificator = new();
-            Mock<IProductRepository> productRepository = new();
-            ProductAppService productApplication = new(
-                _mapper,
-                notificator.Object,
-                productRepository.Object
-            );
-
-            return (notificator, productRepository, productApplication);
-        }
-
-        #endregion
+        Randomizer.Seed = new Random(1234);
     }
+
+    #endregion
+
+    #region Protected Methods
+
+    protected (Mock<INotificatorHandler>, Mock<IProductRepository>, ProductAppService) SetProductAppService()
+    {
+        Mock<INotificatorHandler> notificator = new();
+        Mock<IProductRepository> productRepository = new();
+        ProductAppService productApplication = new(
+            _mapper,
+            notificator.Object,
+            productRepository.Object
+        );
+
+        return (notificator, productRepository, productApplication);
+    }
+
+    #endregion
 }
