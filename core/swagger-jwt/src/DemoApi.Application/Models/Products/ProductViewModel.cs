@@ -1,15 +1,14 @@
-﻿namespace DemoApi.Application.Models.Products
+﻿namespace DemoApi.Application.Models.Products;
+
+public class ProductViewModel : BaseViewModel
 {
-    public class ProductViewModel : BaseViewModel
-    {
-        #region Properties
+    #region Properties
 
-        public uint Id { get; set; }
+    public uint Id { get; set; }
 
-        public string? Name { get; set; }
+    public string? Name { get; set; }
 
-        public double Weight { get; set; }
+    public double Weight { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

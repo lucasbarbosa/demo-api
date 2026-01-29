@@ -1,7 +1,6 @@
-﻿namespace DemoApi.Application.Models.Auth
+﻿namespace DemoApi.Application.Models.Auth;
+
+public class TokenResponse : ResponseViewModel
 {
-    public class TokenResponse : ResponseViewModel
-    {
-        public new TokenViewModel? Data { get; set; }
-    }
+    public new TokenViewModel? Data { get; set; }
 }

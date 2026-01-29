@@ -1,15 +1,14 @@
-﻿namespace DemoApi.Domain.Entities
+﻿namespace DemoApi.Domain.Entities;
+
+public class Product : Entity
 {
-    public class Product : Entity
-    {
-        #region Properties
+    #region Properties
 
-        public uint Id { get; set; }
+    public uint Id { get; set; }
 
-        public required string Name { get; set; }
+    public required string Name { get; set; }
 
-        public double Weight { get; set; }
+    public double Weight { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

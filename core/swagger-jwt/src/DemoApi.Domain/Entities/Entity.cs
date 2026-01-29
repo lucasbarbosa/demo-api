@@ -1,6 +1,5 @@
-﻿namespace DemoApi.Domain.Entities
+﻿namespace DemoApi.Domain.Entities;
+
+public abstract class Entity
 {
-    public abstract class Entity
-    {
-    }
 }

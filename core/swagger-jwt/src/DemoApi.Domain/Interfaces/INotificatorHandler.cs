@@ -1,13 +1,12 @@
-﻿using DemoApi.Domain.Handlers;
+using DemoApi.Domain.Handlers;
 
-namespace DemoApi.Domain.Interfaces
+namespace DemoApi.Domain.Interfaces;
+
+public interface INotificatorHandler
 {
-    public interface INotificatorHandler
-    {
-        bool HasErrors();
+    bool HasErrors();
 
-        List<Notification> GetErrors();
+    List<Notification> GetErrors();
 
-        void AddError(string error);
-    }
+    void AddError(string error);
 }

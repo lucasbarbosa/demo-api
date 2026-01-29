@@ -1,20 +1,19 @@
-﻿namespace DemoApi.Domain.Handlers
+﻿namespace DemoApi.Domain.Handlers;
+
+public class Notification
 {
-    public class Notification
+    #region Constructors
+
+    public Notification(string message)
     {
-        #region Constructors
-
-        public Notification(string message)
-        {
-            Message = message;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public string Message { get; }
-
-        #endregion
+        Message = message;
     }
+
+    #endregion
+
+    #region Properties
+
+    public string Message { get; }
+
+    #endregion
 }
