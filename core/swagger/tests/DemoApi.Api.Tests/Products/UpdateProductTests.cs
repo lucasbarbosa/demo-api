@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 
 using DemoApi.Api.Tests.Common.Configuration;
@@ -12,7 +12,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class UpdateProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Public Methods
@@ -191,7 +190,7 @@ public class UpdateProductTests(CustomWebApplicationFactory factory) : ProductAp
                 .WithName($"Concurrent Update {i}")
                 .WithWeight(5.0)
                 .Build();
-            tasks.Add(_client.PutAsJsonAsync(updateUrl, productToUpdate));
+            tasks.Add(_client.PutAsJsonAsync(updateUrl, productToUpdate, TestContext.Current.CancellationToken));
         }
 
         // Act

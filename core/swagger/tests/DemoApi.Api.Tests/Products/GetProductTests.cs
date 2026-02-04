@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 
 using DemoApi.Api.Tests.Common.Configuration;
@@ -12,7 +12,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Public Methods
@@ -166,13 +165,13 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
         // Arrange
         string url = "/api/v1/products";
 
-        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
-        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
-        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
+        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
+        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
+        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
 
         // Act
-        HttpResponseMessage response = await _client.GetAsync(url);
-        ProductListResponse? productList = await response.Content.ReadFromJsonAsync<ProductListResponse>();
+        HttpResponseMessage response = await _client.GetAsync(url, TestContext.Current.CancellationToken);
+        ProductListResponse? productList = await response.Content.ReadFromJsonAsync<ProductListResponse>(TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -191,7 +190,7 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
 
         for (int i = 0; i < 10; i++)
         {
-            tasks.Add(_client.GetAsync(url));
+            tasks.Add(_client.GetAsync(url, TestContext.Current.CancellationToken));
         }
 
         // Act

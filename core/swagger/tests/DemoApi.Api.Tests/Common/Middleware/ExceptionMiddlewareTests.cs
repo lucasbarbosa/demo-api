@@ -114,7 +114,7 @@ public class ExceptionMiddlewareTests
 
         // Assert
         context.Response.Body.Seek(0, SeekOrigin.Begin);
-        string responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync();
+        string responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync(TestContext.Current.CancellationToken);
         ResponseViewModel? response = JsonConvert.DeserializeObject<ResponseViewModel>(responseBody);
 
         response.Should().NotBeNull();
@@ -148,7 +148,7 @@ public class ExceptionMiddlewareTests
 
         // Assert
         context.Response.Body.Seek(0, SeekOrigin.Begin);
-        string responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync();
+        string responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync(TestContext.Current.CancellationToken);
         ResponseViewModel? response = JsonConvert.DeserializeObject<ResponseViewModel>(responseBody);
 
         response!.Errors.Should().HaveCount(3);
