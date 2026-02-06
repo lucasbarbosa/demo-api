@@ -611,6 +611,7 @@ Each version exposes Swagger UI at:
 - **Validation**: Use FluentValidation for input validation
 - **Error Handling**: Use Notification pattern for business errors
 - **Logging**: Structured logging with Serilog
+- **File Encoding**: UTF-8 (Mandatory and exclusive encoding for all files)
 
 ### Pull Request Process
 
