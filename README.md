@@ -68,7 +68,7 @@ graph TD
 - **Dependencies**: Domain layer (through interfaces)
 - **Sub-projects**:
   - `DemoApi.Infra.Data` - Repository implementations (`ProductRepository`)
-  - `DemoApi.Infra.CrossCutting` - Cross-cutting concerns (logging with NLog)
+  - `DemoApi.Infra.CrossCutting` - Cross-cutting concerns (logging with Serilog)
 
 **Key Implementation**: `ProductRepository` implements `IProductRepository` from Domain, currently using in-memory storage (easily swappable for EF Core, Dapper, etc.).
 
@@ -96,7 +96,7 @@ graph TD
 ### 📐 SOLID Principles Evidence
 
 **Single Responsibility Principle (SRP)**
-- Each configuration class handles one concern (`ApiConfig`, `SwaggerConfig`, `JwtConfig`, `NLogConfig`, `HostConfig`)
+- Each configuration class handles one concern (`ApiConfig`, `SwaggerConfig`, `JwtConfig`, `SerilogConfig`, `HostConfig`)
 - Validators are isolated per entity (`ProductValidator`)
 - Services have focused responsibilities (`ProductAppService`)
 
@@ -138,6 +138,18 @@ services.AddAuthorization(options => {
 
 **Scope Validation** (`DependencyInjectionConfig`)
 - `ValidateScopes` and `ValidateOnBuild` enabled for dependency injection
+
+### 🔥 Engineering Excellence
+
+**Zero Warnings Policy**
+- `<TreatWarningsAsErrors>true</TreatWarningsAsErrors>` enabled in `.csproj`
+- Enforces strict code quality and eliminates technical debt accumulation
+- All warnings are treated as build failures
+
+**Strict Mode**
+- `<Nullable>enable</Nullable>` enabled globally
+- Explicit handling of null states to prevent `NullReferenceException`
+- Usage of `required` keywords and modern C# features
 
 ### ✅ Validation Strategy
 
@@ -230,22 +242,22 @@ All three versions share consistent package versions:
 - **AutoMapper**: 16.0.0
 - **FluentValidation**: 12.1.1
 - **Asp.Versioning.Mvc**: 8.1.1
-- **Swashbuckle.AspNetCore**: 6.6.2
-- **NLog.Web.AspNetCore**: 6.1.0
+- **Swashbuckle.AspNetCore**: 10.1.1
+- **Serilog.AspNetCore**: 10.0.0
 - **Moq**: 4.20.72
 - **FluentAssertions**: 8.8.0
-- **Bogus**: 35.6.5
-- **xUnit**: 2.9.3
+- **xUnit**: 3.2.2
 - **Microsoft.NET.Test.Sdk**: 18.0.1
 
 ### 📝 Structured Logging
 
-**NLog Integration** (`NLogConfig`, `nlog.config`)
+**Serilog Integration** (`SerilogConfig`)
 
-- Structured logging to file and console
-- Request/response logging
-- Exception logging with stack traces
-- Configurable log levels per environment
+- **High-Performance Structured Logging**
+- **Two-Stage Initialization**: Ensures startup errors are captured
+- **Enrichment**: `Enrich.FromLogContext()` for tracing correlation
+- **Sinks**: Configured for Console (Development) and File/Seq (Production ready)
+- **Configuration**: Reads fully from `appsettings.json` via `ReadFrom.Configuration()`
 
 ## 🏛️ Project Versions Comparison
 
@@ -259,7 +271,7 @@ All three versions share consistent package versions:
 | **AutoMapper** | ✅ | ✅ | ✅ |
 | **API Versioning** | ✅ | ✅ | ✅ |
 | **Swagger/OpenAPI** | ✅ | ✅ | ✅ |
-| **NLog Logging** | ✅ | ✅ | ✅ |
+| **Serilog Logging** | ✅ | ✅ | ✅ |
 | **Unit Tests** | ✅ | ✅ | ✅ |
 | **Integration Tests** | ✅ | ✅ | ✅ |
 | **Test Builders (Bogus)** | ✅ | ✅ | ✅ |
@@ -282,7 +294,7 @@ demo-api/
 │   │   │   │   │   ├── ApiConfig.cs      # API setup, versioning, filters
 │   │   │   │   │   ├── SwaggerConfig.cs  # OpenAPI documentation
 │   │   │   │   │   ├── HostConfig.cs     # Kestrel hardening
-│   │   │   │   │   ├── NLogConfig.cs     # Logging configuration
+│   │   │   │   │   ├── SerilogConfig.cs  # Logging configuration
 │   │   │   │   │   └── DependencyInjectionConfig.cs
 │   │   │   │   ├── Controllers/          # Base controller
 │   │   │   │   │   └── MainApiController.cs
@@ -327,9 +339,8 @@ demo-api/
 │   │   │   └── DemoApi.Infra.CrossCutting/ # 🔧 Cross-cutting
 │   │   │       ├── Logging/
 │   │   │       │   └── LoggingService.cs
-│   │   │       ├── Interfaces/
-│   │   │       │   └── INotificator.cs
-│   │   │       └── nlog.config
+│   │   │       └── Interfaces/
+│   │   │           └── INotificator.cs
 │   │   ├── tests/
 │   │   │   ├── DemoApi.Application.Tests/  # Unit Tests
 │   │   │   │   └── Products/
@@ -571,11 +582,23 @@ Each version exposes Swagger UI at:
 
 ### Logging Configuration
 
-**NLog targets** (configured in `nlog.config`):
-- Console output with colored levels
-- File output: `logs/demo-api-{date}.log`
-- Request/response logging
-- Exception details with stack traces
+**Serilog** is configured to read directly from `appsettings.json`, allowing dynamic reconfiguration without code changes.
+
+```json
+"Serilog": {
+  "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
+  "MinimumLevel": {
+    "Default": "Information",
+    "Override": {
+      "Microsoft": "Warning",
+      "System": "Warning"
+    }
+  },
+  "WriteTo": [
+    { "Name": "Console" }
+  ]
+}
+```
 
 ## 🤝 Contributing
 
@@ -587,7 +610,7 @@ Each version exposes Swagger UI at:
 - **Testing**: Minimum 80% code coverage for new features
 - **Validation**: Use FluentValidation for input validation
 - **Error Handling**: Use Notification pattern for business errors
-- **Logging**: Structured logging with NLog
+- **Logging**: Structured logging with Serilog
 
 ### Pull Request Process
 
