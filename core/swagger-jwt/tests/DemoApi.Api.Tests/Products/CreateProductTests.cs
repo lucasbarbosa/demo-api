@@ -1,6 +1,7 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using System.Text;
+using Xunit;
 
 using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
@@ -13,7 +14,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class CreateProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Public Methods
@@ -196,7 +196,7 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
             ProductViewModel product = ProductViewModelBuilder.New()
                 .WithName($"Concurrent Product {Guid.NewGuid()}")
                 .Build();
-            tasks.Add(client.PostAsJsonAsync(url, product));
+            tasks.Add(client.PostAsJsonAsync(url, product, TestContext.Current.CancellationToken));
         }
 
         // Act
@@ -233,7 +233,7 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
         StringContent content = new("invalid-json", Encoding.UTF8, "text/plain");
 
         // Act
-        HttpResponseMessage response = await client.PostAsync(url, content);
+        HttpResponseMessage response = await client.PostAsync(url, content, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);

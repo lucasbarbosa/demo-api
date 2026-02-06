@@ -1,5 +1,6 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
+using Xunit;
 
 using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
@@ -12,7 +13,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Public Methods
@@ -176,13 +176,13 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
         HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
 
-        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
-        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
-        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
+        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
+        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
+        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
 
         // Act
-        HttpResponseMessage response = await client.GetAsync(url);
-        ProductListResponse? productList = await response.Content.ReadFromJsonAsync<ProductListResponse>();
+        HttpResponseMessage response = await client.GetAsync(url, TestContext.Current.CancellationToken);
+        ProductListResponse? productList = await response.Content.ReadFromJsonAsync<ProductListResponse>(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -202,7 +202,7 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
 
         for (int i = 0; i < 10; i++)
         {
-            tasks.Add(client.GetAsync(url));
+            tasks.Add(client.GetAsync(url, TestContext.Current.CancellationToken));
         }
 
         // Act

@@ -1,4 +1,5 @@
-using System.Net;
+﻿using System.Net;
+using Xunit;
 
 using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
@@ -9,7 +10,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Auth;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests(factory)
 {
     #region Public Methods
@@ -136,7 +136,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         // Act
         (HttpResponseMessage _, ResponseViewModel? response1) = await HttpClientHelper.PostAndReturnResponseAsync(client1, url, null);
 
-        await Task.Delay(1000);
+        await Task.Delay(1000, TestContext.Current.CancellationToken);
 
         (HttpResponseMessage _, ResponseViewModel? response2) = await HttpClientHelper.PostAndReturnResponseAsync(client2, url, null);
 

@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 
 using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
@@ -11,7 +11,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class ProductValidationTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Name Validation Tests
