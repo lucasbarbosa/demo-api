@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -116,13 +116,10 @@ public class MainApiController : Controller
 
     protected void ErrorModelState(ModelStateDictionary modelState)
     {
-        IEnumerable<ModelError> erros = modelState.Values.SelectMany(e => e.Errors);
+        IEnumerable<string> errors = modelState.Values.SelectMany(e => e.Errors)
+            .Select(erro => erro.Exception == null ? erro.ErrorMessage : erro.Exception.Message);
 
-        foreach (ModelError erro in erros)
-        {
-            string errorMsg = erro.Exception == null ? erro.ErrorMessage : erro.Exception.Message;
-            AddError(errorMsg);
-        }
+        _notificator.AddErrors(errors);
     }
 
     protected void AddError(string error)

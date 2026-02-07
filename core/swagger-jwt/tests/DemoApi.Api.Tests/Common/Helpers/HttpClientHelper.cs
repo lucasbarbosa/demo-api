@@ -17,10 +17,10 @@ public static class HttpClientHelper
         return (response, viewModel);
     }
 
-    public static async Task<(HttpResponseMessage response, ResponseViewModel? viewModel)> PostAndReturnResponseAsync(HttpClient client, string url, object? request)
+    public static async Task<(HttpResponseMessage response, ResponseViewModel? viewModel)> PostAndReturnResponseAsync(HttpClient client, string url, object? request, CancellationToken cancellationToken = default)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync(url, request, cancellationToken: TestContext.Current.CancellationToken);
-        ResponseViewModel? viewModel = await response.Content.ReadFromJsonAsync<ResponseViewModel>(cancellationToken: TestContext.Current.CancellationToken);
+        HttpResponseMessage response = await client.PostAsJsonAsync(url, request, cancellationToken);
+        ResponseViewModel? viewModel = await response.Content.ReadFromJsonAsync<ResponseViewModel>(cancellationToken: cancellationToken);
 
         return (response, viewModel);
     }

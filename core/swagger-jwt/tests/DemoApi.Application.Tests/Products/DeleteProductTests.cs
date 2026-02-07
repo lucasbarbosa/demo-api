@@ -1,4 +1,4 @@
-using DemoApi.Application.Services;
+﻿using DemoApi.Application.Services;
 using DemoApi.Domain.Entities;
 using DemoApi.Domain.Interfaces;
 using DemoApi.Tests.Builders.Products;

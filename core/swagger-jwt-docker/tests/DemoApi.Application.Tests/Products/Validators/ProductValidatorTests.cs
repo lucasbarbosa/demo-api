@@ -1,4 +1,4 @@
-using DemoApi.Application.Models.Products;
+﻿using DemoApi.Application.Models.Products;
 using DemoApi.Application.Validators.Products;
 using DemoApi.Tests.Builders.Products;
 
@@ -478,7 +478,7 @@ public class ProductValidatorTests
     [InlineData("??")]
     [InlineData("????")]
     [InlineData("Product ??")]
-    [InlineData("Caf� ?")]
+    [InlineData("Café ?")]
     public void Validate_NameWithEmojis_ReturnsNoNameError(string name)
     {
         // Arrange

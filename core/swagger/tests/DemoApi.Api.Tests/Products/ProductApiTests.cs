@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 
 using DemoApi.Api.Tests.Common.Factories;
 using DemoApi.Api.Tests.Common.Helpers;

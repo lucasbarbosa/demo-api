@@ -1,4 +1,4 @@
-using DemoApi.Domain.Interfaces;
+﻿using DemoApi.Domain.Interfaces;
 
 namespace DemoApi.Domain.Handlers;
 
@@ -12,10 +12,7 @@ public class NotificatorHandler : INotificatorHandler
 
     #region Constructors
 
-    public NotificatorHandler()
-    {
-        _errors = new List<Notification>();
-    }
+    public NotificatorHandler() => _errors = [];
 
     #endregion
 
@@ -29,6 +26,14 @@ public class NotificatorHandler : INotificatorHandler
     public void AddError(string error)
     {
         _errors.Add(new Notification(error));
+    }
+
+    public void AddErrors(params IEnumerable<string> errors)
+    {
+        foreach (string error in errors)
+        {
+            _errors.Add(new Notification(error));
+        }
     }
 
     public List<Notification> GetErrors()

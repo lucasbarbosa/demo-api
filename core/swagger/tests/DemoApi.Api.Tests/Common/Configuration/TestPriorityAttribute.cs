@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace DemoApi.Api.Tests.Common.Configuration;
 

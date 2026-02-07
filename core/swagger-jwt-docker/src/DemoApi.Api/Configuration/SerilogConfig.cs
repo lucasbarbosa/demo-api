@@ -1,4 +1,4 @@
-using Serilog;
+﻿using Serilog;
 
 namespace DemoApi.Api.Configuration;
 

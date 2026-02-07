@@ -8,9 +8,11 @@ using DemoApi.Api.Tests.Common.Factories;
 using DemoApi.Application.Models;
 
 using FluentAssertions;
+
 using Xunit;
 
 namespace DemoApi.Api.Tests.Auth;
+
 
 public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : AuthTests(factory)
 {

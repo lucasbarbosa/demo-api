@@ -1,4 +1,4 @@
-using DemoApi.Domain.Entities;
+﻿using DemoApi.Domain.Entities;
 using DemoApi.Tests.Builders.Products;
 
 using FluentAssertions;

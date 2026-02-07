@@ -1,4 +1,4 @@
-using DemoApi.Domain.Handlers;
+﻿using DemoApi.Domain.Handlers;
 
 namespace DemoApi.Domain.Interfaces;
 
@@ -9,4 +9,6 @@ public interface INotificatorHandler
     List<Notification> GetErrors();
 
     void AddError(string error);
+
+    void AddErrors(params IEnumerable<string> errors);
 }

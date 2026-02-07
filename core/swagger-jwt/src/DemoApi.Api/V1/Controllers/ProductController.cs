@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 
 using DemoApi.Api.Controllers;
 using DemoApi.Application.Models.Products;

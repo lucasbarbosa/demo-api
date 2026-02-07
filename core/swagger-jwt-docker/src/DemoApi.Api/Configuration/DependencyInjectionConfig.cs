@@ -1,7 +1,7 @@
 ﻿using DemoApi.Application.Services;
 using DemoApi.Application.Validators.Products;
 using DemoApi.Domain.Handlers;
-using DemoApi.Infra.CrossCutting.Interfaces;
+using ILogger = DemoApi.Infra.CrossCutting.Interfaces.ILogger;
 using DemoApi.Infra.CrossCutting.Logging;
 using DemoApi.Infra.Data.Repositories;
 

@@ -1,10 +1,12 @@
-using AutoMapper;
+﻿using AutoMapper;
 
 using Bogus;
 
 using DemoApi.Application.Automapper;
 using DemoApi.Application.Services;
 using DemoApi.Domain.Interfaces;
+
+using Microsoft.Extensions.Logging.Abstractions;
 
 using Moq;
 
@@ -22,10 +24,10 @@ public class ProductTests
 
     public ProductTests()
     {
-        MapperConfigurationExpression configExpression = new MapperConfigurationExpression();
+        MapperConfigurationExpression configExpression = new();
         configExpression.AddMaps(typeof(AutomapperConfig).Assembly);
 
-        MapperConfiguration config = new MapperConfiguration(configExpression, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
+        MapperConfiguration config = new(configExpression, NullLoggerFactory.Instance);
 
         config.AssertConfigurationIsValid();
         _mapper = config.CreateMapper();

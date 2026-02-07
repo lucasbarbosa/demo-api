@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 
 using DemoApi.Application.Interfaces;
 using DemoApi.Application.Models.Products;

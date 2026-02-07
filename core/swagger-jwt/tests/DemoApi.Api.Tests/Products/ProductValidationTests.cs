@@ -26,7 +26,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -46,7 +46,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -66,7 +66,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -86,7 +86,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -116,7 +116,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -140,7 +140,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -160,7 +160,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -185,7 +185,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -208,7 +208,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -304,7 +304,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -324,7 +324,7 @@ public class ProductValidationTests(CustomWebApplicationFactory factory) : Produ
             .Build();
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Created);

@@ -1,4 +1,4 @@
-using DemoApi.Domain.Handlers;
+﻿using DemoApi.Domain.Handlers;
 
 using FluentAssertions;
 
@@ -47,6 +47,22 @@ public class NotificatorHandlerTests
         // Assert
         notificator.HasErrors().Should().BeTrue();
         notificator.GetErrors().Should().HaveCount(3);
+    }
+
+    [Fact]
+    public void AddErrors_ShouldAddMultipleNotifications_WhenParamParamsIsUsed()
+    {
+        // Arrange
+        NotificatorHandler notificator = new();
+        string[] errors = ["Error 1", "Error 2", "Error 3"];
+
+        // Act
+        notificator.AddErrors(errors);
+
+        // Assert
+        notificator.HasErrors().Should().BeTrue();
+        notificator.GetErrors().Should().HaveCount(3);
+        notificator.GetErrors().Select(e => e.Message).Should().Contain(errors);
     }
 
     [Fact]

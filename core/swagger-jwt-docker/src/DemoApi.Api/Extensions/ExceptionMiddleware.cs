@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Text;
 
 using ILogger = DemoApi.Infra.CrossCutting.Interfaces.ILogger;
@@ -7,20 +7,11 @@ using Newtonsoft.Json;
 
 namespace DemoApi.Api.Extensions;
 
-public class ExceptionMiddleware
+public class ExceptionMiddleware(RequestDelegate next)
 {
     #region Properties
 
-    private readonly RequestDelegate _next;
-
-    #endregion
-
-    #region Constructors
-
-    public ExceptionMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
+    private readonly RequestDelegate _next = next;
 
     #endregion
 
