@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 
@@ -10,10 +10,10 @@ using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
 
 using FluentAssertions;
+using Xunit;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class CreateProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Public Methods
@@ -22,12 +22,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnCreated_WhenProductIsValid()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -40,12 +39,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnPreconditionFailed_WhenProductNameIsEmpty()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().WithEmptyName().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -58,12 +56,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnPreconditionFailed_WhenProductNameIsNull()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().WithNullName().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -76,12 +73,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnPreconditionFailed_WhenProductWeightIsZero()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().WithZeroWeight().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -94,12 +90,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnPreconditionFailed_WhenProductWeightIsNegative()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().WithNegativeWeight().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -112,12 +107,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnCreated_WhenProductNameHasLongLength()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().WithLongName().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -129,12 +123,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnCreated_WhenWeightIsLarge()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel productFake = ProductViewModelBuilder.New().WithLargeWeight().Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -146,17 +139,16 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnBadRequest_WhenDuplicateProductName()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         string duplicateName = "Duplicate Test Product Name";
         ProductViewModel product = ProductViewModelBuilder.New().WithName(duplicateName).Build();
 
-        await HttpClientHelper.PostAndReturnResponseAsync(client, url, product);
+        await HttpClientHelper.PostAndReturnResponseAsync(_client, url, product, TestContext.Current.CancellationToken);
 
         ProductViewModel duplicateProduct = ProductViewModelBuilder.New().WithName(duplicateName).Build();
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, duplicateProduct);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, duplicateProduct, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -169,14 +161,13 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldAccept_ProductsWithDifferentNamesButSimilarWeight()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel product1 = ProductViewModelBuilder.New().WithWeight(1.5).Build();
         ProductViewModel product2 = ProductViewModelBuilder.New().WithWeight(1.5).Build();
 
         // Act
-        (HttpResponseMessage response1, ResponseViewModel? _) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, product1);
-        (HttpResponseMessage response2, ResponseViewModel? _) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, product2);
+        (HttpResponseMessage response1, ResponseViewModel? _) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, product1, TestContext.Current.CancellationToken);
+        (HttpResponseMessage response2, ResponseViewModel? _) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, product2, TestContext.Current.CancellationToken);
 
         // Assert
         response1.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -187,7 +178,6 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldHandleMultipleConcurrentRequests()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         List<Task<HttpResponseMessage>> tasks = [];
 
@@ -196,7 +186,7 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
             ProductViewModel product = ProductViewModelBuilder.New()
                 .WithName($"Concurrent Product {Guid.NewGuid()}")
                 .Build();
-            tasks.Add(client.PostAsJsonAsync(url, product));
+            tasks.Add(_client.PostAsJsonAsync(url, product, TestContext.Current.CancellationToken));
         }
 
         // Act
@@ -211,12 +201,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnPreconditionFailed_WhenPayloadIsNull()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         ProductViewModel? productFake = null;
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, productFake);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.PostAndReturnResponseAsync(_client, url, productFake, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -228,12 +217,11 @@ public class CreateProductTests(CustomWebApplicationFactory factory) : ProductAp
     public async Task Create_ShouldReturnUnsupportedMediaType_WhenContentTypeIsInvalid()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         StringContent content = new("invalid-json", Encoding.UTF8, "text/plain");
 
         // Act
-        HttpResponseMessage response = await client.PostAsync(url, content);
+        HttpResponseMessage response = await _client.PostAsync(url, content, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);

@@ -1,4 +1,5 @@
-using System.Net;
+﻿using System.Net;
+using Xunit;
 
 using DemoApi.Api.Tests.Common.Configuration;
 using DemoApi.Api.Tests.Common.Factories;
@@ -9,7 +10,6 @@ using FluentAssertions;
 
 namespace DemoApi.Api.Tests.Auth;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests(factory)
 {
     #region Public Methods
@@ -23,7 +23,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", ValidSecurityKey);
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -41,7 +41,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", ValidSecurityKey);
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         response.Should().NotBeNull();
@@ -64,7 +64,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", "INVALID_KEY");
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -82,7 +82,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", string.Empty);
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -99,7 +99,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", "   ");
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -115,7 +115,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         string url = "/api/v1/auth/token";
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
@@ -134,11 +134,11 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client2.DefaultRequestHeaders.Add("X-Security-Key", ValidSecurityKey);
 
         // Act
-        (HttpResponseMessage _, ResponseViewModel? response1) = await HttpClientHelper.PostAndReturnResponseAsync(client1, url, null);
+        (HttpResponseMessage _, ResponseViewModel? response1) = await HttpClientHelper.PostAndReturnResponseAsync(client1, url, null, TestContext.Current.CancellationToken);
 
-        await Task.Delay(1000);
+        await Task.Delay(1000, TestContext.Current.CancellationToken);
 
-        (HttpResponseMessage _, ResponseViewModel? response2) = await HttpClientHelper.PostAndReturnResponseAsync(client2, url, null);
+        (HttpResponseMessage _, ResponseViewModel? response2) = await HttpClientHelper.PostAndReturnResponseAsync(client2, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         string? token1 = response1!.Data!.ToString();
@@ -156,7 +156,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", ValidSecurityKey + "EXTRA");
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -175,7 +175,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", truncatedKey);
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -197,7 +197,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         HttpStatusCode expectedStatusCode = hasUpperCase ? HttpStatusCode.Unauthorized : HttpStatusCode.OK;
 
         // Act
-        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (HttpResponseMessage result, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(expectedStatusCode);
@@ -224,7 +224,7 @@ public class GenerateTokenTests(CustomWebApplicationFactory factory) : AuthTests
         client.DefaultRequestHeaders.Add("X-Security-Key", ValidSecurityKey);
 
         // Act
-        (_, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null);
+        (_, ResponseViewModel? response) = await HttpClientHelper.PostAndReturnResponseAsync(client, url, null, TestContext.Current.CancellationToken);
 
         // Assert
         response.Should().NotBeNull();

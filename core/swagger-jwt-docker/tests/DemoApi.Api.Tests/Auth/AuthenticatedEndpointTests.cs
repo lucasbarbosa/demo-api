@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -8,10 +8,10 @@ using DemoApi.Api.Tests.Common.Factories;
 using DemoApi.Application.Models;
 
 using FluentAssertions;
+using Xunit;
 
 namespace DemoApi.Api.Tests.Auth;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : AuthTests(factory)
 {
     #region Public Methods
@@ -23,7 +23,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -39,7 +39,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -54,7 +54,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -69,7 +69,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -85,7 +85,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -98,7 +98,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -112,7 +112,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         var product = new { name = "Test Product", weight = 1.5 };
 
         // Act
-        HttpResponseMessage result = await _client.PostAsJsonAsync(url, product);
+        HttpResponseMessage result = await _client.PostAsJsonAsync(url, product, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -126,7 +126,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         var product = new { id = 1, name = "Updated Product", weight = 2.5 };
 
         // Act
-        HttpResponseMessage result = await _client.PutAsJsonAsync(url, product);
+        HttpResponseMessage result = await _client.PutAsJsonAsync(url, product, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -139,7 +139,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products/1";
 
         // Act
-        HttpResponseMessage result = await _client.DeleteAsync(url);
+        HttpResponseMessage result = await _client.DeleteAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -152,7 +152,7 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products/1";
 
         // Act
-        HttpResponseMessage result = await _client.GetAsync(url);
+        HttpResponseMessage result = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -168,9 +168,9 @@ public class AuthenticatedEndpointTests(CustomWebApplicationFactory factory) : A
         string url = "/api/v1/products";
 
         // Act
-        HttpResponseMessage result1 = await _client.GetAsync(url);
-        HttpResponseMessage result2 = await _client.GetAsync(url);
-        HttpResponseMessage result3 = await _client.GetAsync(url);
+        HttpResponseMessage result1 = await _client.GetAsync(url, TestContext.Current.CancellationToken);
+        HttpResponseMessage result2 = await _client.GetAsync(url, TestContext.Current.CancellationToken);
+        HttpResponseMessage result3 = await _client.GetAsync(url, TestContext.Current.CancellationToken);
 
         // Assert
         result1.StatusCode.Should().Be(HttpStatusCode.OK);

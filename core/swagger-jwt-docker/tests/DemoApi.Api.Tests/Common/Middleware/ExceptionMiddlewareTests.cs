@@ -1,4 +1,4 @@
-using DemoApi.Api.Extensions;
+﻿using DemoApi.Api.Extensions;
 using DemoApi.Application.Models;
 using DemoApi.Domain.Handlers;
 using DemoApi.Domain.Interfaces;
@@ -114,7 +114,8 @@ public class ExceptionMiddlewareTests
 
         // Assert
         context.Response.Body.Seek(0, SeekOrigin.Begin);
-        string responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync();
+        using StreamReader reader = new(context.Response.Body);
+        string responseBody = await reader.ReadToEndAsync(TestContext.Current.CancellationToken);
         ResponseViewModel? response = JsonConvert.DeserializeObject<ResponseViewModel>(responseBody);
 
         response.Should().NotBeNull();
@@ -148,7 +149,8 @@ public class ExceptionMiddlewareTests
 
         // Assert
         context.Response.Body.Seek(0, SeekOrigin.Begin);
-        string responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync();
+        using StreamReader reader2 = new(context.Response.Body);
+        string responseBody = await reader2.ReadToEndAsync(TestContext.Current.CancellationToken);
         ResponseViewModel? response = JsonConvert.DeserializeObject<ResponseViewModel>(responseBody);
 
         response!.Errors.Should().HaveCount(3);

@@ -1,4 +1,4 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 
 using DemoApi.Api.Tests.Common.Configuration;
@@ -9,10 +9,10 @@ using DemoApi.Application.Models.Products;
 using DemoApi.Tests.Builders.Products;
 
 using FluentAssertions;
+using Xunit;
 
 namespace DemoApi.Api.Tests.Products;
 
-[TestCaseOrderer("DemoApi.Api.Tests.Configuration.PriorityOrderer", "DemoApi.Api.Tests")]
 public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTests(factory)
 {
     #region Public Methods
@@ -21,11 +21,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetAll_ShouldReturnOk_WhenProductsExist()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -38,12 +37,11 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnOk_WhenProductExists()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         ProductViewModel product = await GetLastCreatedProduct();
         string url = $"/api/v1/products/{product.Id}";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -56,11 +54,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnNotFound_WhenProductDoesNotExist()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products/999999";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -72,11 +69,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnBadRequest_WhenIdIsNotNumeric()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products/ABC";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -90,11 +86,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnBadRequest_WhenIdIsNegative()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products/-1";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -107,11 +102,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnBadRequest_WhenIdIsDecimal()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products/1.5";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -124,11 +118,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnBadRequest_WhenIdContainsSpecialCharacters()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products/@#$";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -141,11 +134,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnNotFound_WhenIdIsZero()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products/0";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -157,11 +149,10 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetById_ShouldReturnNotFound_WhenIdIsMaxValue()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = $"/api/v1/products/{uint.MaxValue}";
 
         // Act
-        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(client, url);
+        (HttpResponseMessage response, ResponseViewModel? viewModel) = await HttpClientHelper.GetAndReturnResponseAsync(_client, url, TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -173,16 +164,15 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetAll_ShouldReturnOk_WithMultipleProducts()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
 
-        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
-        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
-        await client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build());
+        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
+        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
+        await _client.PostAsJsonAsync(url, ProductViewModelBuilder.New().Build(), TestContext.Current.CancellationToken);
 
         // Act
-        HttpResponseMessage response = await client.GetAsync(url);
-        ProductListResponse? productList = await response.Content.ReadFromJsonAsync<ProductListResponse>();
+        HttpResponseMessage response = await _client.GetAsync(url, TestContext.Current.CancellationToken);
+        ProductListResponse? productList = await response.Content.ReadFromJsonAsync<ProductListResponse>(TestContext.Current.CancellationToken);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -196,13 +186,12 @@ public class GetProductTests(CustomWebApplicationFactory factory) : ProductApiTe
     public async Task GetAll_ShouldHandleConcurrentReads()
     {
         // Arrange
-        HttpClient client = await GetAuthenticatedClient();
         string url = "/api/v1/products";
         List<Task<HttpResponseMessage>> tasks = [];
 
         for (int i = 0; i < 10; i++)
         {
-            tasks.Add(client.GetAsync(url));
+            tasks.Add(_client.GetAsync(url, TestContext.Current.CancellationToken));
         }
 
         // Act
