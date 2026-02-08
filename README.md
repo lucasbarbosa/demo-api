@@ -286,6 +286,13 @@ All three versions share consistent package versions:
 
 ```
 demo-api/
+├── Postman/                               # 📬 Postman Collections
+│   ├── DemoApi-Swagger.postman_collection.json
+│   ├── DemoApi-JWT.postman_collection.json
+│   ├── DemoApi-Docker.postman_collection.json
+│   ├── README.md                          # Complete guide
+│   ├── QUICK_START.md                     # Quick reference
+│   └── EXAMPLES.md                        # Request/response examples
 ├── core/
 │   ├── swagger/                          # Version 1: Base Implementation
 │   │   ├── src/
@@ -566,6 +573,44 @@ Each version exposes Swagger UI at:
   ]
 }
 ```
+
+## 📬 Postman Collections
+
+**Ready-to-use Postman collections** are available in the [`Postman/`](Postman/) directory for testing all three API versions.
+
+### Available Collections
+
+| Collection | Port | Authentication | Endpoints | Auto-save Token |
+|------------|------|----------------|-----------|-----------------|
+| **DemoApi-Swagger** | 5084 | ❌ None | 5 (Products CRUD) | - |
+| **DemoApi-JWT** | 5100 | ✅ JWT Bearer | 6 (Auth + Products) | ✅ Yes |
+| **DemoApi-Docker** | 5200 | ✅ JWT Bearer | 6 (Auth + Products) | ✅ Yes |
+
+### Quick Import
+
+1. Open Postman
+2. Click **Import** → **File**
+3. Select the desired `.json` file from the `Postman/` directory
+4. Start testing!
+
+### Features
+
+- ✅ **Pre-configured base URLs** for each version
+- ✅ **Environment variables** for tokens and security keys
+- ✅ **Automatic token saving** (JWT and Docker collections)
+- ✅ **Example request bodies** with realistic data
+- ✅ **Detailed descriptions** for each endpoint
+- ✅ **Organized folders** (Authentication, Products)
+
+### Documentation
+
+- **[README.md](Postman/README.md)** - Complete guide with troubleshooting
+- **[QUICK_START.md](Postman/QUICK_START.md)** - Visual quick reference
+- **[EXAMPLES.md](Postman/EXAMPLES.md)** - Request/response examples
+
+**Security Key (JWT/Docker):** `b5b622cd-9f73-43b8-8dce-aab520cf1a2b`
+
+---
 
 ## 🛠️ Configuration
 

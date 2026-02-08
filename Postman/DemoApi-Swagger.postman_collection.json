@@ -1,0 +1,163 @@
+{
+    "info": {
+        "_postman_id": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+        "name": "DemoApi - Swagger",
+        "description": "Collection for testing the Demo API with Swagger (no authentication)\nPort: 5084\nBase URL: http://localhost:5084/api/v1",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Products",
+            "item": [
+                {
+                    "name": "Get All Products",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products"
+                            ]
+                        },
+                        "description": "Returns the list of all products registered in the system.\n\n**Response 200 OK:**\n```json\n{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Product Name\",\n      \"description\": \"Product Description\",\n      \"price\": 99.99,\n      \"active\": true\n    }\n  ]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Product By ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products",
+                                "1"
+                            ]
+                        },
+                        "description": "Returns a specific product by ID.\n\n**Path Parameters:**\n- `id` (uint): Product ID\n\n**Response 200 OK:**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Product Name\",\n    \"description\": \"Product Description\",\n    \"price\": 99.99,\n    \"active\": true\n  }\n}\n```\n\n**Response 404 Not Found:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Product not found\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Product",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": 0,\n  \"name\": \"Dell Inspiron Laptop\",\n  \"description\": \"Dell Inspiron 15 Laptop with Intel Core i7 processor\",\n  \"price\": 3499.99,\n  \"active\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products"
+                            ]
+                        },
+                        "description": "Creates a new product in the system.\n\n**Request Body (ProductViewModel):**\n```json\n{\n  \"id\": 0,\n  \"name\": \"string (required)\",\n  \"description\": \"string (required)\",\n  \"price\": \"decimal (required)\",\n  \"active\": \"boolean (required)\"\n}\n```\n\n**Response 201 Created:**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Product Name\",\n    \"description\": \"Product Description\",\n    \"price\": 99.99,\n    \"active\": true\n  }\n}\n```\n\n**Response 400 Bad Request:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Validation error messages\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Product",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": 1,\n  \"name\": \"Dell Inspiron Laptop - Updated\",\n  \"description\": \"Dell Inspiron 15 Laptop with Intel Core i7 processor - 11th Gen\",\n  \"price\": 3299.99,\n  \"active\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products"
+                            ]
+                        },
+                        "description": "Updates an existing product in the system.\n\n**Request Body (ProductViewModel):**\n```json\n{\n  \"id\": \"uint (required)\",\n  \"name\": \"string (required)\",\n  \"description\": \"string (required)\",\n  \"price\": \"decimal (required)\",\n  \"active\": \"boolean (required)\"\n}\n```\n\n**Response 204 No Content:**\nNo response body.\n\n**Response 404 Not Found:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Product not found\"]\n}\n```\n\n**Response 400 Bad Request:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Validation error messages\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Product",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products",
+                                "1"
+                            ]
+                        },
+                        "description": "Removes a product from the system by ID.\n\n**Path Parameters:**\n- `id` (uint): ID of the product to be removed\n\n**Response 204 No Content:**\nNo response body.\n\n**Response 404 Not Found:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Product not found\"]\n}\n```"
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Endpoints for product management (full CRUD)"
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5084/api/v1",
+            "type": "string"
+        }
+    ]
+}

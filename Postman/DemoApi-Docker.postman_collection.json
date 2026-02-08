@@ -1,0 +1,281 @@
+{
+    "info": {
+        "_postman_id": "c3d4e5f6-a7b8-4c5d-0e1f-2a3b4c5d6e7f",
+        "name": "DemoApi - Docker",
+        "description": "Collection for testing the Demo API running in Docker with JWT authentication\nPort: 5200 (mapped to 8080 in container)\nBase URL: http://localhost:5200/api/v1\n\n**Prerequisites:**\n- Docker Desktop installed and running\n- Application container running (docker-compose up)\n\n**Authentication Flow:**\n1. Execute the 'Generate JWT Token' endpoint to obtain the token\n2. The token will be automatically saved in the {{token}} variable\n3. Use the Products endpoints which already include the token automatically",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Generate JWT Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Automatically saves the token in the environment variable",
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    if (jsonData.success && jsonData.data && jsonData.data.accessToken) {",
+                                    "        pm.collectionVariables.set(\"token\", jsonData.data.accessToken);",
+                                    "        console.log(\"JWT token successfully saved!\");",
+                                    "        console.log(\"Token expires at: \" + jsonData.data.expires);",
+                                    "    }",
+                                    "} else {",
+                                    "    console.log(\"Error generating token: \" + pm.response.code);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "X-Security-Key",
+                                "value": "{{securityKey}}",
+                                "type": "text",
+                                "description": "Security key for authentication"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/token",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "token"
+                            ]
+                        },
+                        "description": "Generates a JWT token for API authentication running in Docker.\n\n**Required Headers:**\n- `X-Security-Key`: Security key configured in appsettings\n\n**Response 200 OK:**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n    \"tokenType\": \"Bearer\",\n    \"expiresIn\": 3600,\n    \"created\": \"2026-02-07T15:00:00Z\",\n    \"expires\": \"2026-02-07T16:00:00Z\"\n  }\n}\n```\n\n**Response 401 Unauthorized:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Invalid security key. Authentication failed.\"]\n}\n```\n\n**Note:** The post-request script automatically saves the token in the {{token}} variable."
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Endpoints for JWT authentication in Docker environment"
+        },
+        {
+            "name": "Products",
+            "item": [
+                {
+                    "name": "Get All Products",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products"
+                            ]
+                        },
+                        "description": "Returns the list of all products registered in the system.\n\n**Authentication:** Bearer Token (JWT)\n\n**Response 200 OK:**\n```json\n{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Product Name\",\n      \"description\": \"Product Description\",\n      \"price\": 99.99,\n      \"active\": true\n    }\n  ]\n}\n```\n\n**Response 401 Unauthorized:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Unauthorized\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Product By ID",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products",
+                                "1"
+                            ]
+                        },
+                        "description": "Returns a specific product by ID.\n\n**Authentication:** Bearer Token (JWT)\n\n**Path Parameters:**\n- `id` (uint): Product ID\n\n**Response 200 OK:**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Product Name\",\n    \"description\": \"Product Description\",\n    \"price\": 99.99,\n    \"active\": true\n  }\n}\n```\n\n**Response 404 Not Found:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Product not found\"]\n}\n```\n\n**Response 401 Unauthorized:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Unauthorized\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Product",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": 0,\n  \"name\": \"Dell Inspiron Laptop\",\n  \"description\": \"Dell Inspiron 15 Laptop with Intel Core i7 processor\",\n  \"price\": 3499.99,\n  \"active\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products"
+                            ]
+                        },
+                        "description": "Creates a new product in the system.\n\n**Authentication:** Bearer Token (JWT)\n\n**Request Body (ProductViewModel):**\n```json\n{\n  \"id\": 0,\n  \"name\": \"string (required)\",\n  \"description\": \"string (required)\",\n  \"price\": \"decimal (required)\",\n  \"active\": \"boolean (required)\"\n}\n```\n\n**Response 201 Created:**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Product Name\",\n    \"description\": \"Product Description\",\n    \"price\": 99.99,\n    \"active\": true\n  }\n}\n```\n\n**Response 400 Bad Request:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Validation error messages\"]\n}\n```\n\n**Response 401 Unauthorized:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Unauthorized\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Product",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": 1,\n  \"name\": \"Dell Inspiron Laptop - Updated\",\n  \"description\": \"Dell Inspiron 15 Laptop with Intel Core i7 processor - 11th Gen\",\n  \"price\": 3299.99,\n  \"active\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products"
+                            ]
+                        },
+                        "description": "Updates an existing product in the system.\n\n**Authentication:** Bearer Token (JWT)\n\n**Request Body (ProductViewModel):**\n```json\n{\n  \"id\": \"uint (required)\",\n  \"name\": \"string (required)\",\n  \"description\": \"string (required)\",\n  \"price\": \"decimal (required)\",\n  \"active\": \"boolean (required)\"\n}\n```\n\n**Response 204 No Content:**\nNo response body.\n\n**Response 404 Not Found:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Product not found\"]\n}\n```\n\n**Response 400 Bad Request:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Validation error messages\"]\n}\n```\n\n**Response 401 Unauthorized:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Unauthorized\"]\n}\n```"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Product",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "products",
+                                "1"
+                            ]
+                        },
+                        "description": "Removes a product from the system by ID.\n\n**Authentication:** Bearer Token (JWT)\n\n**Path Parameters:**\n- `id` (uint): ID of the product to be removed\n\n**Response 204 No Content:**\nNo response body.\n\n**Response 404 Not Found:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Product not found\"]\n}\n```\n\n**Response 401 Unauthorized:**\n```json\n{\n  \"success\": false,\n  \"errors\": [\"Unauthorized\"]\n}\n```"
+                    },
+                    "response": []
+                }
+            ],
+            "description": "Endpoints for product management (full CRUD) with JWT authentication in Docker environment"
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5200/api/v1",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "securityKey",
+            "value": "b5b622cd-9f73-43b8-8dce-aab520cf1a2b",
+            "type": "string"
+        }
+    ]
+}
