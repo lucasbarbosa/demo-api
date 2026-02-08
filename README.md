@@ -286,10 +286,11 @@ All three versions share consistent package versions:
 
 ```
 demo-api/
-├── Postman/                               # 📬 Postman Collections
+├── Postman/                               # 📬 Postman Collections & Environments
 │   ├── DemoApi-Swagger.postman_collection.json
 │   ├── DemoApi-JWT.postman_collection.json
-│   ├── DemoApi-Docker.postman_collection.json
+│   ├── DemoApi-Local.postman_environment.json
+│   ├── DemoApi-Docker.postman_environment.json
 │   ├── README.md                          # Complete guide
 │   ├── QUICK_START.md                     # Quick reference
 │   └── EXAMPLES.md                        # Request/response examples
@@ -576,39 +577,47 @@ Each version exposes Swagger UI at:
 
 ## 📬 Postman Collections
 
-**Ready-to-use Postman collections** are available in the [`Postman/`](Postman/) directory for testing all three API versions.
+**Ready-to-use Postman collections and environments** are available in the [`Postman/`](Postman/) directory for testing all API versions.
 
 ### Available Collections
 
-| Collection | Port | Authentication | Endpoints | Auto-save Token |
-|------------|------|----------------|-----------|-----------------|
-| **DemoApi-Swagger** | 5084 | ❌ None | 5 (Products CRUD) | - |
-| **DemoApi-JWT** | 5100 | ✅ JWT Bearer | 6 (Auth + Products) | ✅ Yes |
-| **DemoApi-Docker** | 5200 | ✅ JWT Bearer | 6 (Auth + Products) | ✅ Yes |
+| Collection | Environments | Authentication | Endpoints | Auto-save Token |
+|------------|--------------|----------------|-----------|--------------------|
+| **DemoApi-Swagger** | None | ❌ None | 5 (Products CRUD) | - |
+| **DemoApi-JWT** | Local / Docker | ✅ JWT Bearer | 6 (Auth + Products) | ✅ Yes |
+
+### Available Environments
+
+| Environment | Port | Base URL | Use Case |
+|-------------|------|----------|----------|
+| **DemoApi - Local** | 5100 | `http://localhost:5100/api/v1` | Local development |
+| **DemoApi - Docker** | 5200 | `http://localhost:5200/api/v1` | Docker container |
 
 ### Quick Import
 
 1. Open Postman
 2. Click **Import** → **File**
-3. Select the desired `.json` file from the `Postman/` directory
-4. Start testing!
+3. Select the collection file (`.json`) from the `Postman/` directory
+4. For JWT collection: Also import the desired environment file
+5. Select the environment from the dropdown (top-right corner)
+6. Start testing!
 
 ### Features
 
-- ✅ **Pre-configured base URLs** for each version
-- ✅ **Environment variables** for tokens and security keys
-- ✅ **Automatic token saving** (JWT and Docker collections)
+- ✅ **Environment-based configuration** (Postman best practice)
+- ✅ **Easy switching** between Local and Docker with one click
+- ✅ **Automatic token saving** in environment variables
 - ✅ **Example request bodies** with realistic data
 - ✅ **Detailed descriptions** for each endpoint
 - ✅ **Organized folders** (Authentication, Products)
 
 ### Documentation
 
-- **[README.md](Postman/README.md)** - Complete guide with troubleshooting
+- **[README.md](Postman/README.md)** - Complete guide with environment setup
 - **[QUICK_START.md](Postman/QUICK_START.md)** - Visual quick reference
 - **[EXAMPLES.md](Postman/EXAMPLES.md)** - Request/response examples
 
-**Security Key (JWT/Docker):** `b5b622cd-9f73-43b8-8dce-aab520cf1a2b`
+**Security Key (JWT):** `b5b622cd-9f73-43b8-8dce-aab520cf1a2b`
 
 ---
 

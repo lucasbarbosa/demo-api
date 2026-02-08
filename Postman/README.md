@@ -1,6 +1,6 @@
 # 📬 Postman Collections - DemoApi
 
-This directory contains ready-to-use Postman collections for testing the Demo API in its three different configurations.
+This directory contains ready-to-use Postman collections and environments for testing the Demo API in its different configurations.
 
 ## 📁 Available Collections
 
@@ -13,28 +13,40 @@ Collection for the basic project with Swagger (no authentication).
 - **Endpoints:** Full Products CRUD
 
 ### 2. **DemoApi-JWT.postman_collection.json**
-Collection for the project with JWT authentication.
+Collection for the project with JWT authentication. Works with both Local and Docker environments.
 
-- **Port:** `5100`
-- **Base URL:** `http://localhost:5100/api/v1`
-- **Authentication:** Bearer Token (JWT)
-- **Security Key:** `b5b622cd-9f73-43b8-8dce-aab520cf1a2b`
-- **Endpoints:** Authentication + Full Products CRUD
-
-### 3. **DemoApi-Docker.postman_collection.json**
-Collection for the project running in Docker with JWT authentication.
-
-- **Port:** `5200` (mapped to `8080` in container)
-- **Base URL:** `http://localhost:5200/api/v1`
+- **Environments:** 
+  - **Local:** Port `5100`
+  - **Docker:** Port `5200`
 - **Authentication:** Bearer Token (JWT)
 - **Security Key:** `b5b622cd-9f73-43b8-8dce-aab520cf1a2b`
 - **Endpoints:** Authentication + Full Products CRUD
 
 ---
 
-## 🚀 How to Import Collections
+## 🌍 Available Environments
 
-### Method 1: Import via Postman Interface
+### 1. **DemoApi-Local.postman_environment.json**
+Environment for local development testing.
+
+- **Base URL:** `http://localhost:5100/api/v1`
+- **Port:** `5100`
+- **Use with:** `DemoApi-JWT` collection
+
+### 2. **DemoApi-Docker.postman_environment.json**
+Environment for Docker container testing.
+
+- **Base URL:** `http://localhost:5200/api/v1`
+- **Port:** `5200` (mapped to `8080` in container)
+- **Use with:** `DemoApi-JWT` collection
+
+---
+
+## 🚀 How to Import Collections and Environments
+
+### Step 1: Import the Collection
+
+#### Method 1: Import via Postman Interface
 1. Open Postman
 2. Click **Import** (top left corner)
 3. Select the **File** tab
@@ -42,54 +54,71 @@ Collection for the project running in Docker with JWT authentication.
 5. Select the desired `.json` collection file
 6. Click **Import**
 
-### Method 2: Drag and Drop
+#### Method 2: Drag and Drop
 1. Open Postman
 2. Drag the `.json` collection file to the Postman window
 3. The collection will be imported automatically
 
+### Step 2: Import the Environment
+
+1. In Postman, click the **Environments** icon (left sidebar)
+2. Click **Import**
+3. Select the desired environment file:
+   - `DemoApi-Local.postman_environment.json` for local testing
+   - `DemoApi-Docker.postman_environment.json` for Docker testing
+4. Click **Import**
+
+### Step 3: Select the Environment
+
+1. In the top-right corner of Postman, click the environment dropdown
+2. Select either **DemoApi - Local** or **DemoApi - Docker**
+3. The selected environment's variables will now be active
+
 ---
 
-## 🔐 How to Use Collections with JWT
+## 🔐 How to Use the JWT Collection
 
-### For **DemoApi-JWT** and **DemoApi-Docker** collections:
+### For the **DemoApi-JWT** collection:
 
-#### Step 1: Generate JWT Token
+#### Step 1: Select Your Environment
+1. Choose **DemoApi - Local** for local development (port 5100)
+2. Choose **DemoApi - Docker** for Docker testing (port 5200)
+
+#### Step 2: Generate JWT Token
 1. Open the collection in Postman
 2. Navigate to the **Authentication** folder
 3. Execute the **Generate JWT Token** request
-4. The token will be generated and **automatically saved** in the `{{token}}` variable
+4. The token will be generated and **automatically saved** in the `{{token}}` environment variable
 
-#### Step 2: Use Products Endpoints
+#### Step 3: Use Products Endpoints
 1. Navigate to the **Products** folder
 2. Execute any endpoint (Get All, Get By ID, Create, Update, Delete)
 3. The token will be automatically included in the `Authorization: Bearer {{token}}` header
 
-> **💡 Tip:** The post-request script in the `Generate JWT Token` endpoint automatically saves the token in the collection variable. You don't need to copy and paste it manually!
+> **💡 Tip:** The post-request script in the `Generate JWT Token` endpoint automatically saves the token in the environment variable. You don't need to copy and paste it manually!
 
 ---
 
-## 📝 Collection Variables
+## 📝 Environment Variables
 
-Each collection has pre-configured variables:
-
-### DemoApi-Swagger
-| Variable | Value |
-|----------|-------|
-| `baseUrl` | `http://localhost:5084/api/v1` |
-
-### DemoApi-JWT
+### DemoApi - Local
 | Variable | Value |
 |----------|-------|
 | `baseUrl` | `http://localhost:5100/api/v1` |
 | `token` | (automatically generated) |
 | `securityKey` | `b5b622cd-9f73-43b8-8dce-aab520cf1a2b` |
 
-### DemoApi-Docker
+### DemoApi - Docker
 | Variable | Value |
 |----------|-------|
 | `baseUrl` | `http://localhost:5200/api/v1` |
 | `token` | (automatically generated) |
 | `securityKey` | `b5b622cd-9f73-43b8-8dce-aab520cf1a2b` |
+
+### DemoApi - Swagger (No environment needed)
+| Variable | Value |
+|----------|-------|
+| `baseUrl` | `http://localhost:5084/api/v1` (collection variable) |
 
 ---
 
@@ -121,7 +150,7 @@ Each collection has pre-configured variables:
 
 ## 📊 Available Endpoints
 
-### Authentication (JWT and Docker only)
+### Authentication (JWT collection only)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/auth/token` | Generates a JWT token for authentication |
@@ -138,7 +167,7 @@ Each collection has pre-configured variables:
 | `PUT` | `/products` | Update an existing product | JWT* |
 | `DELETE` | `/products/{id}` | Remove a product | JWT* |
 
-\* JWT authentication required only for **DemoApi-JWT** and **DemoApi-Docker** collections
+\* JWT authentication required only for **DemoApi-JWT** collection
 
 ---
 
@@ -157,9 +186,9 @@ Each collection has pre-configured variables:
 
 ---
 
-## 🐳 Prerequisites for Docker Collection
+## 🐳 Prerequisites for Docker Environment
 
-Before using the **DemoApi-Docker** collection, ensure that:
+Before using the **DemoApi - Docker** environment, ensure that:
 
 1. **Docker Desktop** is installed and running
 2. The application container is running:
@@ -171,6 +200,20 @@ Before using the **DemoApi-Docker** collection, ensure that:
    ```bash
    docker ps
    ```
+
+---
+
+## 🔄 Switching Between Environments
+
+To switch between Local and Docker:
+
+1. Click the environment dropdown in the top-right corner of Postman
+2. Select the desired environment:
+   - **DemoApi - Local** for local development
+   - **DemoApi - Docker** for Docker testing
+3. All requests will now use the selected environment's `{{baseUrl}}`
+
+> **💡 Best Practice:** You can have the same collection open in multiple tabs with different environments selected!
 
 ---
 
@@ -186,12 +229,20 @@ If you receive a connection error:
 1. Verify the application is running on the correct port
 2. For Docker, verify the container is running
 3. Check if there's no firewall blocking the ports
+4. Ensure you have the correct environment selected
 
 ### Empty {{token}} Variable
 If the `{{token}}` variable is not automatically filled:
 1. Verify the **Generate JWT Token** endpoint returned `200 OK`
 2. Check the Postman **Console** tab to see script logs
-3. Manually copy the token from the response and paste it in the collection variable
+3. Ensure you have an environment selected (not "No Environment")
+4. Manually copy the token from the response and paste it in the environment variable
+
+### Wrong Port Being Used
+If requests are going to the wrong port:
+1. Check which environment is selected in the top-right dropdown
+2. Verify the environment has the correct `baseUrl` value
+3. Switch to the appropriate environment (Local or Docker)
 
 ---
 
@@ -205,6 +256,6 @@ For more information about the API architecture and implementation, see:
 
 ---
 
-## 📄 Collection Format
+## 📄 Collection and Environment Format
 
-All collections were exported in **Postman Collection v2.1** format, ensuring compatibility with the latest Postman versions.
+All collections and environments were exported in **Postman Collection v2.1** and **Postman Environment** formats, ensuring compatibility with the latest Postman versions.
