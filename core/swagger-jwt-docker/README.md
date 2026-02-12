@@ -68,6 +68,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copy project files and restore dependencies
+COPY ["Directory.Packages.props", "."]
 COPY ["src/DemoApi.Api/DemoApi.Api.csproj", "src/DemoApi.Api/"]
 COPY ["src/DemoApi.Application/DemoApi.Application.csproj", "src/DemoApi.Application/"]
 COPY ["src/DemoApi.Domain/DemoApi.Domain.csproj", "src/DemoApi.Domain/"]
