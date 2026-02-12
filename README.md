@@ -1,7 +1,5 @@
 ﻿# 🚀 Demo API - Enterprise .NET Architecture Portfolio
 
-> **A progressive demonstration of Clean Architecture, SOLID principles, and modern .NET best practices through three incrementally enhanced REST API implementations.**
-
 [![.NET Version](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![C# Version](https://img.shields.io/badge/C%23-14.0-239120?logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -84,13 +82,27 @@ graph TD
 
 ## ✨ Key Features
 
+### 🏗️ Comprehensive Pattern Implementation
+
+This project demonstrates **40+ best practices and design patterns** applied in a production-ready .NET application. From architectural patterns (Clean Architecture, Repository, Notification) to modern C# features (Primary Constructors, Collection Expressions, Nullable Reference Types), every pattern is implemented with clear intent and documented with code examples.
+
+**📖 For detailed pattern documentation, see [PATTERNS.md](PATTERNS.md)**
+
+Key pattern categories:
+- **Architectural Patterns** - Clean Architecture, Repository, Notification, Dependency Injection
+- **API Design Patterns** - Response Envelope, Semantic HTTP Status Codes, Multi-Reader Versioning
+- **Validation Patterns** - Multi-Layer Validation, Chain of Responsibility, Fail-Fast Strategy
+- **Testing Patterns** - WebApplicationFactory, Test Data Builders, Realistic Data Generation
+- **Security Patterns** - JWT Authentication, Docker Hardening, Header Suppression
+- **Modern C# Patterns** - Primary Constructors, Collection Expressions, Pattern Matching
+
 ### 🎯 Design Patterns Implemented
 
 - **Repository Pattern** - `IProductRepository` / `ProductRepository` for data access abstraction
 - **Notification Pattern** - `INotificatorHandler` / `NotificatorHandler` for error aggregation without exceptions
 - **Dependency Injection** - Native .NET DI container, configured in `DependencyInjectionConfig`
+- **Global Exception Handler** - Custom middleware for exception handling (`ExceptionMiddleware`)
 - **Builder Pattern** - Test data builders (`ProductBuilder`, `ProductViewModelBuilder`) using Bogus library
-- **Middleware Pipeline** - Custom middleware for exception handling (`ExceptionMiddleware`)
 - **Action Filters** - Validation filters (`FluentValidationFilter`, `ModelValidationFilter`)
 
 ### 📐 SOLID Principles Evidence
@@ -654,8 +666,6 @@ Each version exposes Swagger UI at:
 }
 ```
 
-## 🤝 Contributing
-
 ### Code Standards
 
 - **C# Conventions**: Follow Microsoft C# coding conventions
@@ -666,19 +676,6 @@ Each version exposes Swagger UI at:
 - **Error Handling**: Use Notification pattern for business errors
 - **Logging**: Structured logging with Serilog
 - **File Encoding**: UTF-8 (Mandatory and exclusive encoding for all files)
-
-### Pull Request Process
-
-1. Create feature branch from `main`
-2. Implement changes following code standards
-3. Add/update unit and integration tests
-4. Ensure all tests pass (`dotnet test`)
-5. Update relevant documentation
-6. Submit PR with detailed description
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
